@@ -23,7 +23,7 @@ void main() {
         album: "Test Album",
         albumArtUrl: "https://example.com/art.jpg",
         duration: Duration(minutes: 3, seconds: 30),
-        isPlaying: true);
+        reference: SongReference.local('someId'));
 
     final commands = [
       DeviceCommand.connect(client),
@@ -49,7 +49,7 @@ void main() {
         currentSong: songMeta,
         playState: MediaPlayState.playing,
         playHead: Duration(seconds: 45),
-        queue: [("queue1", songMeta)]);
+        queue: [(null, songMeta)]);
 
     // Print all serialized objects
     print('\nClient: ${jsonEncode(client)}');

@@ -154,7 +154,8 @@ _$SongMetaImpl _$$SongMetaImplFromJson(Map<String, dynamic> json) =>
       album: json['album'] as String,
       albumArtUrl: json['albumArtUrl'] as String?,
       duration: Duration(microseconds: (json['duration'] as num).toInt()),
-      isPlaying: json['isPlaying'] as bool,
+      reference:
+          SongReference.fromJson(json['reference'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$SongMetaImplToJson(_$SongMetaImpl instance) =>
@@ -165,7 +166,7 @@ Map<String, dynamic> _$$SongMetaImplToJson(_$SongMetaImpl instance) =>
       'album': instance.album,
       'albumArtUrl': instance.albumArtUrl,
       'duration': instance.duration.inMicroseconds,
-      'isPlaying': instance.isPlaying,
+      'reference': instance.reference,
     };
 
 _$ConnectResponseImpl _$$ConnectResponseImplFromJson(
@@ -280,7 +281,10 @@ _$PlayStateImpl _$$PlayStateImplFromJson(Map<String, dynamic> json) =>
           .map((e) => _$recordConvert(
                 e,
                 ($jsonValue) => (
-                  $jsonValue[r'$1'] as String,
+                  $jsonValue[r'$1'] == null
+                      ? null
+                      : Client.fromJson(
+                          $jsonValue[r'$1'] as Map<String, dynamic>),
                   SongMeta.fromJson($jsonValue[r'$2'] as Map<String, dynamic>),
                 ),
               ))
