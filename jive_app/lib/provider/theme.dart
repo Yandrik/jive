@@ -68,6 +68,7 @@ ThemeData copyWithComponentThemes(ThemeData theme, ThemeMode themeMode, Flavor f
       elevation: 0,
       showDragHandle: true,
     ),
+    sliderTheme: SliderThemeData(thumbColor: Colors.white),
   );
 }
 

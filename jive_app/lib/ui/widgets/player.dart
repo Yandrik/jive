@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Player extends ConsumerWidget {
@@ -10,10 +9,9 @@ class Player extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(height: 12),
         Container(
-            width: MediaQuery.of(context).size.width * 0.6,
-            height: MediaQuery.of(context).size.width * 0.6,
+            width: 120,
+            height: 120,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(12),
@@ -26,7 +24,7 @@ class Player extends ConsumerWidget {
                 ),
               ],
             )),
-        const SizedBox(height: 20),
+        const SizedBox(height: 12),
         const Text(
           'Song Name',
           style: TextStyle(
@@ -46,22 +44,21 @@ class Player extends ConsumerWidget {
             child: Slider(
               value: 0.0,
               onChanged: (value) {},
-              // activeColor: Theme.of(context).primaryColor,
-              // inactiveColor: const Color(0xFFCCCCCC),
             ),
           ),
         ),
-        Text('0:00 / 3:14',
-            style: TextStyle(
-              fontSize: 12,
-              // color: const Color.fromARGB(0, 255, 255, 255),
-            )),
-        const SizedBox(height: 16),
+        Text(
+          '0:00 / 3:14',
+          style: TextStyle(
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-              iconSize: 48,
+              iconSize: 38,
               icon: const Icon(Icons.skip_previous),
               onPressed: () {},
             ),
@@ -73,7 +70,7 @@ class Player extends ConsumerWidget {
             ),
             const SizedBox(width: 32),
             IconButton(
-              iconSize: 48,
+              iconSize: 38,
               icon: const Icon(Icons.skip_next),
               onPressed: () {},
             ),
