@@ -14,10 +14,17 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+Client _$ClientFromJson(Map<String, dynamic> json) {
+  return _Client.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Client {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+
+  /// Serializes this Client to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Client
   /// with the given fields replaced by the non-null parameter values.
@@ -104,9 +111,12 @@ class __$$ClientImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$ClientImpl implements _Client {
   const _$ClientImpl({required this.id, required this.name});
+
+  factory _$ClientImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ClientImplFromJson(json);
 
   @override
   final String id;
@@ -127,6 +137,7 @@ class _$ClientImpl implements _Client {
             (identical(other.name, name) || other.name == name));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name);
 
@@ -137,11 +148,20 @@ class _$ClientImpl implements _Client {
   @pragma('vm:prefer-inline')
   _$$ClientImplCopyWith<_$ClientImpl> get copyWith =>
       __$$ClientImplCopyWithImpl<_$ClientImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ClientImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Client implements Client {
   const factory _Client(
       {required final String id, required final String name}) = _$ClientImpl;
+
+  factory _Client.fromJson(Map<String, dynamic> json) = _$ClientImpl.fromJson;
 
   @override
   String get id;
@@ -156,10 +176,18 @@ abstract class _Client implements Client {
       throw _privateConstructorUsedError;
 }
 
+Host _$HostFromJson(Map<String, dynamic> json) {
+  return _Host.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Host {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  Set<MusicSource> get sources => throw _privateConstructorUsedError;
+
+  /// Serializes this Host to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Host
   /// with the given fields replaced by the non-null parameter values.
@@ -172,7 +200,7 @@ abstract class $HostCopyWith<$Res> {
   factory $HostCopyWith(Host value, $Res Function(Host) then) =
       _$HostCopyWithImpl<$Res, Host>;
   @useResult
-  $Res call({String id, String name});
+  $Res call({String id, String name, Set<MusicSource> sources});
 }
 
 /// @nodoc
@@ -192,6 +220,7 @@ class _$HostCopyWithImpl<$Res, $Val extends Host>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? sources = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -202,6 +231,10 @@ class _$HostCopyWithImpl<$Res, $Val extends Host>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      sources: null == sources
+          ? _value.sources
+          : sources // ignore: cast_nullable_to_non_nullable
+              as Set<MusicSource>,
     ) as $Val);
   }
 }
@@ -213,7 +246,7 @@ abstract class _$$HostImplCopyWith<$Res> implements $HostCopyWith<$Res> {
       __$$HostImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name});
+  $Res call({String id, String name, Set<MusicSource> sources});
 }
 
 /// @nodoc
@@ -230,6 +263,7 @@ class __$$HostImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? sources = null,
   }) {
     return _then(_$HostImpl(
       id: null == id
@@ -240,23 +274,41 @@ class __$$HostImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      sources: null == sources
+          ? _value._sources
+          : sources // ignore: cast_nullable_to_non_nullable
+              as Set<MusicSource>,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$HostImpl implements _Host {
-  const _$HostImpl({required this.id, required this.name});
+  const _$HostImpl(
+      {required this.id,
+      required this.name,
+      required final Set<MusicSource> sources})
+      : _sources = sources;
+
+  factory _$HostImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HostImplFromJson(json);
 
   @override
   final String id;
   @override
   final String name;
+  final Set<MusicSource> _sources;
+  @override
+  Set<MusicSource> get sources {
+    if (_sources is EqualUnmodifiableSetView) return _sources;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_sources);
+  }
 
   @override
   String toString() {
-    return 'Host(id: $id, name: $name)';
+    return 'Host(id: $id, name: $name, sources: $sources)';
   }
 
   @override
@@ -265,11 +317,14 @@ class _$HostImpl implements _Host {
         (other.runtimeType == runtimeType &&
             other is _$HostImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other._sources, _sources));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, const DeepCollectionEquality().hash(_sources));
 
   /// Create a copy of Host
   /// with the given fields replaced by the non-null parameter values.
@@ -278,16 +333,29 @@ class _$HostImpl implements _Host {
   @pragma('vm:prefer-inline')
   _$$HostImplCopyWith<_$HostImpl> get copyWith =>
       __$$HostImplCopyWithImpl<_$HostImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$HostImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Host implements Host {
-  const factory _Host({required final String id, required final String name}) =
-      _$HostImpl;
+  const factory _Host(
+      {required final String id,
+      required final String name,
+      required final Set<MusicSource> sources}) = _$HostImpl;
+
+  factory _Host.fromJson(Map<String, dynamic> json) = _$HostImpl.fromJson;
 
   @override
   String get id;
   @override
   String get name;
+  @override
+  Set<MusicSource> get sources;
 
   /// Create a copy of Host
   /// with the given fields replaced by the non-null parameter values.
@@ -297,8 +365,21 @@ abstract class _Host implements Host {
       throw _privateConstructorUsedError;
 }
 
+SongReference _$SongReferenceFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'spotify':
+      return SpotifySong.fromJson(json);
+    case 'local':
+      return LocalSong.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'SongReference',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
 /// @nodoc
-mixin _$PlaySongMeta {
+mixin _$SongReference {
   String get songId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -339,33 +420,36 @@ mixin _$PlaySongMeta {
   }) =>
       throw _privateConstructorUsedError;
 
-  /// Create a copy of PlaySongMeta
+  /// Serializes this SongReference to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SongReference
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PlaySongMetaCopyWith<PlaySongMeta> get copyWith =>
+  $SongReferenceCopyWith<SongReference> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PlaySongMetaCopyWith<$Res> {
-  factory $PlaySongMetaCopyWith(
-          PlaySongMeta value, $Res Function(PlaySongMeta) then) =
-      _$PlaySongMetaCopyWithImpl<$Res, PlaySongMeta>;
+abstract class $SongReferenceCopyWith<$Res> {
+  factory $SongReferenceCopyWith(
+          SongReference value, $Res Function(SongReference) then) =
+      _$SongReferenceCopyWithImpl<$Res, SongReference>;
   @useResult
   $Res call({String songId});
 }
 
 /// @nodoc
-class _$PlaySongMetaCopyWithImpl<$Res, $Val extends PlaySongMeta>
-    implements $PlaySongMetaCopyWith<$Res> {
-  _$PlaySongMetaCopyWithImpl(this._value, this._then);
+class _$SongReferenceCopyWithImpl<$Res, $Val extends SongReference>
+    implements $SongReferenceCopyWith<$Res> {
+  _$SongReferenceCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of PlaySongMeta
+  /// Create a copy of SongReference
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -383,7 +467,7 @@ class _$PlaySongMetaCopyWithImpl<$Res, $Val extends PlaySongMeta>
 
 /// @nodoc
 abstract class _$$SpotifySongImplCopyWith<$Res>
-    implements $PlaySongMetaCopyWith<$Res> {
+    implements $SongReferenceCopyWith<$Res> {
   factory _$$SpotifySongImplCopyWith(
           _$SpotifySongImpl value, $Res Function(_$SpotifySongImpl) then) =
       __$$SpotifySongImplCopyWithImpl<$Res>;
@@ -394,13 +478,13 @@ abstract class _$$SpotifySongImplCopyWith<$Res>
 
 /// @nodoc
 class __$$SpotifySongImplCopyWithImpl<$Res>
-    extends _$PlaySongMetaCopyWithImpl<$Res, _$SpotifySongImpl>
+    extends _$SongReferenceCopyWithImpl<$Res, _$SpotifySongImpl>
     implements _$$SpotifySongImplCopyWith<$Res> {
   __$$SpotifySongImplCopyWithImpl(
       _$SpotifySongImpl _value, $Res Function(_$SpotifySongImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PlaySongMeta
+  /// Create a copy of SongReference
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -417,16 +501,23 @@ class __$$SpotifySongImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$SpotifySongImpl implements SpotifySong {
-  const _$SpotifySongImpl(this.songId);
+  const _$SpotifySongImpl(this.songId, {final String? $type})
+      : $type = $type ?? 'spotify';
+
+  factory _$SpotifySongImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SpotifySongImplFromJson(json);
 
   @override
   final String songId;
 
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
   @override
   String toString() {
-    return 'PlaySongMeta.spotify(songId: $songId)';
+    return 'SongReference.spotify(songId: $songId)';
   }
 
   @override
@@ -437,10 +528,11 @@ class _$SpotifySongImpl implements SpotifySong {
             (identical(other.songId, songId) || other.songId == songId));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, songId);
 
-  /// Create a copy of PlaySongMeta
+  /// Create a copy of SongReference
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -509,15 +601,25 @@ class _$SpotifySongImpl implements SpotifySong {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SpotifySongImplToJson(
+      this,
+    );
+  }
 }
 
-abstract class SpotifySong implements PlaySongMeta {
+abstract class SpotifySong implements SongReference {
   const factory SpotifySong(final String songId) = _$SpotifySongImpl;
+
+  factory SpotifySong.fromJson(Map<String, dynamic> json) =
+      _$SpotifySongImpl.fromJson;
 
   @override
   String get songId;
 
-  /// Create a copy of PlaySongMeta
+  /// Create a copy of SongReference
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -527,7 +629,7 @@ abstract class SpotifySong implements PlaySongMeta {
 
 /// @nodoc
 abstract class _$$LocalSongImplCopyWith<$Res>
-    implements $PlaySongMetaCopyWith<$Res> {
+    implements $SongReferenceCopyWith<$Res> {
   factory _$$LocalSongImplCopyWith(
           _$LocalSongImpl value, $Res Function(_$LocalSongImpl) then) =
       __$$LocalSongImplCopyWithImpl<$Res>;
@@ -538,13 +640,13 @@ abstract class _$$LocalSongImplCopyWith<$Res>
 
 /// @nodoc
 class __$$LocalSongImplCopyWithImpl<$Res>
-    extends _$PlaySongMetaCopyWithImpl<$Res, _$LocalSongImpl>
+    extends _$SongReferenceCopyWithImpl<$Res, _$LocalSongImpl>
     implements _$$LocalSongImplCopyWith<$Res> {
   __$$LocalSongImplCopyWithImpl(
       _$LocalSongImpl _value, $Res Function(_$LocalSongImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PlaySongMeta
+  /// Create a copy of SongReference
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -561,16 +663,23 @@ class __$$LocalSongImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$LocalSongImpl implements LocalSong {
-  const _$LocalSongImpl(this.songId);
+  const _$LocalSongImpl(this.songId, {final String? $type})
+      : $type = $type ?? 'local';
+
+  factory _$LocalSongImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LocalSongImplFromJson(json);
 
   @override
   final String songId;
 
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
   @override
   String toString() {
-    return 'PlaySongMeta.local(songId: $songId)';
+    return 'SongReference.local(songId: $songId)';
   }
 
   @override
@@ -581,10 +690,11 @@ class _$LocalSongImpl implements LocalSong {
             (identical(other.songId, songId) || other.songId == songId));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, songId);
 
-  /// Create a copy of PlaySongMeta
+  /// Create a copy of SongReference
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -653,15 +763,25 @@ class _$LocalSongImpl implements LocalSong {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LocalSongImplToJson(
+      this,
+    );
+  }
 }
 
-abstract class LocalSong implements PlaySongMeta {
+abstract class LocalSong implements SongReference {
   const factory LocalSong(final String songId) = _$LocalSongImpl;
+
+  factory LocalSong.fromJson(Map<String, dynamic> json) =
+      _$LocalSongImpl.fromJson;
 
   @override
   String get songId;
 
-  /// Create a copy of PlaySongMeta
+  /// Create a copy of SongReference
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -669,41 +789,68 @@ abstract class LocalSong implements PlaySongMeta {
       throw _privateConstructorUsedError;
 }
 
+DeviceCommand _$DeviceCommandFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'connect':
+      return Connect.fromJson(json);
+    case 'requestId':
+      return RequestID.fromJson(json);
+    case 'requestState':
+      return RequestState.fromJson(json);
+    case 'requestQueue':
+      return RequestQueue.fromJson(json);
+    case 'mediaCommand':
+      return MediaCommand.fromJson(json);
+    case 'setVolume':
+      return SetVolume.fromJson(json);
+    case 'playSong':
+      return PlaySong.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'DeviceCommand',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
 /// @nodoc
 mixin _$DeviceCommand {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
     required TResult Function() requestId,
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
-    required TResult Function(PlaySongMeta songMeta) playSong,
+    required TResult Function(SongReference songMeta) playSong,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
     TResult? Function()? requestId,
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(PlaySongMeta songMeta)? playSong,
+    TResult? Function(SongReference songMeta)? playSong,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
     TResult Function()? requestId,
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
-    TResult Function(PlaySongMeta songMeta)? playSong,
+    TResult Function(SongReference songMeta)? playSong,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
     required TResult Function(RequestID value) requestId,
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
@@ -714,6 +861,7 @@ mixin _$DeviceCommand {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
     TResult? Function(RequestID value)? requestId,
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
@@ -724,6 +872,7 @@ mixin _$DeviceCommand {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
     TResult Function(RequestID value)? requestId,
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
@@ -733,6 +882,9 @@ mixin _$DeviceCommand {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this DeviceCommand to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -757,6 +909,205 @@ class _$DeviceCommandCopyWithImpl<$Res, $Val extends DeviceCommand>
 }
 
 /// @nodoc
+abstract class _$$ConnectImplCopyWith<$Res> {
+  factory _$$ConnectImplCopyWith(
+          _$ConnectImpl value, $Res Function(_$ConnectImpl) then) =
+      __$$ConnectImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Client client});
+
+  $ClientCopyWith<$Res> get client;
+}
+
+/// @nodoc
+class __$$ConnectImplCopyWithImpl<$Res>
+    extends _$DeviceCommandCopyWithImpl<$Res, _$ConnectImpl>
+    implements _$$ConnectImplCopyWith<$Res> {
+  __$$ConnectImplCopyWithImpl(
+      _$ConnectImpl _value, $Res Function(_$ConnectImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? client = null,
+  }) {
+    return _then(_$ConnectImpl(
+      null == client
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as Client,
+    ));
+  }
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ClientCopyWith<$Res> get client {
+    return $ClientCopyWith<$Res>(_value.client, (value) {
+      return _then(_value.copyWith(client: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ConnectImpl implements Connect {
+  const _$ConnectImpl(this.client, {final String? $type})
+      : $type = $type ?? 'connect';
+
+  factory _$ConnectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectImplFromJson(json);
+
+  @override
+  final Client client;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'DeviceCommand.connect(client: $client)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ConnectImpl &&
+            (identical(other.client, client) || other.client == client));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, client);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ConnectImplCopyWith<_$ConnectImpl> get copyWith =>
+      __$$ConnectImplCopyWithImpl<_$ConnectImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
+    required TResult Function() requestId,
+    required TResult Function() requestState,
+    required TResult Function() requestQueue,
+    required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int volume) setVolume,
+    required TResult Function(SongReference songMeta) playSong,
+  }) {
+    return connect(client);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
+    TResult? Function()? requestId,
+    TResult? Function()? requestState,
+    TResult? Function()? requestQueue,
+    TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int volume)? setVolume,
+    TResult? Function(SongReference songMeta)? playSong,
+  }) {
+    return connect?.call(client);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
+    TResult Function()? requestId,
+    TResult Function()? requestState,
+    TResult Function()? requestQueue,
+    TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int volume)? setVolume,
+    TResult Function(SongReference songMeta)? playSong,
+    required TResult orElse(),
+  }) {
+    if (connect != null) {
+      return connect(client);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
+    required TResult Function(RequestID value) requestId,
+    required TResult Function(RequestState value) requestState,
+    required TResult Function(RequestQueue value) requestQueue,
+    required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(SetVolume value) setVolume,
+    required TResult Function(PlaySong value) playSong,
+  }) {
+    return connect(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
+    TResult? Function(RequestID value)? requestId,
+    TResult? Function(RequestState value)? requestState,
+    TResult? Function(RequestQueue value)? requestQueue,
+    TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(SetVolume value)? setVolume,
+    TResult? Function(PlaySong value)? playSong,
+  }) {
+    return connect?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
+    TResult Function(RequestID value)? requestId,
+    TResult Function(RequestState value)? requestState,
+    TResult Function(RequestQueue value)? requestQueue,
+    TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(SetVolume value)? setVolume,
+    TResult Function(PlaySong value)? playSong,
+    required TResult orElse(),
+  }) {
+    if (connect != null) {
+      return connect(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ConnectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class Connect implements DeviceCommand {
+  const factory Connect(final Client client) = _$ConnectImpl;
+
+  factory Connect.fromJson(Map<String, dynamic> json) = _$ConnectImpl.fromJson;
+
+  Client get client;
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ConnectImplCopyWith<_$ConnectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 abstract class _$$RequestIDImplCopyWith<$Res> {
   factory _$$RequestIDImplCopyWith(
           _$RequestIDImpl value, $Res Function(_$RequestIDImpl) then) =
@@ -776,9 +1127,15 @@ class __$$RequestIDImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$RequestIDImpl implements RequestID {
-  const _$RequestIDImpl();
+  const _$RequestIDImpl({final String? $type}) : $type = $type ?? 'requestId';
+
+  factory _$RequestIDImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestIDImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -791,18 +1148,20 @@ class _$RequestIDImpl implements RequestID {
         (other.runtimeType == runtimeType && other is _$RequestIDImpl);
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
     required TResult Function() requestId,
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
-    required TResult Function(PlaySongMeta songMeta) playSong,
+    required TResult Function(SongReference songMeta) playSong,
   }) {
     return requestId();
   }
@@ -810,12 +1169,13 @@ class _$RequestIDImpl implements RequestID {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
     TResult? Function()? requestId,
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(PlaySongMeta songMeta)? playSong,
+    TResult? Function(SongReference songMeta)? playSong,
   }) {
     return requestId?.call();
   }
@@ -823,12 +1183,13 @@ class _$RequestIDImpl implements RequestID {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
     TResult Function()? requestId,
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
-    TResult Function(PlaySongMeta songMeta)? playSong,
+    TResult Function(SongReference songMeta)? playSong,
     required TResult orElse(),
   }) {
     if (requestId != null) {
@@ -840,6 +1201,7 @@ class _$RequestIDImpl implements RequestID {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
     required TResult Function(RequestID value) requestId,
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
@@ -853,6 +1215,7 @@ class _$RequestIDImpl implements RequestID {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
     TResult? Function(RequestID value)? requestId,
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
@@ -866,6 +1229,7 @@ class _$RequestIDImpl implements RequestID {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
     TResult Function(RequestID value)? requestId,
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
@@ -879,10 +1243,20 @@ class _$RequestIDImpl implements RequestID {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestIDImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class RequestID implements DeviceCommand {
   const factory RequestID() = _$RequestIDImpl;
+
+  factory RequestID.fromJson(Map<String, dynamic> json) =
+      _$RequestIDImpl.fromJson;
 }
 
 /// @nodoc
@@ -905,9 +1279,16 @@ class __$$RequestStateImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$RequestStateImpl implements RequestState {
-  const _$RequestStateImpl();
+  const _$RequestStateImpl({final String? $type})
+      : $type = $type ?? 'requestState';
+
+  factory _$RequestStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestStateImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -920,18 +1301,20 @@ class _$RequestStateImpl implements RequestState {
         (other.runtimeType == runtimeType && other is _$RequestStateImpl);
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
     required TResult Function() requestId,
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
-    required TResult Function(PlaySongMeta songMeta) playSong,
+    required TResult Function(SongReference songMeta) playSong,
   }) {
     return requestState();
   }
@@ -939,12 +1322,13 @@ class _$RequestStateImpl implements RequestState {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
     TResult? Function()? requestId,
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(PlaySongMeta songMeta)? playSong,
+    TResult? Function(SongReference songMeta)? playSong,
   }) {
     return requestState?.call();
   }
@@ -952,12 +1336,13 @@ class _$RequestStateImpl implements RequestState {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
     TResult Function()? requestId,
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
-    TResult Function(PlaySongMeta songMeta)? playSong,
+    TResult Function(SongReference songMeta)? playSong,
     required TResult orElse(),
   }) {
     if (requestState != null) {
@@ -969,6 +1354,7 @@ class _$RequestStateImpl implements RequestState {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
     required TResult Function(RequestID value) requestId,
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
@@ -982,6 +1368,7 @@ class _$RequestStateImpl implements RequestState {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
     TResult? Function(RequestID value)? requestId,
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
@@ -995,6 +1382,7 @@ class _$RequestStateImpl implements RequestState {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
     TResult Function(RequestID value)? requestId,
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
@@ -1008,10 +1396,20 @@ class _$RequestStateImpl implements RequestState {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestStateImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class RequestState implements DeviceCommand {
   const factory RequestState() = _$RequestStateImpl;
+
+  factory RequestState.fromJson(Map<String, dynamic> json) =
+      _$RequestStateImpl.fromJson;
 }
 
 /// @nodoc
@@ -1034,9 +1432,16 @@ class __$$RequestQueueImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$RequestQueueImpl implements RequestQueue {
-  const _$RequestQueueImpl();
+  const _$RequestQueueImpl({final String? $type})
+      : $type = $type ?? 'requestQueue';
+
+  factory _$RequestQueueImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestQueueImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -1049,18 +1454,20 @@ class _$RequestQueueImpl implements RequestQueue {
         (other.runtimeType == runtimeType && other is _$RequestQueueImpl);
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
     required TResult Function() requestId,
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
-    required TResult Function(PlaySongMeta songMeta) playSong,
+    required TResult Function(SongReference songMeta) playSong,
   }) {
     return requestQueue();
   }
@@ -1068,12 +1475,13 @@ class _$RequestQueueImpl implements RequestQueue {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
     TResult? Function()? requestId,
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(PlaySongMeta songMeta)? playSong,
+    TResult? Function(SongReference songMeta)? playSong,
   }) {
     return requestQueue?.call();
   }
@@ -1081,12 +1489,13 @@ class _$RequestQueueImpl implements RequestQueue {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
     TResult Function()? requestId,
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
-    TResult Function(PlaySongMeta songMeta)? playSong,
+    TResult Function(SongReference songMeta)? playSong,
     required TResult orElse(),
   }) {
     if (requestQueue != null) {
@@ -1098,6 +1507,7 @@ class _$RequestQueueImpl implements RequestQueue {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
     required TResult Function(RequestID value) requestId,
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
@@ -1111,6 +1521,7 @@ class _$RequestQueueImpl implements RequestQueue {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
     TResult? Function(RequestID value)? requestId,
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
@@ -1124,6 +1535,7 @@ class _$RequestQueueImpl implements RequestQueue {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
     TResult Function(RequestID value)? requestId,
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
@@ -1137,10 +1549,20 @@ class _$RequestQueueImpl implements RequestQueue {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RequestQueueImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class RequestQueue implements DeviceCommand {
   const factory RequestQueue() = _$RequestQueueImpl;
+
+  factory RequestQueue.fromJson(Map<String, dynamic> json) =
+      _$RequestQueueImpl.fromJson;
 }
 
 /// @nodoc
@@ -1177,12 +1599,19 @@ class __$$MediaCommandImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$MediaCommandImpl implements MediaCommand {
-  const _$MediaCommandImpl(this.command);
+  const _$MediaCommandImpl(this.command, {final String? $type})
+      : $type = $type ?? 'mediaCommand';
+
+  factory _$MediaCommandImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaCommandImplFromJson(json);
 
   @override
   final MediaCommandType command;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -1197,6 +1626,7 @@ class _$MediaCommandImpl implements MediaCommand {
             (identical(other.command, command) || other.command == command));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, command);
 
@@ -1211,12 +1641,13 @@ class _$MediaCommandImpl implements MediaCommand {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
     required TResult Function() requestId,
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
-    required TResult Function(PlaySongMeta songMeta) playSong,
+    required TResult Function(SongReference songMeta) playSong,
   }) {
     return mediaCommand(command);
   }
@@ -1224,12 +1655,13 @@ class _$MediaCommandImpl implements MediaCommand {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
     TResult? Function()? requestId,
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(PlaySongMeta songMeta)? playSong,
+    TResult? Function(SongReference songMeta)? playSong,
   }) {
     return mediaCommand?.call(command);
   }
@@ -1237,12 +1669,13 @@ class _$MediaCommandImpl implements MediaCommand {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
     TResult Function()? requestId,
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
-    TResult Function(PlaySongMeta songMeta)? playSong,
+    TResult Function(SongReference songMeta)? playSong,
     required TResult orElse(),
   }) {
     if (mediaCommand != null) {
@@ -1254,6 +1687,7 @@ class _$MediaCommandImpl implements MediaCommand {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
     required TResult Function(RequestID value) requestId,
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
@@ -1267,6 +1701,7 @@ class _$MediaCommandImpl implements MediaCommand {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
     TResult? Function(RequestID value)? requestId,
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
@@ -1280,6 +1715,7 @@ class _$MediaCommandImpl implements MediaCommand {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
     TResult Function(RequestID value)? requestId,
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
@@ -1293,11 +1729,21 @@ class _$MediaCommandImpl implements MediaCommand {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MediaCommandImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class MediaCommand implements DeviceCommand {
   const factory MediaCommand(final MediaCommandType command) =
       _$MediaCommandImpl;
+
+  factory MediaCommand.fromJson(Map<String, dynamic> json) =
+      _$MediaCommandImpl.fromJson;
 
   MediaCommandType get command;
 
@@ -1342,12 +1788,19 @@ class __$$SetVolumeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$SetVolumeImpl implements SetVolume {
-  const _$SetVolumeImpl(this.volume);
+  const _$SetVolumeImpl(this.volume, {final String? $type})
+      : $type = $type ?? 'setVolume';
+
+  factory _$SetVolumeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SetVolumeImplFromJson(json);
 
   @override
   final int volume;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -1362,6 +1815,7 @@ class _$SetVolumeImpl implements SetVolume {
             (identical(other.volume, volume) || other.volume == volume));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, volume);
 
@@ -1376,12 +1830,13 @@ class _$SetVolumeImpl implements SetVolume {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
     required TResult Function() requestId,
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
-    required TResult Function(PlaySongMeta songMeta) playSong,
+    required TResult Function(SongReference songMeta) playSong,
   }) {
     return setVolume(volume);
   }
@@ -1389,12 +1844,13 @@ class _$SetVolumeImpl implements SetVolume {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
     TResult? Function()? requestId,
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(PlaySongMeta songMeta)? playSong,
+    TResult? Function(SongReference songMeta)? playSong,
   }) {
     return setVolume?.call(volume);
   }
@@ -1402,12 +1858,13 @@ class _$SetVolumeImpl implements SetVolume {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
     TResult Function()? requestId,
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
-    TResult Function(PlaySongMeta songMeta)? playSong,
+    TResult Function(SongReference songMeta)? playSong,
     required TResult orElse(),
   }) {
     if (setVolume != null) {
@@ -1419,6 +1876,7 @@ class _$SetVolumeImpl implements SetVolume {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
     required TResult Function(RequestID value) requestId,
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
@@ -1432,6 +1890,7 @@ class _$SetVolumeImpl implements SetVolume {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
     TResult? Function(RequestID value)? requestId,
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
@@ -1445,6 +1904,7 @@ class _$SetVolumeImpl implements SetVolume {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
     TResult Function(RequestID value)? requestId,
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
@@ -1458,10 +1918,20 @@ class _$SetVolumeImpl implements SetVolume {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SetVolumeImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class SetVolume implements DeviceCommand {
   const factory SetVolume(final int volume) = _$SetVolumeImpl;
+
+  factory SetVolume.fromJson(Map<String, dynamic> json) =
+      _$SetVolumeImpl.fromJson;
 
   int get volume;
 
@@ -1478,9 +1948,9 @@ abstract class _$$PlaySongImplCopyWith<$Res> {
           _$PlaySongImpl value, $Res Function(_$PlaySongImpl) then) =
       __$$PlaySongImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({PlaySongMeta songMeta});
+  $Res call({SongReference songMeta});
 
-  $PlaySongMetaCopyWith<$Res> get songMeta;
+  $SongReferenceCopyWith<$Res> get songMeta;
 }
 
 /// @nodoc
@@ -1502,7 +1972,7 @@ class __$$PlaySongImplCopyWithImpl<$Res>
       null == songMeta
           ? _value.songMeta
           : songMeta // ignore: cast_nullable_to_non_nullable
-              as PlaySongMeta,
+              as SongReference,
     ));
   }
 
@@ -1510,20 +1980,27 @@ class __$$PlaySongImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $PlaySongMetaCopyWith<$Res> get songMeta {
-    return $PlaySongMetaCopyWith<$Res>(_value.songMeta, (value) {
+  $SongReferenceCopyWith<$Res> get songMeta {
+    return $SongReferenceCopyWith<$Res>(_value.songMeta, (value) {
       return _then(_value.copyWith(songMeta: value));
     });
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PlaySongImpl implements PlaySong {
-  const _$PlaySongImpl(this.songMeta);
+  const _$PlaySongImpl(this.songMeta, {final String? $type})
+      : $type = $type ?? 'playSong';
+
+  factory _$PlaySongImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlaySongImplFromJson(json);
 
   @override
-  final PlaySongMeta songMeta;
+  final SongReference songMeta;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -1539,6 +2016,7 @@ class _$PlaySongImpl implements PlaySong {
                 other.songMeta == songMeta));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, songMeta);
 
@@ -1553,12 +2031,13 @@ class _$PlaySongImpl implements PlaySong {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
     required TResult Function() requestId,
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
-    required TResult Function(PlaySongMeta songMeta) playSong,
+    required TResult Function(SongReference songMeta) playSong,
   }) {
     return playSong(songMeta);
   }
@@ -1566,12 +2045,13 @@ class _$PlaySongImpl implements PlaySong {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
     TResult? Function()? requestId,
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(PlaySongMeta songMeta)? playSong,
+    TResult? Function(SongReference songMeta)? playSong,
   }) {
     return playSong?.call(songMeta);
   }
@@ -1579,12 +2059,13 @@ class _$PlaySongImpl implements PlaySong {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
     TResult Function()? requestId,
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
-    TResult Function(PlaySongMeta songMeta)? playSong,
+    TResult Function(SongReference songMeta)? playSong,
     required TResult orElse(),
   }) {
     if (playSong != null) {
@@ -1596,6 +2077,7 @@ class _$PlaySongImpl implements PlaySong {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
     required TResult Function(RequestID value) requestId,
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
@@ -1609,6 +2091,7 @@ class _$PlaySongImpl implements PlaySong {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
     TResult? Function(RequestID value)? requestId,
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
@@ -1622,6 +2105,7 @@ class _$PlaySongImpl implements PlaySong {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
     TResult Function(RequestID value)? requestId,
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
@@ -1635,12 +2119,22 @@ class _$PlaySongImpl implements PlaySong {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PlaySongImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class PlaySong implements DeviceCommand {
-  const factory PlaySong(final PlaySongMeta songMeta) = _$PlaySongImpl;
+  const factory PlaySong(final SongReference songMeta) = _$PlaySongImpl;
 
-  PlaySongMeta get songMeta;
+  factory PlaySong.fromJson(Map<String, dynamic> json) =
+      _$PlaySongImpl.fromJson;
+
+  SongReference get songMeta;
 
   /// Create a copy of DeviceCommand
   /// with the given fields replaced by the non-null parameter values.
@@ -1649,15 +2143,22 @@ abstract class PlaySong implements DeviceCommand {
       throw _privateConstructorUsedError;
 }
 
+SongMeta _$SongMetaFromJson(Map<String, dynamic> json) {
+  return _SongMeta.fromJson(json);
+}
+
 /// @nodoc
 mixin _$SongMeta {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get artist => throw _privateConstructorUsedError;
   String get album => throw _privateConstructorUsedError;
-  Option<String> get albumArtUrl => throw _privateConstructorUsedError;
+  String? get albumArtUrl => throw _privateConstructorUsedError;
   Duration get duration => throw _privateConstructorUsedError;
   bool get isPlaying => throw _privateConstructorUsedError;
+
+  /// Serializes this SongMeta to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of SongMeta
   /// with the given fields replaced by the non-null parameter values.
@@ -1676,7 +2177,7 @@ abstract class $SongMetaCopyWith<$Res> {
       String title,
       String artist,
       String album,
-      Option<String> albumArtUrl,
+      String? albumArtUrl,
       Duration duration,
       bool isPlaying});
 }
@@ -1700,7 +2201,7 @@ class _$SongMetaCopyWithImpl<$Res, $Val extends SongMeta>
     Object? title = null,
     Object? artist = null,
     Object? album = null,
-    Object? albumArtUrl = null,
+    Object? albumArtUrl = freezed,
     Object? duration = null,
     Object? isPlaying = null,
   }) {
@@ -1721,10 +2222,10 @@ class _$SongMetaCopyWithImpl<$Res, $Val extends SongMeta>
           ? _value.album
           : album // ignore: cast_nullable_to_non_nullable
               as String,
-      albumArtUrl: null == albumArtUrl
+      albumArtUrl: freezed == albumArtUrl
           ? _value.albumArtUrl
           : albumArtUrl // ignore: cast_nullable_to_non_nullable
-              as Option<String>,
+              as String?,
       duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
@@ -1750,7 +2251,7 @@ abstract class _$$SongMetaImplCopyWith<$Res>
       String title,
       String artist,
       String album,
-      Option<String> albumArtUrl,
+      String? albumArtUrl,
       Duration duration,
       bool isPlaying});
 }
@@ -1772,7 +2273,7 @@ class __$$SongMetaImplCopyWithImpl<$Res>
     Object? title = null,
     Object? artist = null,
     Object? album = null,
-    Object? albumArtUrl = null,
+    Object? albumArtUrl = freezed,
     Object? duration = null,
     Object? isPlaying = null,
   }) {
@@ -1793,10 +2294,10 @@ class __$$SongMetaImplCopyWithImpl<$Res>
           ? _value.album
           : album // ignore: cast_nullable_to_non_nullable
               as String,
-      albumArtUrl: null == albumArtUrl
+      albumArtUrl: freezed == albumArtUrl
           ? _value.albumArtUrl
           : albumArtUrl // ignore: cast_nullable_to_non_nullable
-              as Option<String>,
+              as String?,
       duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
@@ -1810,7 +2311,7 @@ class __$$SongMetaImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$SongMetaImpl implements _SongMeta {
   const _$SongMetaImpl(
       {required this.id,
@@ -1821,6 +2322,9 @@ class _$SongMetaImpl implements _SongMeta {
       required this.duration,
       required this.isPlaying});
 
+  factory _$SongMetaImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SongMetaImplFromJson(json);
+
   @override
   final String id;
   @override
@@ -1830,7 +2334,7 @@ class _$SongMetaImpl implements _SongMeta {
   @override
   final String album;
   @override
-  final Option<String> albumArtUrl;
+  final String? albumArtUrl;
   @override
   final Duration duration;
   @override
@@ -1858,6 +2362,7 @@ class _$SongMetaImpl implements _SongMeta {
                 other.isPlaying == isPlaying));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, title, artist, album, albumArtUrl, duration, isPlaying);
@@ -1869,6 +2374,13 @@ class _$SongMetaImpl implements _SongMeta {
   @pragma('vm:prefer-inline')
   _$$SongMetaImplCopyWith<_$SongMetaImpl> get copyWith =>
       __$$SongMetaImplCopyWithImpl<_$SongMetaImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SongMetaImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _SongMeta implements SongMeta {
@@ -1877,9 +2389,12 @@ abstract class _SongMeta implements SongMeta {
       required final String title,
       required final String artist,
       required final String album,
-      required final Option<String> albumArtUrl,
+      required final String? albumArtUrl,
       required final Duration duration,
       required final bool isPlaying}) = _$SongMetaImpl;
+
+  factory _SongMeta.fromJson(Map<String, dynamic> json) =
+      _$SongMetaImpl.fromJson;
 
   @override
   String get id;
@@ -1890,7 +2405,7 @@ abstract class _SongMeta implements SongMeta {
   @override
   String get album;
   @override
-  Option<String> get albumArtUrl;
+  String? get albumArtUrl;
   @override
   Duration get duration;
   @override
@@ -1904,12 +2419,34 @@ abstract class _SongMeta implements SongMeta {
       throw _privateConstructorUsedError;
 }
 
+HostResponse _$HostResponseFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'connect':
+      return ConnectResponse.fromJson(json);
+    case 'id':
+      return IDResponse.fromJson(json);
+    case 'queue':
+      return QueueResponse.fromJson(json);
+    case 'playState':
+      return PlayStateResponse.fromJson(json);
+    case 'error':
+      return ErrorResponse.fromJson(json);
+    case 'ok':
+      return OkResponse.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'HostResponse',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
 /// @nodoc
 mixin _$HostResponse {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Host host) connect,
     required TResult Function(String id) id,
-    required TResult Function(List<SongMeta> queue) queue,
+    required TResult Function(List<(String, SongMeta)> queue) queue,
     required TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)
         playState,
@@ -1919,8 +2456,9 @@ mixin _$HostResponse {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Host host)? connect,
     TResult? Function(String id)? id,
-    TResult? Function(List<SongMeta> queue)? queue,
+    TResult? Function(List<(String, SongMeta)> queue)? queue,
     TResult? Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -1930,8 +2468,9 @@ mixin _$HostResponse {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Host host)? connect,
     TResult Function(String id)? id,
-    TResult Function(List<SongMeta> queue)? queue,
+    TResult Function(List<(String, SongMeta)> queue)? queue,
     TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -1942,6 +2481,7 @@ mixin _$HostResponse {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ConnectResponse value) connect,
     required TResult Function(IDResponse value) id,
     required TResult Function(QueueResponse value) queue,
     required TResult Function(PlayStateResponse value) playState,
@@ -1951,6 +2491,7 @@ mixin _$HostResponse {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectResponse value)? connect,
     TResult? Function(IDResponse value)? id,
     TResult? Function(QueueResponse value)? queue,
     TResult? Function(PlayStateResponse value)? playState,
@@ -1960,6 +2501,7 @@ mixin _$HostResponse {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectResponse value)? connect,
     TResult Function(IDResponse value)? id,
     TResult Function(QueueResponse value)? queue,
     TResult Function(PlayStateResponse value)? playState,
@@ -1968,6 +2510,9 @@ mixin _$HostResponse {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this HostResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1989,6 +2534,207 @@ class _$HostResponseCopyWithImpl<$Res, $Val extends HostResponse>
 
   /// Create a copy of HostResponse
   /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$ConnectResponseImplCopyWith<$Res> {
+  factory _$$ConnectResponseImplCopyWith(_$ConnectResponseImpl value,
+          $Res Function(_$ConnectResponseImpl) then) =
+      __$$ConnectResponseImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Host host});
+
+  $HostCopyWith<$Res> get host;
+}
+
+/// @nodoc
+class __$$ConnectResponseImplCopyWithImpl<$Res>
+    extends _$HostResponseCopyWithImpl<$Res, _$ConnectResponseImpl>
+    implements _$$ConnectResponseImplCopyWith<$Res> {
+  __$$ConnectResponseImplCopyWithImpl(
+      _$ConnectResponseImpl _value, $Res Function(_$ConnectResponseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HostResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? host = null,
+  }) {
+    return _then(_$ConnectResponseImpl(
+      null == host
+          ? _value.host
+          : host // ignore: cast_nullable_to_non_nullable
+              as Host,
+    ));
+  }
+
+  /// Create a copy of HostResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $HostCopyWith<$Res> get host {
+    return $HostCopyWith<$Res>(_value.host, (value) {
+      return _then(_value.copyWith(host: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ConnectResponseImpl implements ConnectResponse {
+  const _$ConnectResponseImpl(this.host, {final String? $type})
+      : $type = $type ?? 'connect';
+
+  factory _$ConnectResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectResponseImplFromJson(json);
+
+  @override
+  final Host host;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'HostResponse.connect(host: $host)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ConnectResponseImpl &&
+            (identical(other.host, host) || other.host == host));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, host);
+
+  /// Create a copy of HostResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ConnectResponseImplCopyWith<_$ConnectResponseImpl> get copyWith =>
+      __$$ConnectResponseImplCopyWithImpl<_$ConnectResponseImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Host host) connect,
+    required TResult Function(String id) id,
+    required TResult Function(List<(String, SongMeta)> queue) queue,
+    required TResult Function(
+            SongMeta currentSong, MediaPlayState playState, Duration playHead)
+        playState,
+    required TResult Function(String error) error,
+    required TResult Function() ok,
+  }) {
+    return connect(host);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Host host)? connect,
+    TResult? Function(String id)? id,
+    TResult? Function(List<(String, SongMeta)> queue)? queue,
+    TResult? Function(
+            SongMeta currentSong, MediaPlayState playState, Duration playHead)?
+        playState,
+    TResult? Function(String error)? error,
+    TResult? Function()? ok,
+  }) {
+    return connect?.call(host);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Host host)? connect,
+    TResult Function(String id)? id,
+    TResult Function(List<(String, SongMeta)> queue)? queue,
+    TResult Function(
+            SongMeta currentSong, MediaPlayState playState, Duration playHead)?
+        playState,
+    TResult Function(String error)? error,
+    TResult Function()? ok,
+    required TResult orElse(),
+  }) {
+    if (connect != null) {
+      return connect(host);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ConnectResponse value) connect,
+    required TResult Function(IDResponse value) id,
+    required TResult Function(QueueResponse value) queue,
+    required TResult Function(PlayStateResponse value) playState,
+    required TResult Function(ErrorResponse value) error,
+    required TResult Function(OkResponse value) ok,
+  }) {
+    return connect(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectResponse value)? connect,
+    TResult? Function(IDResponse value)? id,
+    TResult? Function(QueueResponse value)? queue,
+    TResult? Function(PlayStateResponse value)? playState,
+    TResult? Function(ErrorResponse value)? error,
+    TResult? Function(OkResponse value)? ok,
+  }) {
+    return connect?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectResponse value)? connect,
+    TResult Function(IDResponse value)? id,
+    TResult Function(QueueResponse value)? queue,
+    TResult Function(PlayStateResponse value)? playState,
+    TResult Function(ErrorResponse value)? error,
+    TResult Function(OkResponse value)? ok,
+    required TResult orElse(),
+  }) {
+    if (connect != null) {
+      return connect(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ConnectResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ConnectResponse implements HostResponse {
+  const factory ConnectResponse(final Host host) = _$ConnectResponseImpl;
+
+  factory ConnectResponse.fromJson(Map<String, dynamic> json) =
+      _$ConnectResponseImpl.fromJson;
+
+  Host get host;
+
+  /// Create a copy of HostResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ConnectResponseImplCopyWith<_$ConnectResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -2025,12 +2771,19 @@ class __$$IDResponseImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$IDResponseImpl implements IDResponse {
-  const _$IDResponseImpl(this.id);
+  const _$IDResponseImpl(this.id, {final String? $type})
+      : $type = $type ?? 'id';
+
+  factory _$IDResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IDResponseImplFromJson(json);
 
   @override
   final String id;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -2045,6 +2798,7 @@ class _$IDResponseImpl implements IDResponse {
             (identical(other.id, id) || other.id == id));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
@@ -2059,8 +2813,9 @@ class _$IDResponseImpl implements IDResponse {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Host host) connect,
     required TResult Function(String id) id,
-    required TResult Function(List<SongMeta> queue) queue,
+    required TResult Function(List<(String, SongMeta)> queue) queue,
     required TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)
         playState,
@@ -2073,8 +2828,9 @@ class _$IDResponseImpl implements IDResponse {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Host host)? connect,
     TResult? Function(String id)? id,
-    TResult? Function(List<SongMeta> queue)? queue,
+    TResult? Function(List<(String, SongMeta)> queue)? queue,
     TResult? Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -2087,8 +2843,9 @@ class _$IDResponseImpl implements IDResponse {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Host host)? connect,
     TResult Function(String id)? id,
-    TResult Function(List<SongMeta> queue)? queue,
+    TResult Function(List<(String, SongMeta)> queue)? queue,
     TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -2105,6 +2862,7 @@ class _$IDResponseImpl implements IDResponse {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ConnectResponse value) connect,
     required TResult Function(IDResponse value) id,
     required TResult Function(QueueResponse value) queue,
     required TResult Function(PlayStateResponse value) playState,
@@ -2117,6 +2875,7 @@ class _$IDResponseImpl implements IDResponse {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectResponse value)? connect,
     TResult? Function(IDResponse value)? id,
     TResult? Function(QueueResponse value)? queue,
     TResult? Function(PlayStateResponse value)? playState,
@@ -2129,6 +2888,7 @@ class _$IDResponseImpl implements IDResponse {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectResponse value)? connect,
     TResult Function(IDResponse value)? id,
     TResult Function(QueueResponse value)? queue,
     TResult Function(PlayStateResponse value)? playState,
@@ -2141,10 +2901,20 @@ class _$IDResponseImpl implements IDResponse {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$IDResponseImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class IDResponse implements HostResponse {
   const factory IDResponse(final String id) = _$IDResponseImpl;
+
+  factory IDResponse.fromJson(Map<String, dynamic> json) =
+      _$IDResponseImpl.fromJson;
 
   String get id;
 
@@ -2161,7 +2931,7 @@ abstract class _$$QueueResponseImplCopyWith<$Res> {
           _$QueueResponseImpl value, $Res Function(_$QueueResponseImpl) then) =
       __$$QueueResponseImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<SongMeta> queue});
+  $Res call({List<(String, SongMeta)> queue});
 }
 
 /// @nodoc
@@ -2183,23 +2953,32 @@ class __$$QueueResponseImplCopyWithImpl<$Res>
       null == queue
           ? _value._queue
           : queue // ignore: cast_nullable_to_non_nullable
-              as List<SongMeta>,
+              as List<(String, SongMeta)>,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$QueueResponseImpl implements QueueResponse {
-  const _$QueueResponseImpl(final List<SongMeta> queue) : _queue = queue;
+  const _$QueueResponseImpl(final List<(String, SongMeta)> queue,
+      {final String? $type})
+      : _queue = queue,
+        $type = $type ?? 'queue';
 
-  final List<SongMeta> _queue;
+  factory _$QueueResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$QueueResponseImplFromJson(json);
+
+  final List<(String, SongMeta)> _queue;
   @override
-  List<SongMeta> get queue {
+  List<(String, SongMeta)> get queue {
     if (_queue is EqualUnmodifiableListView) return _queue;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_queue);
   }
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -2214,6 +2993,7 @@ class _$QueueResponseImpl implements QueueResponse {
             const DeepCollectionEquality().equals(other._queue, _queue));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_queue));
@@ -2229,8 +3009,9 @@ class _$QueueResponseImpl implements QueueResponse {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Host host) connect,
     required TResult Function(String id) id,
-    required TResult Function(List<SongMeta> queue) queue,
+    required TResult Function(List<(String, SongMeta)> queue) queue,
     required TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)
         playState,
@@ -2243,8 +3024,9 @@ class _$QueueResponseImpl implements QueueResponse {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Host host)? connect,
     TResult? Function(String id)? id,
-    TResult? Function(List<SongMeta> queue)? queue,
+    TResult? Function(List<(String, SongMeta)> queue)? queue,
     TResult? Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -2257,8 +3039,9 @@ class _$QueueResponseImpl implements QueueResponse {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Host host)? connect,
     TResult Function(String id)? id,
-    TResult Function(List<SongMeta> queue)? queue,
+    TResult Function(List<(String, SongMeta)> queue)? queue,
     TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -2275,6 +3058,7 @@ class _$QueueResponseImpl implements QueueResponse {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ConnectResponse value) connect,
     required TResult Function(IDResponse value) id,
     required TResult Function(QueueResponse value) queue,
     required TResult Function(PlayStateResponse value) playState,
@@ -2287,6 +3071,7 @@ class _$QueueResponseImpl implements QueueResponse {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectResponse value)? connect,
     TResult? Function(IDResponse value)? id,
     TResult? Function(QueueResponse value)? queue,
     TResult? Function(PlayStateResponse value)? playState,
@@ -2299,6 +3084,7 @@ class _$QueueResponseImpl implements QueueResponse {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectResponse value)? connect,
     TResult Function(IDResponse value)? id,
     TResult Function(QueueResponse value)? queue,
     TResult Function(PlayStateResponse value)? playState,
@@ -2311,12 +3097,23 @@ class _$QueueResponseImpl implements QueueResponse {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$QueueResponseImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class QueueResponse implements HostResponse {
-  const factory QueueResponse(final List<SongMeta> queue) = _$QueueResponseImpl;
+  const factory QueueResponse(final List<(String, SongMeta)> queue) =
+      _$QueueResponseImpl;
 
-  List<SongMeta> get queue;
+  factory QueueResponse.fromJson(Map<String, dynamic> json) =
+      _$QueueResponseImpl.fromJson;
+
+  List<(String, SongMeta)> get queue;
 
   /// Create a copy of HostResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -2382,10 +3179,14 @@ class __$$PlayStateResponseImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PlayStateResponseImpl implements PlayStateResponse {
-  const _$PlayStateResponseImpl(
-      this.currentSong, this.playState, this.playHead);
+  const _$PlayStateResponseImpl(this.currentSong, this.playState, this.playHead,
+      {final String? $type})
+      : $type = $type ?? 'playState';
+
+  factory _$PlayStateResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlayStateResponseImplFromJson(json);
 
   @override
   final SongMeta currentSong;
@@ -2393,6 +3194,9 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
   final MediaPlayState playState;
   @override
   final Duration playHead;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -2412,6 +3216,7 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
                 other.playHead == playHead));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, currentSong, playState, playHead);
@@ -2428,8 +3233,9 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Host host) connect,
     required TResult Function(String id) id,
-    required TResult Function(List<SongMeta> queue) queue,
+    required TResult Function(List<(String, SongMeta)> queue) queue,
     required TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)
         playState,
@@ -2442,8 +3248,9 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Host host)? connect,
     TResult? Function(String id)? id,
-    TResult? Function(List<SongMeta> queue)? queue,
+    TResult? Function(List<(String, SongMeta)> queue)? queue,
     TResult? Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -2456,8 +3263,9 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Host host)? connect,
     TResult Function(String id)? id,
-    TResult Function(List<SongMeta> queue)? queue,
+    TResult Function(List<(String, SongMeta)> queue)? queue,
     TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -2474,6 +3282,7 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ConnectResponse value) connect,
     required TResult Function(IDResponse value) id,
     required TResult Function(QueueResponse value) queue,
     required TResult Function(PlayStateResponse value) playState,
@@ -2486,6 +3295,7 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectResponse value)? connect,
     TResult? Function(IDResponse value)? id,
     TResult? Function(QueueResponse value)? queue,
     TResult? Function(PlayStateResponse value)? playState,
@@ -2498,6 +3308,7 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectResponse value)? connect,
     TResult Function(IDResponse value)? id,
     TResult Function(QueueResponse value)? queue,
     TResult Function(PlayStateResponse value)? playState,
@@ -2510,6 +3321,13 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PlayStateResponseImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class PlayStateResponse implements HostResponse {
@@ -2517,6 +3335,9 @@ abstract class PlayStateResponse implements HostResponse {
       final SongMeta currentSong,
       final MediaPlayState playState,
       final Duration playHead) = _$PlayStateResponseImpl;
+
+  factory PlayStateResponse.fromJson(Map<String, dynamic> json) =
+      _$PlayStateResponseImpl.fromJson;
 
   SongMeta get currentSong;
   MediaPlayState get playState;
@@ -2563,12 +3384,19 @@ class __$$ErrorResponseImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$ErrorResponseImpl implements ErrorResponse {
-  const _$ErrorResponseImpl(this.error);
+  const _$ErrorResponseImpl(this.error, {final String? $type})
+      : $type = $type ?? 'error';
+
+  factory _$ErrorResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ErrorResponseImplFromJson(json);
 
   @override
   final String error;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -2583,6 +3411,7 @@ class _$ErrorResponseImpl implements ErrorResponse {
             (identical(other.error, error) || other.error == error));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
@@ -2597,8 +3426,9 @@ class _$ErrorResponseImpl implements ErrorResponse {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Host host) connect,
     required TResult Function(String id) id,
-    required TResult Function(List<SongMeta> queue) queue,
+    required TResult Function(List<(String, SongMeta)> queue) queue,
     required TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)
         playState,
@@ -2611,8 +3441,9 @@ class _$ErrorResponseImpl implements ErrorResponse {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Host host)? connect,
     TResult? Function(String id)? id,
-    TResult? Function(List<SongMeta> queue)? queue,
+    TResult? Function(List<(String, SongMeta)> queue)? queue,
     TResult? Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -2625,8 +3456,9 @@ class _$ErrorResponseImpl implements ErrorResponse {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Host host)? connect,
     TResult Function(String id)? id,
-    TResult Function(List<SongMeta> queue)? queue,
+    TResult Function(List<(String, SongMeta)> queue)? queue,
     TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -2643,6 +3475,7 @@ class _$ErrorResponseImpl implements ErrorResponse {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ConnectResponse value) connect,
     required TResult Function(IDResponse value) id,
     required TResult Function(QueueResponse value) queue,
     required TResult Function(PlayStateResponse value) playState,
@@ -2655,6 +3488,7 @@ class _$ErrorResponseImpl implements ErrorResponse {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectResponse value)? connect,
     TResult? Function(IDResponse value)? id,
     TResult? Function(QueueResponse value)? queue,
     TResult? Function(PlayStateResponse value)? playState,
@@ -2667,6 +3501,7 @@ class _$ErrorResponseImpl implements ErrorResponse {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectResponse value)? connect,
     TResult Function(IDResponse value)? id,
     TResult Function(QueueResponse value)? queue,
     TResult Function(PlayStateResponse value)? playState,
@@ -2679,10 +3514,20 @@ class _$ErrorResponseImpl implements ErrorResponse {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ErrorResponseImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class ErrorResponse implements HostResponse {
   const factory ErrorResponse(final String error) = _$ErrorResponseImpl;
+
+  factory ErrorResponse.fromJson(Map<String, dynamic> json) =
+      _$ErrorResponseImpl.fromJson;
 
   String get error;
 
@@ -2713,9 +3558,15 @@ class __$$OkResponseImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$OkResponseImpl implements OkResponse {
-  const _$OkResponseImpl();
+  const _$OkResponseImpl({final String? $type}) : $type = $type ?? 'ok';
+
+  factory _$OkResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OkResponseImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -2728,14 +3579,16 @@ class _$OkResponseImpl implements OkResponse {
         (other.runtimeType == runtimeType && other is _$OkResponseImpl);
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Host host) connect,
     required TResult Function(String id) id,
-    required TResult Function(List<SongMeta> queue) queue,
+    required TResult Function(List<(String, SongMeta)> queue) queue,
     required TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)
         playState,
@@ -2748,8 +3601,9 @@ class _$OkResponseImpl implements OkResponse {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Host host)? connect,
     TResult? Function(String id)? id,
-    TResult? Function(List<SongMeta> queue)? queue,
+    TResult? Function(List<(String, SongMeta)> queue)? queue,
     TResult? Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -2762,8 +3616,9 @@ class _$OkResponseImpl implements OkResponse {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Host host)? connect,
     TResult Function(String id)? id,
-    TResult Function(List<SongMeta> queue)? queue,
+    TResult Function(List<(String, SongMeta)> queue)? queue,
     TResult Function(
             SongMeta currentSong, MediaPlayState playState, Duration playHead)?
         playState,
@@ -2780,6 +3635,7 @@ class _$OkResponseImpl implements OkResponse {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(ConnectResponse value) connect,
     required TResult Function(IDResponse value) id,
     required TResult Function(QueueResponse value) queue,
     required TResult Function(PlayStateResponse value) playState,
@@ -2792,6 +3648,7 @@ class _$OkResponseImpl implements OkResponse {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectResponse value)? connect,
     TResult? Function(IDResponse value)? id,
     TResult? Function(QueueResponse value)? queue,
     TResult? Function(PlayStateResponse value)? playState,
@@ -2804,6 +3661,7 @@ class _$OkResponseImpl implements OkResponse {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectResponse value)? connect,
     TResult Function(IDResponse value)? id,
     TResult Function(QueueResponse value)? queue,
     TResult Function(PlayStateResponse value)? playState,
@@ -2816,10 +3674,24 @@ class _$OkResponseImpl implements OkResponse {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$OkResponseImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class OkResponse implements HostResponse {
   const factory OkResponse() = _$OkResponseImpl;
+
+  factory OkResponse.fromJson(Map<String, dynamic> json) =
+      _$OkResponseImpl.fromJson;
+}
+
+PlayState _$PlayStateFromJson(Map<String, dynamic> json) {
+  return _PlayState.fromJson(json);
 }
 
 /// @nodoc
@@ -2827,7 +3699,10 @@ mixin _$PlayState {
   SongMeta get currentSong => throw _privateConstructorUsedError;
   MediaPlayState get playState => throw _privateConstructorUsedError;
   Duration get playHead => throw _privateConstructorUsedError;
-  List<SongMeta> get queue => throw _privateConstructorUsedError;
+  List<(String, SongMeta)> get queue => throw _privateConstructorUsedError;
+
+  /// Serializes this PlayState to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of PlayState
   /// with the given fields replaced by the non-null parameter values.
@@ -2845,7 +3720,7 @@ abstract class $PlayStateCopyWith<$Res> {
       {SongMeta currentSong,
       MediaPlayState playState,
       Duration playHead,
-      List<SongMeta> queue});
+      List<(String, SongMeta)> queue});
 
   $SongMetaCopyWith<$Res> get currentSong;
 }
@@ -2886,7 +3761,7 @@ class _$PlayStateCopyWithImpl<$Res, $Val extends PlayState>
       queue: null == queue
           ? _value.queue
           : queue // ignore: cast_nullable_to_non_nullable
-              as List<SongMeta>,
+              as List<(String, SongMeta)>,
     ) as $Val);
   }
 
@@ -2913,7 +3788,7 @@ abstract class _$$PlayStateImplCopyWith<$Res>
       {SongMeta currentSong,
       MediaPlayState playState,
       Duration playHead,
-      List<SongMeta> queue});
+      List<(String, SongMeta)> queue});
 
   @override
   $SongMetaCopyWith<$Res> get currentSong;
@@ -2953,20 +3828,23 @@ class __$$PlayStateImplCopyWithImpl<$Res>
       queue: null == queue
           ? _value._queue
           : queue // ignore: cast_nullable_to_non_nullable
-              as List<SongMeta>,
+              as List<(String, SongMeta)>,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PlayStateImpl implements _PlayState {
   const _$PlayStateImpl(
       {required this.currentSong,
       required this.playState,
       required this.playHead,
-      required final List<SongMeta> queue})
+      required final List<(String, SongMeta)> queue})
       : _queue = queue;
+
+  factory _$PlayStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlayStateImplFromJson(json);
 
   @override
   final SongMeta currentSong;
@@ -2974,9 +3852,9 @@ class _$PlayStateImpl implements _PlayState {
   final MediaPlayState playState;
   @override
   final Duration playHead;
-  final List<SongMeta> _queue;
+  final List<(String, SongMeta)> _queue;
   @override
-  List<SongMeta> get queue {
+  List<(String, SongMeta)> get queue {
     if (_queue is EqualUnmodifiableListView) return _queue;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_queue);
@@ -3001,6 +3879,7 @@ class _$PlayStateImpl implements _PlayState {
             const DeepCollectionEquality().equals(other._queue, _queue));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, currentSong, playState, playHead,
       const DeepCollectionEquality().hash(_queue));
@@ -3012,6 +3891,13 @@ class _$PlayStateImpl implements _PlayState {
   @pragma('vm:prefer-inline')
   _$$PlayStateImplCopyWith<_$PlayStateImpl> get copyWith =>
       __$$PlayStateImplCopyWithImpl<_$PlayStateImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PlayStateImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _PlayState implements PlayState {
@@ -3019,7 +3905,10 @@ abstract class _PlayState implements PlayState {
       {required final SongMeta currentSong,
       required final MediaPlayState playState,
       required final Duration playHead,
-      required final List<SongMeta> queue}) = _$PlayStateImpl;
+      required final List<(String, SongMeta)> queue}) = _$PlayStateImpl;
+
+  factory _PlayState.fromJson(Map<String, dynamic> json) =
+      _$PlayStateImpl.fromJson;
 
   @override
   SongMeta get currentSong;
@@ -3028,7 +3917,7 @@ abstract class _PlayState implements PlayState {
   @override
   Duration get playHead;
   @override
-  List<SongMeta> get queue;
+  List<(String, SongMeta)> get queue;
 
   /// Create a copy of PlayState
   /// with the given fields replaced by the non-null parameter values.
