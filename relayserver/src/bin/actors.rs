@@ -63,12 +63,18 @@ async fn host_ws(
                         }
                         Message::Close(_) => {
                             // todo!("teardown");
+                            let _ = host_to_device_tx.send(msg).await;
                             println!("TODO: teardown");
                             break
                         }
                         Message::Ping(bytes) => {
                             if session.pong(&bytes).await.is_err() {
-                                return;
+
+                                let _ =  host_to_device_tx.send(Message::Close(None)).await;
+                                let _ = session.close(None).await;
+                                println!("TODO: teardown");
+                                break;
+                                // return;
                             }
                         }
                         _ => {}
@@ -88,7 +94,7 @@ async fn host_ws(
                         Message::Close(reason) => {
                             // TODO: proper teardown
                             let _ = session.close(reason).await;
-                            return;
+                            break;
                         }
                         _ => {
                             println!("Received non-text message");
@@ -147,6 +153,7 @@ async fn join_ws(
                             let _ = device_to_host_tx.send(msg).await;
                         }
                         Message::Close(_) => {
+                            let _ = device_to_host_tx.send(msg).await;
                             // todo!("teardown");
                             println!("Received close message");
                             println!("TODO: teardown");
@@ -154,7 +161,10 @@ async fn join_ws(
                         }
                         Message::Ping(bytes) => {
                             if session.pong(&bytes).await.is_err() {
-                                return;
+                                let _ =  device_to_host_tx.send(Message::Close(None)).await;
+                                let _ = session.close(None).await;
+                                println!("TODO: teardown");
+                                break;
                             }
                         }
                         _ => {}
