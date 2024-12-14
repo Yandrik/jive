@@ -7,10 +7,18 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
-      body: Center(
-        child: Text("Home"),
+      appBar: AppBar(
+        title: Text("title"),
       ),
+      body: Center(
+          child: Container(
+        color: theme.colorScheme.surfaceContainer,
+        width: 100,
+        height: 100,
+        child: Text("Test"),
+      )),
     );
   }
 }

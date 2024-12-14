@@ -15,7 +15,7 @@ ThemeData darkTheme(Ref ref) {
     colorScheme: getColorScheme(ThemeMode.dark, flavor),
     textTheme: getTextTheme(ThemeMode.light, flavor),
     useMaterial3: true,
-  );
+  ).copyWith(scaffoldBackgroundColor: flavor.mantle);
 }
 
 @riverpod
@@ -39,7 +39,12 @@ ColorScheme getColorScheme(ThemeMode themeMode, Flavor flavor) {
     onSurface: flavor.text,
     primary: flavor.crust,
     secondary: flavor.mantle,
-    surface: flavor.surface0,
+    surface: flavor.base,
+    surfaceContainerLowest: flavor.base,
+    surfaceContainerLow: flavor.mantle,
+    surfaceContainer: flavor.surface0,
+    surfaceContainerHigh: flavor.surface1,
+    surfaceContainerHighest: flavor.surface2,
   );
 }
 
