@@ -1,0 +1,34 @@
+# RUST
+/target/
+/Cargo.lock
+*.rs.bk
+
+# Backup files
+*~ 
+*.bak
+
+# Logs
+*.log
+
+# Compiled binary files
+*.exe
+*.exe.stackdump
+*.dll
+*.so
+*.dylib
+
+# Cargo specific
+**/*.rlib
+**/*.rmeta
+/Cargo.toml.orig
+
+# IDE specific files
+/.idea/
+/.vscode/
+/*.code-workspace
+
+# MacOS specific files
+.DS_Store
+
+# Other
+/.env

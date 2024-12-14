@@ -110,6 +110,8 @@ async fn connect(
     let mut stream = stream
         .aggregate_continuations()
         .max_continuation_size(2_usize.pow(20));
+    
+    let session2 = session.clone();
 
     rt::spawn(async move {
         while let Some(msg) = stream.next().await {
@@ -119,7 +121,7 @@ async fn connect(
                     println!("{meow}");
                     let mut host_list = data.hosts.lock().unwrap();
 
-                    for host in host_list.iter() {}
+                    // for host in host_list.iter() {}
                 }
                 _ => {
                     println!("connect(): received msg is not text");
@@ -128,6 +130,45 @@ async fn connect(
         }
     });
 
+    Ok(res)
+}
+
+
+#[get("/host/{host_id}")]
+async fn host(
+    host_id: web::Path<String>,
+    data: web::Data<AppState>,
+    req: HttpRequest,
+    stream: web::Payload,
+) -> Result<HttpResponse, Error> {
+    println!("host() called");
+    println!("host_id: {:?}", host_id);
+    let (res, mut session, mut stream) = actix_ws::handle(&req, stream)?;
+
+    data.hosts.lock().unwrap().push(req.peer_addr());
+    //let mut stream = stream
+        // .aggregate_continuations()
+        // .max_continuation_size(2_usize.pow(20));
+
+    rt::spawn(async move {
+            while let Some(Ok(msg)) = stream.next().await {
+                match msg {
+                    actix_ws::Message::Ping(bytes) => {
+                        if session.pong(&bytes).await.is_err() {
+                            return;
+                        }
+                    }
+                    actix_ws::Message::Text(msg) => println!("Got text: {msg}"),
+                    _ => break,
+                }
+            }
+    
+            let _ = session.close(None).await;
+    
+    });
+    // let data = stream.next().await;
+    // println!("data: {data:?}");
+    // session.close(None).await.unwrap();
     Ok(res)
 }
 
@@ -144,6 +185,8 @@ async fn main() -> std::io::Result<()> {
                 .route("/test", web::get().to(test))
                 .route("/register", web::get().to(register))
                 .route("/connect", web::get().to(connect)),
+        ).service(
+            host
         )
     })
     .bind(("127.0.0.1", 8080))?
