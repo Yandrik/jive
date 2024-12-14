@@ -3,7 +3,6 @@ import 'package:anyhow/anyhow.dart';
 import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/comm/transport.dart';
 import 'package:jive_app/logger.dart';
-import 'package:logger/logger.dart';
 
 /// Controls the host side of the communication, managing multiple client connections
 /// and message broadcasting capabilities.
