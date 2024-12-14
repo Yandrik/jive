@@ -78,7 +78,7 @@ class HostController {
       logger.d("Received message from client ${client.id}: $rawMessage");
       var message = DeviceCommand.fromJson(jsonDecode(rawMessage));
       _handleMessage(client, message);
-    } catch (e, st) {
+    } catch (e) {
       logger.e("Error handling message from client ${client.id}: $e");
     }
   }

@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rust/rust.dart';
 
 part 'device_comm.freezed.dart';
 part 'device_comm.g.dart';
