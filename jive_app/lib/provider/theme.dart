@@ -1,7 +1,9 @@
 import 'package:catppuccin_flutter/catppuccin_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jive_app/constants/prefs.dart';
 import 'package:jive_app/constants/style.dart';
+import 'package:jive_app/provider/prefs.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'theme.g.dart';
@@ -57,4 +59,23 @@ ThemeData copyWithComponentThemes(ThemeData theme, ThemeMode themeMode, Flavor f
       foregroundColor: flavor.mantle,
     ),
   );
+}
+
+@riverpod
+class CurrentThemeMode extends _$CurrentThemeMode {
+  @override
+  ThemeMode build() {
+    final prefs = ref.watch(prefsProvider).requireValue;
+    final themeModeIndex = prefs.getInt(PrefsKeys.themeMode);
+    return ThemeMode.values.singleWhere(
+      (themeMode) => themeMode.index == themeModeIndex,
+      orElse: () => ThemeMode.system,
+    );
+  }
+
+  set(ThemeMode mode) {
+    final prefs = ref.read(prefsProvider).requireValue;
+    state = mode;
+    prefs.setInt(PrefsKeys.themeMode, mode.index);
+  }
 }

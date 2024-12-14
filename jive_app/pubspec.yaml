@@ -38,6 +38,7 @@ dependencies:
   auto_route: ^9.2.2
   auto_route_generator: ^9.0.0
   catppuccin_flutter: ^1.0.0
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +51,7 @@ dev_dependencies:
   custom_lint: ^0.7.0
   riverpod_lint: ^2.6.3
   riverpod_generator: ^2.6.3
+  shared_preferences_tools: ^1.1.0
 
 flutter:
 
