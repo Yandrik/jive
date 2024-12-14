@@ -11,21 +11,23 @@ part 'theme.g.dart';
 @riverpod
 ThemeData darkTheme(Ref ref) {
   final flavor = Style.catppuccinFlavor;
-  return ThemeData.from(
+  final theme = ThemeData.from(
     colorScheme: getColorScheme(ThemeMode.dark, flavor),
-    textTheme: getTextTheme(ThemeMode.light, flavor),
+    textTheme: getTextTheme(ThemeMode.dark, flavor),
     useMaterial3: true,
   ).copyWith(scaffoldBackgroundColor: flavor.mantle);
+  return copyWithComponentThemes(theme, ThemeMode.dark, flavor);
 }
 
 @riverpod
 ThemeData lightTheme(Ref ref) {
   final flavor = Style.catppuccinFlavor;
-  return ThemeData.from(
+  final theme = ThemeData.from(
     colorScheme: getColorScheme(ThemeMode.light, flavor),
     textTheme: getTextTheme(ThemeMode.light, flavor),
     useMaterial3: true,
   );
+  return copyWithComponentThemes(theme, ThemeMode.light, flavor);
 }
 
 ColorScheme getColorScheme(ThemeMode themeMode, Flavor flavor) {
@@ -58,10 +60,13 @@ TextTheme getTextTheme(ThemeMode themeMode, Flavor flavor) {
 ThemeData copyWithComponentThemes(ThemeData theme, ThemeMode themeMode, Flavor flavor) {
   return theme.copyWith(
     appBarTheme: AppBarTheme(
+      backgroundColor: flavor.mantle,
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      dragHandleColor: Colors.white,
+      dragHandleSize: Size(60, 4),
       elevation: 0,
-      titleTextStyle: TextStyle(color: flavor.text, fontSize: 20, fontWeight: FontWeight.bold),
-      backgroundColor: flavor.crust,
-      foregroundColor: flavor.mantle,
+      showDragHandle: true,
     ),
   );
 }

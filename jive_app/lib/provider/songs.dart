@@ -10,6 +10,15 @@ class SongQueue extends _$SongQueue {
   List<(Client?, SongMeta)> build() {
     return songMocks;
   }
+
+  void moveSong(int oldIndex, int newIndex) {
+    if (oldIndex > newIndex) {
+      state.insert(newIndex, state.removeAt(oldIndex));
+    } else {
+      state.insert(newIndex - 1, state.removeAt(oldIndex));
+    }
+    state = List.from(state);
+  }
 }
 
 final currentSongProvider = Provider<(Client?, SongMeta)?>((ref) {
