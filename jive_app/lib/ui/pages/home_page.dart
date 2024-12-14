@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jive_app/constants/env.dart';
+import 'package:jive_app/provider/router.gr.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
 @RoutePage()
@@ -12,7 +13,14 @@ class HomePage extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("title"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.navigateTo(SettingsRoute());
+            },
+            icon: Icon(Icons.settings),
+          ),
+        ],
       ),
       body: Center(
           child: Column(
