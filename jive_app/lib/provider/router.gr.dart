@@ -9,7 +9,6 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i3;
-import 'package:jive_app/platforms/KotlinPlatform.dart';
 import 'package:jive_app/ui/pages/home_page.dart' as _i1;
 import 'package:jive_app/ui/pages/settings_page.dart' as _i2;
 
