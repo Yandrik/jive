@@ -1,0 +1,177 @@
+use actix::prelude::*;
+use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer};
+use actix_ws::{Message, MessageStream, Session};
+use futures::future::LocalBoxFuture;
+use futures_util::StreamExt;
+use std::collections::HashMap;
+use std::sync::Mutex;
+use tokio::sync::mpsc::{self, Receiver, Sender};
+use tokio_bichannel::Channel;
+
+struct AppState {
+    /// The list of connected hosts.
+    ///
+    /// ## Parameters
+    /// HostID -> (HostChannel, ClientChannel)
+    connections: Mutex<HashMap<String, (Channel<Message, Message>, Channel<Message, Message>)>>,
+}
+
+struct ProxyConnection {
+    host_sess: Session,
+    client_sess: Option<Session>,
+    host_stream: MessageStream,
+    client_stream: Option<MessageStream>,
+}
+
+impl Actor for ProxyConnection {
+    type Context = actix::Context<Self>;
+}
+
+impl Handler<ClientConnected> for ProxyConnection {
+    type Result = ();
+
+    fn handle(&mut self, msg: ClientConnected, ctx: &mut Self::Context) {
+        self.client_sess = Some(msg.client_sess);
+        self.client_stream = Some(msg.client_stream);
+    }
+}
+
+impl Handler<Teardown> for ProxyConnection {
+    type Result = ResponseActFuture<Self, Result<(), ()>>;
+
+    fn handle(&mut self, _msg: Teardown, _ctx: &mut Self::Context) -> Self::Result {
+        let fut = async move {
+            if let Some(client_sess) = self.client_sess.take() {
+                client_sess.close(None).await;
+            }
+            self.host_sess.close(None).await;
+            Ok(())
+        }
+        .into_actor(self);
+
+        Box::pin(fut)
+    }
+}
+#[derive(Message)]
+#[rtype(result = "()")]
+struct ClientConnected {
+    client_sess: Session,
+    client_stream: MessageStream,
+}
+
+#[derive(Message)]
+#[rtype(result = "ResponseActFuture<Self, Result<(), ()>>")]
+struct Teardown;
+
+
+
+
+async fn host_ws(
+    req: HttpRequest,
+    stream: web::Payload,
+    host_id: web::Path<String>,
+    data: web::Data<AppState>,
+) -> Result<HttpResponse, Error> {
+    let host_id = host_id.into_inner();
+
+    if data.connections.lock().unwrap().contains_key(&host_id) {
+        return Ok(HttpResponse::Conflict().finish());
+    }
+
+    let (response, mut session, mut msg_stream) = actix_ws::handle(&req, stream)?;
+
+    let (host_chan, client_chan) = tokio_bichannel::channel(100);
+
+    {
+        let mut connections = data.connections.lock().unwrap();
+        connections.insert(host_id.clone(), (host_chan, client_chan));
+    }
+
+    actix_web::rt::spawn(async move {
+        while let Some(Ok(msg)) = msg_stream.next().await {
+            match msg {
+                Message::Text(text) => {
+                    // let _ = session.text(text).await;
+                    if let Some((host_chan, client_chan)) =
+                        data.connections.lock().unwrap().get_mut(&host_id)
+                    {
+                        // if let Message::Text(text) = msg {
+                            // let _ = host_chan.send(Message::Text(text)).await;
+                        // } else {
+                        //    println!("Received non-text message");
+                        // }
+                        while let Ok(msg) = client_chan.try_recv() {
+                            if let Message::Text(text) = msg {
+                                let _ = session.text(text).await;
+                            } else {
+                                println!("Received non-text message");
+                            }
+                        }
+                    }
+                }
+                Message::Close(_) => break,
+                _ => {}
+            }
+        }
+
+        println!("Host disconnected");
+
+        let mut connections = data.connections.lock().unwrap();
+        connections.remove(&host_id);
+    });
+
+    Ok(response)
+}
+
+async fn join_ws(
+    req: HttpRequest,
+    stream: web::Payload,
+    host_id: web::Path<String>,
+    data: web::Data<AppState>,
+) -> Result<HttpResponse, Error> {
+    let host_id = host_id.into_inner();
+
+    if !data.connections.lock().unwrap().contains_key(&host_id) {
+        return Ok(HttpResponse::NotFound().finish());
+    }
+
+    let (response, mut session, mut msg_stream) = actix_ws::handle(&req, stream)?;
+
+    actix_web::rt::spawn(async move {
+        while let Some(Ok(msg)) = msg_stream.next().await {
+            if let Message::Text(text) = msg {
+                if let Some((host_chan, client_chan)) =
+                    data.connections.lock().unwrap().get_mut(&host_id)
+                {
+                    let _ = host_chan.send(Message::Text(text)).await;
+                    while let Ok(msg) = client_chan.try_recv() {
+                        if let Message::Text(text) = msg {
+                            let _ = session.text(text).await;
+                        } else {
+                            println!("Received non-text message");
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    Ok(response)
+}
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    let app_state = web::Data::new(AppState {
+        connections: Mutex::new(HashMap::new()),
+    });
+
+    HttpServer::new(move || {
+        App::new()
+            .app_data(app_state.clone())
+            .route("/host/{host_id}", web::get().to(host_ws))
+            .route("/join/{host_id}", web::get().to(join_ws))
+    })
+    .bind("127.0.0.1:8080")?
+    .run()
+    .await
+}
