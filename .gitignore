@@ -1,2 +1,4 @@
 .idea/*
 ./relayserver/target/*
+.aider*
+.env

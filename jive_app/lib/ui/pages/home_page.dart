@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jive_app/constants/env.dart';
 import 'package:jive_app/provider/router.gr.dart';
 import 'package:jive_app/ui/pages/widgets/song_queue.dart';
+import 'package:jive_app/ui/widgets/player.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
 @RoutePage()
@@ -26,6 +27,7 @@ class HomePage extends StatelessWidget {
       body: Center(
           child: Column(
         children: [
+          Player(),
           FilledButton(
             child: Text("Spotify Remote"),
             onPressed: () async {
@@ -46,7 +48,8 @@ class HomePage extends StatelessWidget {
           FilledButton(
             child: Text("Play"),
             onPressed: () async {
-              await SpotifySdk.play(spotifyUri: "spotify:track:3nwwzrNmmcTt5nSa5xx2S9");
+              await SpotifySdk.play(
+                  spotifyUri: "spotify:track:3nwwzrNmmcTt5nSa5xx2S9");
             },
           ),
           SizedBox(height: 22),
