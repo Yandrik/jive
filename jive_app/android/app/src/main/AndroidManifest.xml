@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
     <application
-        android:label="jive_app"
+        android:label="jive"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
