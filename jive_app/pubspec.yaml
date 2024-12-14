@@ -40,6 +40,8 @@ dependencies:
   catppuccin_flutter: ^1.0.0
   shared_preferences: ^2.3.3
   web_socket_channel: ^3.0.1
+  auto_route: ^9.2.2
+  auto_route_generator: ^9.0.0
 
 dev_dependencies:
   flutter_test:
