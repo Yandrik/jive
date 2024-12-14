@@ -19,6 +19,11 @@ class SongQueue extends _$SongQueue {
     }
     state = List.from(state);
   }
+
+  void removeFromQueue(int index) {
+    state.removeAt(index);
+    state = List.from(state);
+  }
 }
 
 final currentSongProvider = Provider<(Client?, SongMeta)?>((ref) {

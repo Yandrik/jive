@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
             },
           ),
           SizedBox(height: 22),
-          SongQueue(),
+          Expanded(child: SongQueue()),
         ],
       )),
     );
