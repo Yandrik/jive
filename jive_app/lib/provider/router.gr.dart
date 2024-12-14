@@ -46,7 +46,7 @@ class SettingsRoute extends _i3.PageRouteInfo<void> {
   static _i3.PageInfo page = _i3.PageInfo(
     name,
     builder: (data) {
-      return _i2.SettingsPage(kotlinPlatform: KotlinPlatform());
+      return _i2.SettingsPage();
     },
   );
 }

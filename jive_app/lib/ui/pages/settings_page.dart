@@ -4,8 +4,9 @@ import 'package:jive_app/platforms/KotlinPlatform.dart';
 
 @RoutePage()
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key, required this.kotlinPlatform});
-  final KotlinPlatform kotlinPlatform;
+  const SettingsPage({super.key});
+
+  //final KotlinPlatform kotlinPlatform = KotlinPlatform();
 
   @override
   Widget build(BuildContext context) {

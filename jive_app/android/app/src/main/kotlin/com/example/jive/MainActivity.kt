@@ -10,13 +10,12 @@ class MainActivity : FlutterActivity() {
 
     @ExperimentalStdlibApi
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
             .setMethodCallHandler { call, _ ->
-                when {
-                    call.method.equals("playExample") -> {
-                        val mediaPlayer = MediaPlayer.create(this@MainActivity, R.raw.song)
-                        mediaPlayer.start()
-                    }
+                if (call.method == "playExample") {
+                    val mediaPlayer = MediaPlayer.create(this@MainActivity, R.raw.song)
+                    mediaPlayer.start()
                 }
             }
     }
