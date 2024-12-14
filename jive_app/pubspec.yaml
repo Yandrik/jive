@@ -35,6 +35,8 @@ dependencies:
   json_annotation: ^4.9.0
   flutter_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
+  auto_route: ^9.2.2
+  auto_route_generator: ^9.0.0
 
 dev_dependencies:
   flutter_test:
