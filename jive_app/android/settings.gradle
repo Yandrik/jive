@@ -23,6 +23,3 @@ plugins {
 }
 
 include ":app"
-include ':deps'
-
-project(':deps').projectDir = new File(rootProject.projectDir, 'deps')
