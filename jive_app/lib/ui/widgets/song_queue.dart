@@ -65,7 +65,7 @@ class SongQueue extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Icons.more_vert),
                     onPressed: () {
-                      _showMoreSelection(context);
+                      _showMoreSelection(index, context, ref);
                     },
                   ),
                 ],
@@ -96,7 +96,7 @@ class SongQueue extends ConsumerWidget {
     );
   }
 
-  void _showMoreSelection(BuildContext context) {
+  void _showMoreSelection(int index, BuildContext context, WidgetRef ref) {
     showModalBottomSheet(
       showDragHandle: true,
       context: context,
@@ -111,7 +111,10 @@ class SongQueue extends ConsumerWidget {
                 ListTile(
                   leading: const Icon(Icons.delete),
                   title: const Text('Delete'),
-                  onTap: () {},
+                  onTap: () {
+                    ref.read(songQueueProvider.notifier).removeFromQueue(index);
+                    Navigator.of(context).pop();
+                  },
                 ),
               ],
             ),
