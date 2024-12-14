@@ -1,16 +1,23 @@
 package com.github.jive_app
 
-import android.os.Bundle
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class MainActivity : AppCompatActivity() {
+    private lateinit var mediaPlayer: MediaPlayer
+
+    override fun onStart() {
+        super.onStart()
+
+        mediaPlayer = MediaPlayer.create(this@MainActivity, R.raw.song)
+        mediaPlayer.start()
     }
 
-
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::mediaPlayer.isInitialized) {
+            mediaPlayer.release()
+        }
     }
 }
