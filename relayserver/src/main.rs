@@ -2,15 +2,15 @@ use actix::*;
 use actix_web::*;
 use actix_ws::*;
 use futures_util::StreamExt as _;
-use std::sync::Mutex;
+use std::{sync::Mutex, time::Duration};
 
 struct HostDevice {
-    name: String,
+    host_id: String,
     client_addrs: Vec<Addr<ClientDevice>>,
 }
 
 struct ClientDevice {
-    name: String,
+    client_id: String,
     host_addr: Option<Addr<HostDevice>>,
 }
 
@@ -32,7 +32,7 @@ async fn test() -> impl Responder {
     "this is a triumph"
 }
 
-// register an actor (device) + create context
+// register an actor (device) + save addr in AppState
 async fn register(
     data: web::Data<AppState>,
     req: HttpRequest,
@@ -50,30 +50,38 @@ async fn register(
             match msg {
                 Ok(AggregatedMessage::Text(text)) => {
                     let meow = text.parse::<String>().unwrap();
-                    println!("parsed text: {}", meow.as_str());
+                    let meow: String = meow.chars().filter(|c| !c.is_whitespace()).collect();
+                    println!("parsed text: {:?}", meow);
                     match meow.as_str() {
                         "host" => {
+                            println!("registering host...");
                             let ctx = Context::<HostDevice>::new();
                             let actor = HostDevice {
-                                name: "meow".to_string(),
+                                host_id: "meow".to_string(),
                                 client_addrs: vec![],
                             };
                             let addr = ctx.run(actor);
-                            println!("registered {addr:?}");
+                            println!("registered host {addr:?}");
 
                             let mut host_list = data.hosts.lock().unwrap();
                             host_list.push(addr);
+
+                            println!("new host list: {host_list:?}");
                         }
                         "client" => {
+                            println!("registering client...");
                             let ctx = Context::<ClientDevice>::new();
                             let actor = ClientDevice {
-                                name: "mrrp".to_string(),
+                                client_id: "mrrp".to_string(),
                                 host_addr: None,
                             };
                             let addr = ctx.run(actor);
+                            println!("registered client {addr:?}");
 
                             let mut client_list = data.clients.lock().unwrap();
                             client_list.push(addr);
+
+                            println!("new client list: {client_list:?}");
                         }
                         _ => {
                             println!("register(): parsed string does not match");
@@ -110,6 +118,8 @@ async fn connect(
                     let meow = text.parse::<String>().unwrap();
                     println!("{meow}");
                     let mut host_list = data.hosts.lock().unwrap();
+
+                    for host in host_list.iter() {}
                 }
                 _ => {
                     println!("connect(): received msg is not text");
@@ -128,8 +138,6 @@ async fn main() -> std::io::Result<()> {
         clients: Mutex::new(vec![]),
     });
 
-    meow();
-
     HttpServer::new(move || {
         App::new().app_data(data.clone()).service(
             web::scope("/api")
@@ -142,5 +150,3 @@ async fn main() -> std::io::Result<()> {
     .run()
     .await
 }
-
-fn meow() {}
