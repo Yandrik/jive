@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/provider/songs.dart';
+import 'package:jive_app/ui/widgets/custom_network_image.dart';
 import 'package:rust/rust.dart';
 
 class SongQueue extends ConsumerWidget {
@@ -25,8 +26,11 @@ class SongQueue extends ConsumerWidget {
               contentPadding: EdgeInsets.only(left: 16, right: 6),
               key: ValueKey(song.id),
               leading: song.albumArtUrl != null
-                  ? Image.network('https://placehold.co/50x50.png')
-                  : const Icon(Icons.music_note),
+                  ? CustomNetworkImage(
+                      imageUrl: "https://placehold.co/50x50.png",
+                      size: Size(50, 50),
+                    )
+                  : null,
               title: Text(song.title),
               subtitle: Row(
                 children: [
