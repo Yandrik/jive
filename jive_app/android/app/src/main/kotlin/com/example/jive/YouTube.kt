@@ -1,4 +1,4 @@
-package com.github.jive_app
+package com.example.jive
 
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity

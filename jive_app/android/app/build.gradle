@@ -10,7 +10,7 @@ dependencies {
 }
 
 android {
-    namespace = "com.github.jive_app"
+    namespace = "com.example.jive"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
