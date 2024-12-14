@@ -2,7 +2,7 @@ import 'package:jive_app/comm/device_comm.dart';
 
 final List<(Client?, SongMeta)> songMocks = [
   (
-    null,
+    Client(id: "123", name: "Lars"),
     SongMeta(
       title: "Bohemian Rhapsody",
       artist: "Queen",

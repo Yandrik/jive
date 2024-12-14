@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/provider/songs.dart';
+import 'package:rust/rust.dart';
 
 class SongQueue extends ConsumerWidget {
   const SongQueue({super.key});
@@ -45,6 +46,22 @@ class SongQueue extends ConsumerWidget {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Container(
+                    width: 22,
+                    height: 22,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _getColorFromHash(songs[index].$1.toString()),
+                    ),
+                    child: songs[index].$1 != null
+                        ? Center(
+                            child: Text(
+                              songs[index].$1!.name.chars().elementAt(0),
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          )
+                        : null,
+                  ),
                   IconButton(
                     icon: const Icon(Icons.more_vert),
                     onPressed: () {
@@ -101,6 +118,16 @@ class SongQueue extends ConsumerWidget {
           ),
         );
       },
+    );
+  }
+
+  Color _getColorFromHash(String input) {
+    final hash = input.hashCode;
+    return Color.fromARGB(
+      255,
+      (hash & 0xFF0000) >> 16,
+      (hash & 0x00FF00) >> 8,
+      hash & 0x0000FF,
     );
   }
 }
