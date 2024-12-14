@@ -47,6 +47,7 @@ ColorScheme getColorScheme(ThemeMode themeMode, Flavor flavor) {
     surfaceContainer: flavor.surface0,
     surfaceContainerHigh: flavor.surface1,
     surfaceContainerHighest: flavor.surface2,
+    outline: flavor.subtext0,
   );
 }
 
@@ -69,6 +70,12 @@ ThemeData copyWithComponentThemes(ThemeData theme, ThemeMode themeMode, Flavor f
       showDragHandle: true,
     ),
     sliderTheme: SliderThemeData(thumbColor: Colors.white),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: Colors.white,
+      selectionColor: flavor.blue.withAlpha(200),
+      selectionHandleColor: flavor.blue.withAlpha(200),
+    ),
+    iconTheme: IconThemeData(color: Colors.white),
   );
 }
 
