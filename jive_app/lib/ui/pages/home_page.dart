@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jive_app/constants/env.dart';
 import 'package:jive_app/provider/router.gr.dart';
+import 'package:jive_app/ui/pages/widgets/song_queue.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
 @RoutePage()
@@ -48,6 +49,8 @@ class HomePage extends StatelessWidget {
               await SpotifySdk.play(spotifyUri: "spotify:track:3nwwzrNmmcTt5nSa5xx2S9");
             },
           ),
+          SizedBox(height: 22),
+          SongQueue(),
         ],
       )),
     );
