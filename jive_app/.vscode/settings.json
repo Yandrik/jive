@@ -1,0 +1,11 @@
+{
+    // I think its more readable to have a line length larger than 80 chars
+    // https://github.com/dart-lang/dart_style/issues/833
+    "dart.lineLength": 100,
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.rulers": [
+            100
+        ]
+    }
+}
