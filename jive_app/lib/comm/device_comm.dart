@@ -71,7 +71,7 @@ sealed class SongMeta with _$SongMeta {
     required String album,
     required String? albumArtUrl,
     required Duration duration,
-    required bool isPlaying,
+    required SongReference reference,
   }) = _SongMeta;
 
   factory SongMeta.fromJson(Map<String, dynamic> json) =>
@@ -107,7 +107,13 @@ sealed class PlayState with _$PlayState {
     required SongMeta currentSong,
     required MediaPlayState playState,
     required Duration playHead,
-    required List<(String, SongMeta)> queue,
+
+    /// Queue of songs that will be played next (not including the currentSong)
+    ///
+    /// ## Format
+    ///
+    /// List<(Client or noClient if added by host, SongMeta)>
+    required List<(Client?, SongMeta)> queue,
   }) = _PlayState;
 
   factory PlayState.fromJson(Map<String, dynamic> json) =>

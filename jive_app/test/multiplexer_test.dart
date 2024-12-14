@@ -65,7 +65,7 @@ void main() {
           album: 'Test Album',
           albumArtUrl: null,
           duration: Duration(minutes: 3),
-          isPlaying: true,
+          reference: SongReference.spotify('ab123cd234de345'),
         ),
         MediaPlayState.playing,
         Duration(seconds: 30),

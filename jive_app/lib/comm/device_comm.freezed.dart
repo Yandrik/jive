@@ -2155,7 +2155,7 @@ mixin _$SongMeta {
   String get album => throw _privateConstructorUsedError;
   String? get albumArtUrl => throw _privateConstructorUsedError;
   Duration get duration => throw _privateConstructorUsedError;
-  bool get isPlaying => throw _privateConstructorUsedError;
+  SongReference get reference => throw _privateConstructorUsedError;
 
   /// Serializes this SongMeta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2179,7 +2179,9 @@ abstract class $SongMetaCopyWith<$Res> {
       String album,
       String? albumArtUrl,
       Duration duration,
-      bool isPlaying});
+      SongReference reference});
+
+  $SongReferenceCopyWith<$Res> get reference;
 }
 
 /// @nodoc
@@ -2203,7 +2205,7 @@ class _$SongMetaCopyWithImpl<$Res, $Val extends SongMeta>
     Object? album = null,
     Object? albumArtUrl = freezed,
     Object? duration = null,
-    Object? isPlaying = null,
+    Object? reference = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -2230,11 +2232,21 @@ class _$SongMetaCopyWithImpl<$Res, $Val extends SongMeta>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as Duration,
-      isPlaying: null == isPlaying
-          ? _value.isPlaying
-          : isPlaying // ignore: cast_nullable_to_non_nullable
-              as bool,
+      reference: null == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as SongReference,
     ) as $Val);
+  }
+
+  /// Create a copy of SongMeta
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SongReferenceCopyWith<$Res> get reference {
+    return $SongReferenceCopyWith<$Res>(_value.reference, (value) {
+      return _then(_value.copyWith(reference: value) as $Val);
+    });
   }
 }
 
@@ -2253,7 +2265,10 @@ abstract class _$$SongMetaImplCopyWith<$Res>
       String album,
       String? albumArtUrl,
       Duration duration,
-      bool isPlaying});
+      SongReference reference});
+
+  @override
+  $SongReferenceCopyWith<$Res> get reference;
 }
 
 /// @nodoc
@@ -2275,7 +2290,7 @@ class __$$SongMetaImplCopyWithImpl<$Res>
     Object? album = null,
     Object? albumArtUrl = freezed,
     Object? duration = null,
-    Object? isPlaying = null,
+    Object? reference = null,
   }) {
     return _then(_$SongMetaImpl(
       id: null == id
@@ -2302,10 +2317,10 @@ class __$$SongMetaImplCopyWithImpl<$Res>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as Duration,
-      isPlaying: null == isPlaying
-          ? _value.isPlaying
-          : isPlaying // ignore: cast_nullable_to_non_nullable
-              as bool,
+      reference: null == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as SongReference,
     ));
   }
 }
@@ -2320,7 +2335,7 @@ class _$SongMetaImpl implements _SongMeta {
       required this.album,
       required this.albumArtUrl,
       required this.duration,
-      required this.isPlaying});
+      required this.reference});
 
   factory _$SongMetaImpl.fromJson(Map<String, dynamic> json) =>
       _$$SongMetaImplFromJson(json);
@@ -2338,11 +2353,11 @@ class _$SongMetaImpl implements _SongMeta {
   @override
   final Duration duration;
   @override
-  final bool isPlaying;
+  final SongReference reference;
 
   @override
   String toString() {
-    return 'SongMeta(id: $id, title: $title, artist: $artist, album: $album, albumArtUrl: $albumArtUrl, duration: $duration, isPlaying: $isPlaying)';
+    return 'SongMeta(id: $id, title: $title, artist: $artist, album: $album, albumArtUrl: $albumArtUrl, duration: $duration, reference: $reference)';
   }
 
   @override
@@ -2358,14 +2373,14 @@ class _$SongMetaImpl implements _SongMeta {
                 other.albumArtUrl == albumArtUrl) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
-            (identical(other.isPlaying, isPlaying) ||
-                other.isPlaying == isPlaying));
+            (identical(other.reference, reference) ||
+                other.reference == reference));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, title, artist, album, albumArtUrl, duration, isPlaying);
+      runtimeType, id, title, artist, album, albumArtUrl, duration, reference);
 
   /// Create a copy of SongMeta
   /// with the given fields replaced by the non-null parameter values.
@@ -2391,7 +2406,7 @@ abstract class _SongMeta implements SongMeta {
       required final String album,
       required final String? albumArtUrl,
       required final Duration duration,
-      required final bool isPlaying}) = _$SongMetaImpl;
+      required final SongReference reference}) = _$SongMetaImpl;
 
   factory _SongMeta.fromJson(Map<String, dynamic> json) =
       _$SongMetaImpl.fromJson;
@@ -2409,7 +2424,7 @@ abstract class _SongMeta implements SongMeta {
   @override
   Duration get duration;
   @override
-  bool get isPlaying;
+  SongReference get reference;
 
   /// Create a copy of SongMeta
   /// with the given fields replaced by the non-null parameter values.
@@ -3699,7 +3714,13 @@ mixin _$PlayState {
   SongMeta get currentSong => throw _privateConstructorUsedError;
   MediaPlayState get playState => throw _privateConstructorUsedError;
   Duration get playHead => throw _privateConstructorUsedError;
-  List<(String, SongMeta)> get queue => throw _privateConstructorUsedError;
+
+  /// Queue of songs that will be played next (not including the currentSong)
+  ///
+  /// ## Format
+  ///
+  /// List<(Client or noClient if added by host, SongMeta)>
+  List<(Client?, SongMeta)> get queue => throw _privateConstructorUsedError;
 
   /// Serializes this PlayState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -3720,7 +3741,7 @@ abstract class $PlayStateCopyWith<$Res> {
       {SongMeta currentSong,
       MediaPlayState playState,
       Duration playHead,
-      List<(String, SongMeta)> queue});
+      List<(Client?, SongMeta)> queue});
 
   $SongMetaCopyWith<$Res> get currentSong;
 }
@@ -3761,7 +3782,7 @@ class _$PlayStateCopyWithImpl<$Res, $Val extends PlayState>
       queue: null == queue
           ? _value.queue
           : queue // ignore: cast_nullable_to_non_nullable
-              as List<(String, SongMeta)>,
+              as List<(Client?, SongMeta)>,
     ) as $Val);
   }
 
@@ -3788,7 +3809,7 @@ abstract class _$$PlayStateImplCopyWith<$Res>
       {SongMeta currentSong,
       MediaPlayState playState,
       Duration playHead,
-      List<(String, SongMeta)> queue});
+      List<(Client?, SongMeta)> queue});
 
   @override
   $SongMetaCopyWith<$Res> get currentSong;
@@ -3828,7 +3849,7 @@ class __$$PlayStateImplCopyWithImpl<$Res>
       queue: null == queue
           ? _value._queue
           : queue // ignore: cast_nullable_to_non_nullable
-              as List<(String, SongMeta)>,
+              as List<(Client?, SongMeta)>,
     ));
   }
 }
@@ -3840,7 +3861,7 @@ class _$PlayStateImpl implements _PlayState {
       {required this.currentSong,
       required this.playState,
       required this.playHead,
-      required final List<(String, SongMeta)> queue})
+      required final List<(Client?, SongMeta)> queue})
       : _queue = queue;
 
   factory _$PlayStateImpl.fromJson(Map<String, dynamic> json) =>
@@ -3852,9 +3873,21 @@ class _$PlayStateImpl implements _PlayState {
   final MediaPlayState playState;
   @override
   final Duration playHead;
-  final List<(String, SongMeta)> _queue;
+
+  /// Queue of songs that will be played next (not including the currentSong)
+  ///
+  /// ## Format
+  ///
+  /// List<(Client or noClient if added by host, SongMeta)>
+  final List<(Client?, SongMeta)> _queue;
+
+  /// Queue of songs that will be played next (not including the currentSong)
+  ///
+  /// ## Format
+  ///
+  /// List<(Client or noClient if added by host, SongMeta)>
   @override
-  List<(String, SongMeta)> get queue {
+  List<(Client?, SongMeta)> get queue {
     if (_queue is EqualUnmodifiableListView) return _queue;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_queue);
@@ -3905,7 +3938,7 @@ abstract class _PlayState implements PlayState {
       {required final SongMeta currentSong,
       required final MediaPlayState playState,
       required final Duration playHead,
-      required final List<(String, SongMeta)> queue}) = _$PlayStateImpl;
+      required final List<(Client?, SongMeta)> queue}) = _$PlayStateImpl;
 
   factory _PlayState.fromJson(Map<String, dynamic> json) =
       _$PlayStateImpl.fromJson;
@@ -3916,8 +3949,14 @@ abstract class _PlayState implements PlayState {
   MediaPlayState get playState;
   @override
   Duration get playHead;
+
+  /// Queue of songs that will be played next (not including the currentSong)
+  ///
+  /// ## Format
+  ///
+  /// List<(Client or noClient if added by host, SongMeta)>
   @override
-  List<(String, SongMeta)> get queue;
+  List<(Client?, SongMeta)> get queue;
 
   /// Create a copy of PlayState
   /// with the given fields replaced by the non-null parameter values.
