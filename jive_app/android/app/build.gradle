@@ -1,12 +1,17 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+dependencies {
+    implementation project(':deps')
+    implementation "com.google.code.gson:gson:2.11.0"
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+}
+
 android {
-    namespace = "com.example.jive_app"
+    namespace = "com.github.jive_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +26,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.jive_app"
+        applicationId = "com.github.jive_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
