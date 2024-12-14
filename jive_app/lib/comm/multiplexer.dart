@@ -3,7 +3,6 @@ import 'package:anyhow/anyhow.dart';
 import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/comm/transport.dart';
 import 'package:jive_app/logger.dart';
-import 'package:logger/logger.dart';
 
 /// Controls the host side of the communication, managing multiple client connections
 /// and message broadcasting capabilities.
@@ -78,7 +77,7 @@ class HostController {
       logger.d("Received message from client ${client.id}: $rawMessage");
       var message = DeviceCommand.fromJson(jsonDecode(rawMessage));
       _handleMessage(client, message);
-    } catch (e, st) {
+    } catch (e) {
       logger.e("Error handling message from client ${client.id}: $e");
     }
   }

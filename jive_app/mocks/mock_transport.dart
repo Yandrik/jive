@@ -18,8 +18,9 @@ class MockTransport implements Transport {
 
   @override
   Future<Result<void>> disconnect() async {
-    if (!_connected)
+    if (!_connected) {
       print("WARN: MockTransport.disconnect() without being connected first");
+    }
     _connected = false;
     return Ok(null);
   }

@@ -1,5 +1,4 @@
 import 'package:jive_app/logger.dart';
-import 'package:logger/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:anyhow/anyhow.dart';
 
