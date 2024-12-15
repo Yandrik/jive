@@ -34,13 +34,11 @@ class _EagerInitialization extends ConsumerWidget {
       ref.watch(prefsProvider),
     ];
 
-    print(values);
+    // print(values);
 
-    return child;
-
-    // if (values.every((value) => value is AsyncValue && value.hasValue)) {
-    //   return child;
-    // }
+    if (values.every((value) => value.hasValue)) {
+      return child;
+    }
     return const SizedBox();
   }
 }
