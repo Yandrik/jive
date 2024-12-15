@@ -42,7 +42,8 @@ class MockTransport implements Transport {
   // Helper method to simulate receiving messages
   void simulateReceive(dynamic message) {
     if (!_connected) {
-      throw Exception("MockTransport.simulateReceive() without being connected first");
+      throw Exception(
+          "MockTransport.simulateReceive() without being connected first");
     }
     if (_callback != null) {
       receivedMessages.add(message);
@@ -60,10 +61,5 @@ class MockTransport implements Transport {
   @override
   Future<void> dispose() async {
     _connected = false;
-  }
-
-  @override
-  void onDisconnect(Function() callback) {
-    // TODO: implement onDisconnect
   }
 }
