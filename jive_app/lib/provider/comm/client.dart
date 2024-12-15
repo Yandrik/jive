@@ -39,7 +39,7 @@ class ClientControllerSingleton {
   Future<ClientController> create(String name, {String? id}) async {
     logger.d("Creating Client Controller...");
     _controller = ClientController(
-        Uri.parse(SERVER_URI), Client(id: id ?? Uuid().toString(), name: name),
+        Uri.parse(SERVER_URI), Client(id: id ?? Uuid().v4(), name: name),
         (resp) {
       logger.d("HostResponse received: $resp");
       streamController.add(resp);
