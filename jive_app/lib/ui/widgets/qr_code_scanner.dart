@@ -16,7 +16,7 @@ class _BarcodeScannerSimpleState extends State<BarcodeScannerSimple> {
   String _scannedValue = '';
   //REMOVE TextEditingController _textController = TextEditingController();
 
-    // This is the widget that shows the scanning area overlay
+  // This is the widget that shows the scanning area overlay
   Widget _buildScannerOverlay() {
     return Align(
       alignment: Alignment(0, -0.2),
@@ -34,18 +34,18 @@ class _BarcodeScannerSimpleState extends State<BarcodeScannerSimple> {
     );
   }
 
-    // Method to handle the barcode scan and truncate value
+  // Method to handle the barcode scan and truncate value
   void _handleBarcode(BarcodeCapture barcodes) {
     if (barcodes.barcodes.isNotEmpty) {
       String rawValue = barcodes.barcodes.first.displayValue ?? '';
-      
-    // Find the index of the last slash ('/')
-    int lastSlashIndex = rawValue.lastIndexOf('/');
-    
-    // If a slash is found, extract the substring after the last slash
-    String truncatedValue = lastSlashIndex != -1
-        ? rawValue.substring(lastSlashIndex + 1) // Everything after the last slash
-        : rawValue; // If no slash is found, return the full value
+
+      // Find the index of the last slash ('/')
+      int lastSlashIndex = rawValue.lastIndexOf('/');
+
+      // If a slash is found, extract the substring after the last slash
+      String truncatedValue = lastSlashIndex != -1
+          ? rawValue.substring(lastSlashIndex + 1) // Everything after the last slash
+          : rawValue; // If no slash is found, return the full value
 
       setState(() {
         _scannedValue = truncatedValue; // Store truncated value
@@ -76,11 +76,12 @@ class _BarcodeScannerSimpleState extends State<BarcodeScannerSimple> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(title:const Text('QR-Code Scanner')),
+      appBar: AppBar(title: const Text('QR-Code Scanner')),
       backgroundColor: catppuccin.mocha.base,
       body: Stack(
         children: [
           MobileScanner(
+            controller: MobileScannerController(),
             onDetect: _handleBarcode,
           ),
 
