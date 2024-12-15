@@ -23,6 +23,11 @@ class QueueSingleton {
     _queueController.add(_queue);
   }
 
+  void addNextInQueue(SongMeta song, {Option<Client> client = None}) {
+    _queue.insert(0, (client, song));
+    _queueController.add(_queue);
+  }
+
   void addAllToQueue(List<(Option<Client>, SongMeta)> songs) {
     _queue.addAll(songs);
     _queueController.add(_queue);
