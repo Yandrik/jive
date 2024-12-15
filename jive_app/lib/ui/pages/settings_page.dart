@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/logger.dart';
 import 'package:jive_app/repositories/datasources/spotify_datasource.dart';
-import 'package:jive_app/repositories/search_repository.dart';
 
 @RoutePage()
 class SettingsPage extends ConsumerWidget {
@@ -36,7 +35,8 @@ class SettingsPage extends ConsumerWidget {
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                final result = await ref.read(spotifyDatasourceProvider).search("levels");
+                final result =
+                    await ref.read(spotifyDatasourceProvider).search("levels");
                 logger.i(result);
               },
               icon: Image.asset(
