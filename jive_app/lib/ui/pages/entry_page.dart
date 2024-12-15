@@ -120,8 +120,10 @@ class _DialogContentState extends ConsumerState<DialogContent> {
                 padding: EdgeInsets.all(12.0),
                 child: connecting
                     ? CircularProgressIndicator()
-                    : Container(
-                        height: 36, child: Text("Connect to your Jive!")),
+                    : SizedBox(
+                        height: 36,
+                        child: Text("Connect to your Jive!"),
+                      ),
               ),
             ),
           ],

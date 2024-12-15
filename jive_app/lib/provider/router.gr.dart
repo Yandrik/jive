@@ -65,11 +65,7 @@ class SettingsRoute extends _i4.PageRouteInfo<void> {
   static _i4.PageInfo page = _i4.PageInfo(
     name,
     builder: (data) {
-<<<<<<< Updated upstream
-      return _i2.SettingsPage();
-=======
       return const _i3.SettingsPage();
->>>>>>> Stashed changes
     },
   );
 }
