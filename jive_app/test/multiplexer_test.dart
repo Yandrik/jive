@@ -61,7 +61,7 @@ void main() {
         SongMeta(
           id: 'song1',
           title: 'Test Song',
-          artist: 'Test Artist',
+          artist: ['Test Artist'],
           album: 'Test Album',
           albumArtUrl: null,
           duration: Duration(minutes: 3),
@@ -73,8 +73,7 @@ void main() {
 
       await hostController.broadcast(testResponse);
 
-      expect(transport1.sentMessages.length,
-          equals(2)); // Connect response + broadcast
+      expect(transport1.sentMessages.length, equals(2)); // Connect response + broadcast
       expect(transport2.sentMessages.length, equals(2));
 
       expect(transport1.sentMessages[1], equals(jsonEncode(testResponse)));
@@ -124,8 +123,7 @@ void main() {
 
       expect(clientController.isConnected, isTrue);
       expect(clientController.currentHost, equals(testHost));
-      expect(mockTransport.sentMessages[0],
-          equals(jsonEncode(DeviceCommand.connect(testClient))));
+      expect(mockTransport.sentMessages[0], equals(jsonEncode(DeviceCommand.connect(testClient))));
     });
 
     test('Command sending', () async {
@@ -141,8 +139,7 @@ void main() {
         await clientController.sendCommand(command);
       }
 
-      expect(
-          mockTransport.sentMessages.length, equals(4)); // Connect + 3 commands
+      expect(mockTransport.sentMessages.length, equals(4)); // Connect + 3 commands
     });
 
     test('Disconnection cleanup', () async {

@@ -164,21 +164,19 @@ class SongSearchResult extends StatelessWidget {
           if (song.reference is SpotifySong)
             Padding(
               padding: const EdgeInsets.only(right: 8),
-              child: Image.asset('assets/logos/spotify_logo_black.png',
-                  height: 16),
+              child: Image.asset('assets/logos/spotify_logo_black.png', height: 16),
             ),
           if (song.reference is YoutubeSong)
             Padding(
               padding: const EdgeInsets.only(right: 8),
-              child: Image.asset('assets/logos/youtube_logo_transparent.png',
-                  height: 16),
+              child: Image.asset('assets/logos/youtube_logo_transparent.png', height: 16),
             ),
           if (song.reference is LocalSong)
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: Icon(Icons.file_present, size: 16),
             ),
-          Text(song.artist),
+          Text(song.artist.join(', ')),
         ],
       ),
     );

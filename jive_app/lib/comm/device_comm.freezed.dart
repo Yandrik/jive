@@ -2339,7 +2339,7 @@ SongMeta _$SongMetaFromJson(Map<String, dynamic> json) {
 mixin _$SongMeta {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get artist => throw _privateConstructorUsedError;
+  List<String> get artist => throw _privateConstructorUsedError;
   String get album => throw _privateConstructorUsedError;
   String? get albumArtUrl => throw _privateConstructorUsedError;
   Duration get duration => throw _privateConstructorUsedError;
@@ -2363,7 +2363,7 @@ abstract class $SongMetaCopyWith<$Res> {
   $Res call(
       {String id,
       String title,
-      String artist,
+      List<String> artist,
       String album,
       String? albumArtUrl,
       Duration duration,
@@ -2407,7 +2407,7 @@ class _$SongMetaCopyWithImpl<$Res, $Val extends SongMeta>
       artist: null == artist
           ? _value.artist
           : artist // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       album: null == album
           ? _value.album
           : album // ignore: cast_nullable_to_non_nullable
@@ -2449,7 +2449,7 @@ abstract class _$$SongMetaImplCopyWith<$Res>
   $Res call(
       {String id,
       String title,
-      String artist,
+      List<String> artist,
       String album,
       String? albumArtUrl,
       Duration duration,
@@ -2490,9 +2490,9 @@ class __$$SongMetaImplCopyWithImpl<$Res>
           : title // ignore: cast_nullable_to_non_nullable
               as String,
       artist: null == artist
-          ? _value.artist
+          ? _value._artist
           : artist // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       album: null == album
           ? _value.album
           : album // ignore: cast_nullable_to_non_nullable
@@ -2519,11 +2519,12 @@ class _$SongMetaImpl implements _SongMeta {
   const _$SongMetaImpl(
       {required this.id,
       required this.title,
-      required this.artist,
+      required final List<String> artist,
       required this.album,
       required this.albumArtUrl,
       required this.duration,
-      required this.reference});
+      required this.reference})
+      : _artist = artist;
 
   factory _$SongMetaImpl.fromJson(Map<String, dynamic> json) =>
       _$$SongMetaImplFromJson(json);
@@ -2532,8 +2533,14 @@ class _$SongMetaImpl implements _SongMeta {
   final String id;
   @override
   final String title;
+  final List<String> _artist;
   @override
-  final String artist;
+  List<String> get artist {
+    if (_artist is EqualUnmodifiableListView) return _artist;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_artist);
+  }
+
   @override
   final String album;
   @override
@@ -2555,7 +2562,7 @@ class _$SongMetaImpl implements _SongMeta {
             other is _$SongMetaImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.artist, artist) || other.artist == artist) &&
+            const DeepCollectionEquality().equals(other._artist, _artist) &&
             (identical(other.album, album) || other.album == album) &&
             (identical(other.albumArtUrl, albumArtUrl) ||
                 other.albumArtUrl == albumArtUrl) &&
@@ -2568,7 +2575,14 @@ class _$SongMetaImpl implements _SongMeta {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, title, artist, album, albumArtUrl, duration, reference);
+      runtimeType,
+      id,
+      title,
+      const DeepCollectionEquality().hash(_artist),
+      album,
+      albumArtUrl,
+      duration,
+      reference);
 
   /// Create a copy of SongMeta
   /// with the given fields replaced by the non-null parameter values.
@@ -2590,7 +2604,7 @@ abstract class _SongMeta implements SongMeta {
   const factory _SongMeta(
       {required final String id,
       required final String title,
-      required final String artist,
+      required final List<String> artist,
       required final String album,
       required final String? albumArtUrl,
       required final Duration duration,
@@ -2604,7 +2618,7 @@ abstract class _SongMeta implements SongMeta {
   @override
   String get title;
   @override
-  String get artist;
+  List<String> get artist;
   @override
   String get album;
   @override

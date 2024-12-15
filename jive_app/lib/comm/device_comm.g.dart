@@ -40,37 +40,37 @@ const _$MusicSourceEnumMap = {
 
 _$SpotifySongImpl _$$SpotifySongImplFromJson(Map<String, dynamic> json) =>
     _$SpotifySongImpl(
-      json['songId'] as String,
+      json['song_id'] as String,
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$SpotifySongImplToJson(_$SpotifySongImpl instance) =>
     <String, dynamic>{
-      'songId': instance.songId,
+      'song_id': instance.songId,
       'runtimeType': instance.$type,
     };
 
 _$YoutubeSongImpl _$$YoutubeSongImplFromJson(Map<String, dynamic> json) =>
     _$YoutubeSongImpl(
-      json['songId'] as String,
+      json['song_id'] as String,
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$YoutubeSongImplToJson(_$YoutubeSongImpl instance) =>
     <String, dynamic>{
-      'songId': instance.songId,
+      'song_id': instance.songId,
       'runtimeType': instance.$type,
     };
 
 _$LocalSongImpl _$$LocalSongImplFromJson(Map<String, dynamic> json) =>
     _$LocalSongImpl(
-      json['songId'] as String,
+      json['song_id'] as String,
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$LocalSongImplToJson(_$LocalSongImpl instance) =>
     <String, dynamic>{
-      'songId': instance.songId,
+      'song_id': instance.songId,
       'runtimeType': instance.$type,
     };
 
@@ -82,7 +82,7 @@ _$ConnectImpl _$$ConnectImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$ConnectImplToJson(_$ConnectImpl instance) =>
     <String, dynamic>{
-      'client': instance.client,
+      'client': instance.client.toJson(),
       'runtimeType': instance.$type,
     };
 
@@ -149,13 +149,13 @@ Map<String, dynamic> _$$SetVolumeImplToJson(_$SetVolumeImpl instance) =>
 
 _$PlaySongImpl _$$PlaySongImplFromJson(Map<String, dynamic> json) =>
     _$PlaySongImpl(
-      SongReference.fromJson(json['songMeta'] as Map<String, dynamic>),
+      SongReference.fromJson(json['song_meta'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$PlaySongImplToJson(_$PlaySongImpl instance) =>
     <String, dynamic>{
-      'songMeta': instance.songMeta,
+      'song_meta': instance.songMeta.toJson(),
       'runtimeType': instance.$type,
     };
 
@@ -163,9 +163,10 @@ _$SongMetaImpl _$$SongMetaImplFromJson(Map<String, dynamic> json) =>
     _$SongMetaImpl(
       id: json['id'] as String,
       title: json['title'] as String,
-      artist: json['artist'] as String,
+      artist:
+          (json['artist'] as List<dynamic>).map((e) => e as String).toList(),
       album: json['album'] as String,
-      albumArtUrl: json['albumArtUrl'] as String?,
+      albumArtUrl: json['album_art_url'] as String?,
       duration: Duration(microseconds: (json['duration'] as num).toInt()),
       reference:
           SongReference.fromJson(json['reference'] as Map<String, dynamic>),
@@ -177,9 +178,9 @@ Map<String, dynamic> _$$SongMetaImplToJson(_$SongMetaImpl instance) =>
       'title': instance.title,
       'artist': instance.artist,
       'album': instance.album,
-      'albumArtUrl': instance.albumArtUrl,
+      'album_art_url': instance.albumArtUrl,
       'duration': instance.duration.inMicroseconds,
-      'reference': instance.reference,
+      'reference': instance.reference.toJson(),
     };
 
 _$ConnectResponseImpl _$$ConnectResponseImplFromJson(
@@ -192,7 +193,7 @@ _$ConnectResponseImpl _$$ConnectResponseImplFromJson(
 Map<String, dynamic> _$$ConnectResponseImplToJson(
         _$ConnectResponseImpl instance) =>
     <String, dynamic>{
-      'host': instance.host,
+      'host': instance.host.toJson(),
       'runtimeType': instance.$type,
     };
 
@@ -227,7 +228,7 @@ Map<String, dynamic> _$$QueueResponseImplToJson(_$QueueResponseImpl instance) =>
       'queue': instance.queue
           .map((e) => <String, dynamic>{
                 r'$1': e.$1,
-                r'$2': e.$2,
+                r'$2': e.$2.toJson(),
               })
           .toList(),
       'runtimeType': instance.$type,
@@ -242,18 +243,18 @@ $Rec _$recordConvert<$Rec>(
 _$PlayStateResponseImpl _$$PlayStateResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$PlayStateResponseImpl(
-      SongMeta.fromJson(json['currentSong'] as Map<String, dynamic>),
-      $enumDecode(_$MediaPlayStateEnumMap, json['playState']),
-      Duration(microseconds: (json['playHead'] as num).toInt()),
+      SongMeta.fromJson(json['current_song'] as Map<String, dynamic>),
+      $enumDecode(_$MediaPlayStateEnumMap, json['play_state']),
+      Duration(microseconds: (json['play_head'] as num).toInt()),
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$PlayStateResponseImplToJson(
         _$PlayStateResponseImpl instance) =>
     <String, dynamic>{
-      'currentSong': instance.currentSong,
-      'playState': _$MediaPlayStateEnumMap[instance.playState]!,
-      'playHead': instance.playHead.inMicroseconds,
+      'current_song': instance.currentSong.toJson(),
+      'play_state': _$MediaPlayStateEnumMap[instance.playState]!,
+      'play_head': instance.playHead.inMicroseconds,
       'runtimeType': instance.$type,
     };
 
@@ -287,9 +288,9 @@ Map<String, dynamic> _$$OkResponseImplToJson(_$OkResponseImpl instance) =>
 _$PlayStateImpl _$$PlayStateImplFromJson(Map<String, dynamic> json) =>
     _$PlayStateImpl(
       currentSong:
-          SongMeta.fromJson(json['currentSong'] as Map<String, dynamic>),
-      playState: $enumDecode(_$MediaPlayStateEnumMap, json['playState']),
-      playHead: Duration(microseconds: (json['playHead'] as num).toInt()),
+          SongMeta.fromJson(json['current_song'] as Map<String, dynamic>),
+      playState: $enumDecode(_$MediaPlayStateEnumMap, json['play_state']),
+      playHead: Duration(microseconds: (json['play_head'] as num).toInt()),
       queue: (json['queue'] as List<dynamic>)
           .map((e) => _$recordConvert(
                 e,
@@ -306,13 +307,13 @@ _$PlayStateImpl _$$PlayStateImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$PlayStateImplToJson(_$PlayStateImpl instance) =>
     <String, dynamic>{
-      'currentSong': instance.currentSong,
-      'playState': _$MediaPlayStateEnumMap[instance.playState]!,
-      'playHead': instance.playHead.inMicroseconds,
+      'current_song': instance.currentSong.toJson(),
+      'play_state': _$MediaPlayStateEnumMap[instance.playState]!,
+      'play_head': instance.playHead.inMicroseconds,
       'queue': instance.queue
           .map((e) => <String, dynamic>{
-                r'$1': e.$1,
-                r'$2': e.$2,
+                r'$1': e.$1?.toJson(),
+                r'$2': e.$2.toJson(),
               })
           .toList(),
     };

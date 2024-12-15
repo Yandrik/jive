@@ -5,7 +5,7 @@ final List<(Client?, SongMeta)> songMocks = [
     Client(id: "123", name: "Lars"),
     SongMeta(
       title: "Bohemian Rhapsody",
-      artist: "Queen",
+      artist: ["Queen"],
       duration: Duration(minutes: 5, seconds: 55),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/bohemian_rhapsody.jpg",
@@ -17,7 +17,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Sweet Child O' Mine",
-      artist: "Guns N' Roses",
+      artist: ["Guns N' Roses"],
       duration: Duration(minutes: 5, seconds: 56),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/appetite_for_destruction.jpg",
@@ -29,7 +29,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Stairway to Heaven",
-      artist: "Led Zeppelin",
+      artist: ["Led Zeppelin"],
       duration: Duration(minutes: 8, seconds: 2),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/led_zeppelin_iv.jpg",
@@ -41,7 +41,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Hotel California",
-      artist: "Eagles",
+      artist: ["Eagles"],
       duration: Duration(minutes: 6, seconds: 30),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/hotel_california.jpg",
@@ -53,7 +53,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Smells Like Teen Spirit",
-      artist: "Nirvana",
+      artist: ["Nirvana"],
       duration: Duration(minutes: 5, seconds: 1),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/nevermind.jpg",
@@ -65,7 +65,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Back in Black",
-      artist: "AC/DC",
+      artist: ["AC/DC"],
       duration: Duration(minutes: 4, seconds: 15),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/back_in_black.jpg",
@@ -77,7 +77,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Purple Rain",
-      artist: "Prince",
+      artist: ["Prince"],
       duration: Duration(minutes: 8, seconds: 41),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/purple_rain.jpg",
@@ -89,7 +89,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Like a Rolling Stone",
-      artist: "Bob Dylan",
+      artist: ["Bob Dylan"],
       duration: Duration(minutes: 6, seconds: 13),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/highway_61_revisited.jpg",
@@ -101,7 +101,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Imagine",
-      artist: "John Lennon",
+      artist: ["John Lennon"],
       duration: Duration(minutes: 3, seconds: 3),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/imagine.jpg",
@@ -113,7 +113,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Billie Jean",
-      artist: "Michael Jackson",
+      artist: ["Michael Jackson"],
       duration: Duration(minutes: 4, seconds: 54),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/thriller.jpg",
@@ -125,7 +125,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Sweet Dreams (Are Made of This)",
-      artist: "Eurythmics",
+      artist: ["Eurythmics"],
       duration: Duration(minutes: 3, seconds: 36),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/sweet_dreams.jpg",
@@ -137,7 +137,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Wonderwall",
-      artist: "Oasis",
+      artist: ["Oasis"],
       duration: Duration(minutes: 4, seconds: 18),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/morning_glory.jpg",
@@ -149,7 +149,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Every Breath You Take",
-      artist: "The Police",
+      artist: ["The Police"],
       duration: Duration(minutes: 4, seconds: 13),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/synchronicity.jpg",
@@ -161,7 +161,7 @@ final List<(Client?, SongMeta)> songMocks = [
     null,
     SongMeta(
       title: "Like a Prayer",
-      artist: "Madonna",
+      artist: ["Madonna"],
       duration: Duration(minutes: 5, seconds: 39),
       reference: SpotifySong("123"),
       albumArtUrl: "assets/images/like_a_prayer.jpg",

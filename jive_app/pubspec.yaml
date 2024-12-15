@@ -49,6 +49,8 @@ dependencies:
   async: ^2.11.0
   reorderables: ^0.6.0
   collection: ^1.19.0
+  dio: ^5.7.0
+  pretty_dio_logger: ^1.4.0
 
 dev_dependencies:
   flutter_test:

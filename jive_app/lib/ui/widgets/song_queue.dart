@@ -39,7 +39,7 @@ class SongQueue extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 8),
                   child: Icon(Icons.file_present, size: 16),
                 ),
-              Text(song.artist),
+              Text(song.artist.join(', ')),
             ],
           ),
           trailing: Row(
