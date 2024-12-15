@@ -369,6 +369,8 @@ SongReference _$SongReferenceFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'spotify':
       return SpotifySong.fromJson(json);
+    case 'youtube':
+      return YoutubeSong.fromJson(json);
     case 'local':
       return LocalSong.fromJson(json);
 
@@ -384,18 +386,21 @@ mixin _$SongReference {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String songId) spotify,
+    required TResult Function(String songId) youtube,
     required TResult Function(String songId) local,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String songId)? spotify,
+    TResult? Function(String songId)? youtube,
     TResult? Function(String songId)? local,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String songId)? spotify,
+    TResult Function(String songId)? youtube,
     TResult Function(String songId)? local,
     required TResult orElse(),
   }) =>
@@ -403,18 +408,21 @@ mixin _$SongReference {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SpotifySong value) spotify,
+    required TResult Function(YoutubeSong value) youtube,
     required TResult Function(LocalSong value) local,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SpotifySong value)? spotify,
+    TResult? Function(YoutubeSong value)? youtube,
     TResult? Function(LocalSong value)? local,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SpotifySong value)? spotify,
+    TResult Function(YoutubeSong value)? youtube,
     TResult Function(LocalSong value)? local,
     required TResult orElse(),
   }) =>
@@ -544,6 +552,7 @@ class _$SpotifySongImpl implements SpotifySong {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String songId) spotify,
+    required TResult Function(String songId) youtube,
     required TResult Function(String songId) local,
   }) {
     return spotify(songId);
@@ -553,6 +562,7 @@ class _$SpotifySongImpl implements SpotifySong {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String songId)? spotify,
+    TResult? Function(String songId)? youtube,
     TResult? Function(String songId)? local,
   }) {
     return spotify?.call(songId);
@@ -562,6 +572,7 @@ class _$SpotifySongImpl implements SpotifySong {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String songId)? spotify,
+    TResult Function(String songId)? youtube,
     TResult Function(String songId)? local,
     required TResult orElse(),
   }) {
@@ -575,6 +586,7 @@ class _$SpotifySongImpl implements SpotifySong {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SpotifySong value) spotify,
+    required TResult Function(YoutubeSong value) youtube,
     required TResult Function(LocalSong value) local,
   }) {
     return spotify(this);
@@ -584,6 +596,7 @@ class _$SpotifySongImpl implements SpotifySong {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SpotifySong value)? spotify,
+    TResult? Function(YoutubeSong value)? youtube,
     TResult? Function(LocalSong value)? local,
   }) {
     return spotify?.call(this);
@@ -593,6 +606,7 @@ class _$SpotifySongImpl implements SpotifySong {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SpotifySong value)? spotify,
+    TResult Function(YoutubeSong value)? youtube,
     TResult Function(LocalSong value)? local,
     required TResult orElse(),
   }) {
@@ -624,6 +638,174 @@ abstract class SpotifySong implements SongReference {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SpotifySongImplCopyWith<_$SpotifySongImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$YoutubeSongImplCopyWith<$Res>
+    implements $SongReferenceCopyWith<$Res> {
+  factory _$$YoutubeSongImplCopyWith(
+          _$YoutubeSongImpl value, $Res Function(_$YoutubeSongImpl) then) =
+      __$$YoutubeSongImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String songId});
+}
+
+/// @nodoc
+class __$$YoutubeSongImplCopyWithImpl<$Res>
+    extends _$SongReferenceCopyWithImpl<$Res, _$YoutubeSongImpl>
+    implements _$$YoutubeSongImplCopyWith<$Res> {
+  __$$YoutubeSongImplCopyWithImpl(
+      _$YoutubeSongImpl _value, $Res Function(_$YoutubeSongImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of SongReference
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? songId = null,
+  }) {
+    return _then(_$YoutubeSongImpl(
+      null == songId
+          ? _value.songId
+          : songId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$YoutubeSongImpl implements YoutubeSong {
+  const _$YoutubeSongImpl(this.songId, {final String? $type})
+      : $type = $type ?? 'youtube';
+
+  factory _$YoutubeSongImpl.fromJson(Map<String, dynamic> json) =>
+      _$$YoutubeSongImplFromJson(json);
+
+  @override
+  final String songId;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'SongReference.youtube(songId: $songId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$YoutubeSongImpl &&
+            (identical(other.songId, songId) || other.songId == songId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, songId);
+
+  /// Create a copy of SongReference
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$YoutubeSongImplCopyWith<_$YoutubeSongImpl> get copyWith =>
+      __$$YoutubeSongImplCopyWithImpl<_$YoutubeSongImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String songId) spotify,
+    required TResult Function(String songId) youtube,
+    required TResult Function(String songId) local,
+  }) {
+    return youtube(songId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String songId)? spotify,
+    TResult? Function(String songId)? youtube,
+    TResult? Function(String songId)? local,
+  }) {
+    return youtube?.call(songId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String songId)? spotify,
+    TResult Function(String songId)? youtube,
+    TResult Function(String songId)? local,
+    required TResult orElse(),
+  }) {
+    if (youtube != null) {
+      return youtube(songId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SpotifySong value) spotify,
+    required TResult Function(YoutubeSong value) youtube,
+    required TResult Function(LocalSong value) local,
+  }) {
+    return youtube(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SpotifySong value)? spotify,
+    TResult? Function(YoutubeSong value)? youtube,
+    TResult? Function(LocalSong value)? local,
+  }) {
+    return youtube?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SpotifySong value)? spotify,
+    TResult Function(YoutubeSong value)? youtube,
+    TResult Function(LocalSong value)? local,
+    required TResult orElse(),
+  }) {
+    if (youtube != null) {
+      return youtube(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$YoutubeSongImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class YoutubeSong implements SongReference {
+  const factory YoutubeSong(final String songId) = _$YoutubeSongImpl;
+
+  factory YoutubeSong.fromJson(Map<String, dynamic> json) =
+      _$YoutubeSongImpl.fromJson;
+
+  @override
+  String get songId;
+
+  /// Create a copy of SongReference
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$YoutubeSongImplCopyWith<_$YoutubeSongImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -706,6 +888,7 @@ class _$LocalSongImpl implements LocalSong {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String songId) spotify,
+    required TResult Function(String songId) youtube,
     required TResult Function(String songId) local,
   }) {
     return local(songId);
@@ -715,6 +898,7 @@ class _$LocalSongImpl implements LocalSong {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String songId)? spotify,
+    TResult? Function(String songId)? youtube,
     TResult? Function(String songId)? local,
   }) {
     return local?.call(songId);
@@ -724,6 +908,7 @@ class _$LocalSongImpl implements LocalSong {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String songId)? spotify,
+    TResult Function(String songId)? youtube,
     TResult Function(String songId)? local,
     required TResult orElse(),
   }) {
@@ -737,6 +922,7 @@ class _$LocalSongImpl implements LocalSong {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(SpotifySong value) spotify,
+    required TResult Function(YoutubeSong value) youtube,
     required TResult Function(LocalSong value) local,
   }) {
     return local(this);
@@ -746,6 +932,7 @@ class _$LocalSongImpl implements LocalSong {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(SpotifySong value)? spotify,
+    TResult? Function(YoutubeSong value)? youtube,
     TResult? Function(LocalSong value)? local,
   }) {
     return local?.call(this);
@@ -755,6 +942,7 @@ class _$LocalSongImpl implements LocalSong {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(SpotifySong value)? spotify,
+    TResult Function(YoutubeSong value)? youtube,
     TResult Function(LocalSong value)? local,
     required TResult orElse(),
   }) {

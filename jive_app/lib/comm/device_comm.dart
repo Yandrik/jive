@@ -16,6 +16,7 @@ sealed class Client with _$Client {
 @JsonEnum()
 enum MusicSource {
   spotify,
+  youtube,
   local,
 }
 
@@ -33,6 +34,7 @@ sealed class Host with _$Host {
 @freezed
 sealed class SongReference with _$SongReference {
   const factory SongReference.spotify(String songId) = SpotifySong;
+  const factory SongReference.youtube(String songId) = YoutubeSong;
   const factory SongReference.local(String songId) = LocalSong;
 
   factory SongReference.fromJson(Map<String, dynamic> json) =>

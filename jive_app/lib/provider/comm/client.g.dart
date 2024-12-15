@@ -36,7 +36,7 @@ final hostMessageProvider =
 
 typedef _$HostMessage = AutoDisposeNotifier<HostResponse?>;
 String _$clientControllerPodHash() =>
-    r'32110d330b6e9a12d1ea3e55ce1605a7385c7fb5';
+    r'4361dbec4a96573f8b66d3603acfbd10fbcbe3c1';
 
 /// See also [ClientControllerPod].
 @ProviderFor(ClientControllerPod)

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/ui/widgets/custom_network_image.dart';
 
-enum SearchSource { spotify, local }
+enum SearchSource { spotify, youtube, local }
 
 class SearchSongDelegate extends SearchDelegate<SongMeta?> {
   SearchSongDelegate()
       : super(
-          searchFieldLabel: "Search a a song",
+          searchFieldLabel: "Search a song",
         );
 
   @override
@@ -96,6 +96,14 @@ class _SongSourceIconState extends State<SongSourceIcon> {
                     },
                   ),
                   ListTile(
+                    leading: _getIcon(SearchSource.youtube),
+                    title: const Text('Search YouTube'),
+                    onTap: () {
+                      setState(() => _searchSource = SearchSource.youtube);
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
                     leading: _getIcon(SearchSource.local),
                     title: const Text('Search local library'),
                     onTap: () {
@@ -118,6 +126,13 @@ class _SongSourceIconState extends State<SongSourceIcon> {
       return Image.asset(
         "assets/logos/spotify_logo_black.png",
         fit: BoxFit.cover,
+        width: 24,
+        height: 24,
+      );
+    } else if (source == SearchSource.youtube) {
+      return Image.asset(
+        "assets/logos/youtube_logo_transparent.png",
+        fit: BoxFit.contain,
         width: 24,
         height: 24,
       );
@@ -149,7 +164,14 @@ class SongSearchResult extends StatelessWidget {
           if (song.reference is SpotifySong)
             Padding(
               padding: const EdgeInsets.only(right: 8),
-              child: Image.asset('assets/logos/spotify_logo_black.png', height: 16),
+              child: Image.asset('assets/logos/spotify_logo_black.png',
+                  height: 16),
+            ),
+          if (song.reference is YoutubeSong)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Image.asset('assets/logos/youtube_logo_transparent.png',
+                  height: 16),
             ),
           if (song.reference is LocalSong)
             Padding(

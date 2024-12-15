@@ -34,6 +34,7 @@ Map<String, dynamic> _$$HostImplToJson(_$HostImpl instance) =>
 
 const _$MusicSourceEnumMap = {
   MusicSource.spotify: 'spotify',
+  MusicSource.youtube: 'youtube',
   MusicSource.local: 'local',
 };
 
@@ -44,6 +45,18 @@ _$SpotifySongImpl _$$SpotifySongImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$SpotifySongImplToJson(_$SpotifySongImpl instance) =>
+    <String, dynamic>{
+      'songId': instance.songId,
+      'runtimeType': instance.$type,
+    };
+
+_$YoutubeSongImpl _$$YoutubeSongImplFromJson(Map<String, dynamic> json) =>
+    _$YoutubeSongImpl(
+      json['songId'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$YoutubeSongImplToJson(_$YoutubeSongImpl instance) =>
     <String, dynamic>{
       'songId': instance.songId,
       'runtimeType': instance.$type,
