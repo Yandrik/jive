@@ -180,7 +180,7 @@ class _DialogContentState extends ConsumerState<DialogContent> {
 
                     if (res.isOk()) {
                       if (context.mounted) {
-                        context.navigateTo(HomeRoute());
+                        context.replaceRoute(HomeRoute());
                       }
                     } else {
                       setState(() {
@@ -282,7 +282,7 @@ class _HostDialogContentState extends ConsumerState<HostDialogContent> {
                     }
 
                     if (context.mounted) {
-                      context.navigateTo(HomeRoute());
+                      context.replaceRoute(HomeRoute());
                     }
                     // Host creation logic will go here
                   },
