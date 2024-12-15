@@ -33,8 +33,8 @@ class HostController {
       while (true) {
         var result = await connectClientWsRelay();
         if (result.isErr()) {
-          logger.w("Connection attempt failed, retrying in 5s...");
-          await Future.delayed(Duration(seconds: 5));
+          logger.w("Connection attempt failed, retrying in 2s...");
+          await Future.delayed(Duration(seconds: 2));
         }
       }
     }));
@@ -58,6 +58,7 @@ class HostController {
   /// Returns a Result indicating success or failure of the connection attempt.
   Future<Result<void>> connectClient(Transport transport) async {
     final completer = Completer<Result<void>>();
+    final timeout = Duration(seconds: 10);
 
     onReceive(dynamic message) async {
       DeviceCommand data;
@@ -68,7 +69,6 @@ class HostController {
         return;
       }
 
-      // print(data);
       switch (data) {
         case Connect(client: var client):
           clients.add((transport, client));
@@ -81,14 +81,11 @@ class HostController {
             completer.complete(res.context("Failed to send connect response"));
             return;
           }
-
           completer.complete(Ok(null));
           return;
         default:
-          var _res = await transport.send(jsonEncode(
+          await transport.send(jsonEncode(
               HostResponse.error("Not connected yet. Connect first.")));
-          logger.d(
-              "New Client sent invalid connect message '$data' - still waiting...");
           break;
       }
     }
@@ -97,7 +94,15 @@ class HostController {
 
     var res = await transport.connect();
     if (res.isErr()) return res.context("Failed to connect to transport");
-    return await completer.future;
+
+    return await completer.future.timeout(
+      timeout,
+      onTimeout: () async {
+        await transport.disconnect();
+        return bail('Client connection timed out after ${timeout.inSeconds}s',
+            StackTrace.current);
+      },
+    );
   }
 
   /// Handles incoming messages from clients.
