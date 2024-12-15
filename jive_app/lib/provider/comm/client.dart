@@ -1,35 +1,20 @@
+import 'dart:async';
+
 import 'package:anyhow/anyhow.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/comm/multiplexer.dart';
 import 'package:jive_app/logger.dart';
+import 'package:jive_app/utils/consts.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 part 'client.g.dart';
 
-@Riverpod(keepAlive: true)
-class HostId extends _$HostId {
-  @override
-  String? build() {
-    return null;
-  }
-
-  void update(String id) {
-    state = id;
-  }
-}
-
-@Riverpod(keepAlive: true)
-class HostMessage extends _$HostMessage {
-  @override
-  HostResponse? build() {
-    return null;
-  }
-
-  void update(HostResponse message) {
-    state = message;
-  }
+@riverpod
+Stream<HostResponse> hostResponse(Ref ref) {
+  final stream = ClientControllerSingleton.I.stream;
+  return stream;
 }
 
 class ClientControllerSingleton {
@@ -46,11 +31,18 @@ class ClientControllerSingleton {
   static ClientControllerSingleton get I => _instance;
   ClientController? get controller => _controller;
 
+  StreamController<HostResponse> streamController =
+      StreamController.broadcast();
+
+  Stream<HostResponse> get stream => streamController.stream;
+
   Future<ClientController> create(String name, {String? id}) async {
     logger.d("Creating Client Controller...");
-    _controller = ClientController(Uri.parse("wss://relay.hack2.yandrik.dev"),
-        Client(id: id ?? Uuid().toString(), name: name), (resp) {
+    _controller = ClientController(
+        Uri.parse(SERVER_URI), Client(id: id ?? Uuid().toString(), name: name),
+        (resp) {
       logger.d("HostResponse received: $resp");
+      streamController.add(resp);
     });
     return _controller!;
   }

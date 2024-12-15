@@ -5,6 +5,7 @@ import 'package:async/async.dart' as async;
 import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/comm/transport.dart';
 import 'package:jive_app/logger.dart';
+import 'package:jive_app/utils/consts.dart';
 
 /// Controls the host side of the communication, managing multiple client connections
 /// and message broadcasting capabilities.
@@ -46,8 +47,8 @@ class HostController {
   }
 
   Future<Result<void>> connectClientWsRelay() async {
-    final uri = "wss://${serverAddr.host}/host/${host.id}";
-    logger.d("host connection on URL  '${host.id}'...");
+    final uri = "$SERVER_URI/host/${host.id}";
+    logger.d("host connection on URL  '${uri}'...");
     var transport = WebSocketTransport(uri);
     return await connectClient(transport)
         .context("Failed to connect client at relay at $uri");
@@ -57,10 +58,12 @@ class HostController {
   ///
   /// Returns a Result indicating success or failure of the connection attempt.
   Future<Result<void>> connectClient(Transport transport) async {
+    final firstMessageCompleter = Completer<void>();
     final completer = Completer<Result<void>>();
     final timeout = Duration(seconds: 10);
 
     onReceive(dynamic message) async {
+      firstMessageCompleter.complete(null);
       DeviceCommand data;
       try {
         data = DeviceCommand.fromJson(jsonDecode(message));
@@ -71,6 +74,7 @@ class HostController {
 
       switch (data) {
         case Connect(client: var client):
+          _handleMessage(client, data);
           clients.add((transport, client));
           transport
               .onReceive((rawMessage) => handleMessage(client, rawMessage));
@@ -95,6 +99,10 @@ class HostController {
     var res = await transport.connect();
     if (res.isErr()) return res.context("Failed to connect to transport");
 
+    // wait for any first message to arrive (so that something has connected)
+    await firstMessageCompleter.future;
+
+    // then start the 10s timeout
     return await completer.future.timeout(
       timeout,
       onTimeout: () async {
@@ -163,15 +171,15 @@ class HostController {
 /// Controls the client side of the communication, managing a single connection
 /// to a host at a time.
 class ClientController {
-  final Uri _serverAddr;
-  final Client _client;
+  final Uri serverAddr;
+  final Client client;
   Transport? _transport;
   Host? _connectedHost;
   final void Function(HostResponse) _handleResponse;
 
   /// Creates a new ClientController with the specified server address, client information,
   /// and response handler.
-  ClientController(this._serverAddr, this._client, this._handleResponse);
+  ClientController(this.serverAddr, this.client, this._handleResponse);
 
   /// Indicates whether the client is currently connected to a host
   bool get isConnected => _transport?.isConnected ?? false;
@@ -180,7 +188,7 @@ class ClientController {
   Host? get currentHost => _connectedHost;
 
   Future<Result<void>> connectToHostWsRelay(String hostId) async {
-    final uri = "wss://${_serverAddr.host}/join/$hostId";
+    final uri = "$SERVER_URI/join/$hostId";
     var transport = WebSocketTransport(uri); // TODO: proper connect
     return await connectToHost(transport)
         .context("Failed to connect to relay at $uri");
@@ -210,6 +218,7 @@ class ClientController {
       }
 
       if (response case ConnectResponse(host: var host)) {
+        _handleResponse(response);
         _connectedHost = host;
         if (!connectionCompleter.isCompleted) {
           connectionCompleter.complete(Ok(null));
@@ -223,7 +232,7 @@ class ClientController {
       return connectResult;
     }
 
-    await _transport!.send(jsonEncode(DeviceCommand.connect(_client)));
+    await _transport!.send(jsonEncode(DeviceCommand.connect(client)));
 
     return await connectionCompleter.future.timeout(
       timeout,
