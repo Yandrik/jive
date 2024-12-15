@@ -37,7 +37,8 @@ sealed class SongReference with _$SongReference {
   const factory SongReference.youtube(String songId) = YoutubeSong;
   const factory SongReference.local(String songId) = LocalSong;
 
-  factory SongReference.fromJson(Map<String, dynamic> json) => _$SongReferenceFromJson(json);
+  factory SongReference.fromJson(Map<String, dynamic> json) =>
+      _$SongReferenceFromJson(json);
 }
 
 @freezed
@@ -46,12 +47,15 @@ sealed class DeviceCommand with _$DeviceCommand {
   const factory DeviceCommand.requestId() = RequestID;
   const factory DeviceCommand.requestState() = RequestState;
   const factory DeviceCommand.requestQueue() = RequestQueue;
-  const factory DeviceCommand.mediaCommand(MediaCommandType command) = MediaCommand;
+  const factory DeviceCommand.mediaCommand(MediaCommandType command) =
+      MediaCommand;
   const factory DeviceCommand.setVolume(int volume) = SetVolume;
   const factory DeviceCommand.playSong(SongReference songMeta) = PlaySong;
-  const factory DeviceCommand.search(String query, MusicSource source, int offset) = SearchCommand;
+  const factory DeviceCommand.search(
+      String query, MusicSource source, int offset) = SearchCommand;
 
-  factory DeviceCommand.fromJson(Map<String, dynamic> json) => _$DeviceCommandFromJson(json);
+  factory DeviceCommand.fromJson(Map<String, dynamic> json) =>
+      _$DeviceCommandFromJson(json);
 }
 
 @JsonEnum()
@@ -74,7 +78,8 @@ sealed class SongMeta with _$SongMeta {
     required SongReference reference,
   }) = _SongMeta;
 
-  factory SongMeta.fromJson(Map<String, dynamic> json) => _$SongMetaFromJson(json);
+  factory SongMeta.fromJson(Map<String, dynamic> json) =>
+      _$SongMetaFromJson(json);
 }
 
 @JsonEnum()
@@ -88,20 +93,24 @@ sealed class HostResponse with _$HostResponse {
   const factory HostResponse.connect(Host host) = ConnectResponse;
   const factory HostResponse.id(String id) = IDResponse;
   // const factory HostResponse.state(DeviceState state) = StateResponse;  // TODO
-  const factory HostResponse.queue(List<(String, SongMeta)> queue) = QueueResponse;
+  const factory HostResponse.queue(List<(String, SongMeta)> queue) =
+      QueueResponse;
   const factory HostResponse.playState(
-      SongMeta currentSong, MediaPlayState playState, Duration playHead) = PlayStateResponse;
+          SongMeta currentSong, MediaPlayState playState, Duration playHead) =
+      PlayStateResponse;
   const factory HostResponse.error(String error) = ErrorResponse;
   const factory HostResponse.ok() = OkResponse;
-  const factory HostResponse.searchResult(List<SongMeta> songs) = SearchResultResponse;
+  const factory HostResponse.searchResult(List<SongMeta> songs) =
+      SearchResultResponse;
 
-  factory HostResponse.fromJson(Map<String, dynamic> json) => _$HostResponseFromJson(json);
+  factory HostResponse.fromJson(Map<String, dynamic> json) =>
+      _$HostResponseFromJson(json);
 }
 
 @freezed
 sealed class PlayState with _$PlayState {
   const factory PlayState({
-    required SongMeta currentSong,
+    required SongMeta? currentSong,
     required MediaPlayState playState,
     required Duration playHead,
 
@@ -113,5 +122,6 @@ sealed class PlayState with _$PlayState {
     required List<(Client?, SongMeta)> queue,
   }) = _PlayState;
 
-  factory PlayState.fromJson(Map<String, dynamic> json) => _$PlayStateFromJson(json);
+  factory PlayState.fromJson(Map<String, dynamic> json) =>
+      _$PlayStateFromJson(json);
 }
