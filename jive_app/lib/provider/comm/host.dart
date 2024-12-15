@@ -84,8 +84,7 @@ class HostControllerSingleton {
 
   Future<void> clear() async {
     if (_controller != null) {
-      _controller!.stopConnectionLoop();
-      await _controller!.disconnectAllClients();
+      await _controller!.dispose();
       _controller = null;
     }
   }

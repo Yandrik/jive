@@ -2,18 +2,32 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:anyhow/anyhow.dart';
 import 'package:async/async.dart' as async;
+import 'package:collection/collection.dart';
 import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/comm/transport.dart';
 import 'package:jive_app/logger.dart';
 import 'package:jive_app/utils/consts.dart';
 
+class ClientConnection {
+  final Transport transport;
+  final Client client;
+  DateTime lastActive;
+
+  ClientConnection(this.transport, this.client) : lastActive = DateTime.now();
+}
+
 /// Controls the host side of the communication, managing multiple client connections
 /// and message broadcasting capabilities.
 class HostController {
+  static const clientTimeout = Duration(seconds: 45);
+  Timer? _cleanupTimer;
   async.CancelableOperation? _acceptLoop;
+  Completer<void>? _waitForFirstMessageCompleter;
 
   /// List of active client connections with their associated transport layers
-  List<(Transport, Client)> clients = [];
+  List<ClientConnection> clients = [];
+
+  bool _disposed = false;
 
   /// The server address to connect to
   final Uri serverAddr;
@@ -26,7 +40,62 @@ class HostController {
 
   /// Creates a new HostController with the specified server address, host information,
   /// and message handler.
-  HostController(this.serverAddr, this.host, this._handleMessage);
+  HostController(this.serverAddr, this.host, this._handleMessage) {
+    _startCleanupTimer();
+  }
+
+  void _startCleanupTimer() {
+    _cleanupTimer?.cancel();
+    _cleanupTimer = Timer.periodic(Duration(seconds: 15), (timer) {
+      _cleanupTimedOutClients();
+    });
+  }
+
+  void _cleanupTimedOutClients() {
+    final now = DateTime.now();
+    for (var conn in clients) {
+      if (conn.transport.isConnected) {
+        conn.lastActive = now;
+      }
+    }
+    clients.removeWhere((conn) {
+      final isTimedOut = now.difference(conn.lastActive) > clientTimeout;
+      if (isTimedOut) {
+        logger.i(
+            "Client ${conn.client.id} timed out after ${clientTimeout.inSeconds}s");
+        conn.transport.dispose();
+      }
+      return isTimedOut;
+    });
+  }
+
+  /// Handles incoming messages from clients.
+  ///
+  /// Deserializes the raw message and forwards it to the message handler callback.
+  /// Logs any errors that occur during message processing.
+  void handleMessage(Client client, dynamic rawMessage) {
+    try {
+      logger.d("Received message from client ${client.id}: $rawMessage");
+      var message = DeviceCommand.fromJson(jsonDecode(rawMessage));
+
+      // Update last active timestamp
+      final clientConn =
+          clients.firstWhere((conn) => conn.client.id == client.id);
+      clientConn.lastActive = DateTime.now();
+
+      _handleMessage(client, message);
+    } catch (e) {
+      logger.e("Error handling message from client ${client.id}: $e");
+    }
+  }
+
+  Future<Result<void>> dispose() async {
+    logger.i("Disposing host controller...");
+    _disposed = true;
+    _cleanupTimer?.cancel();
+    _waitForFirstMessageCompleter?.completeError("HostController disposed");
+    return await disposeAllClients();
+  }
 
   Future<void> startConnectionLoop() async {
     logger.d("Starting connection loop with host id '${host.id}'...");
@@ -37,6 +106,7 @@ class HostController {
           logger.w("Connection attempt failed, retrying in 2s...");
           await Future.delayed(Duration(seconds: 2));
         }
+        if (_disposed) return;
       }
     }));
   }
@@ -58,12 +128,19 @@ class HostController {
   ///
   /// Returns a Result indicating success or failure of the connection attempt.
   Future<Result<void>> connectClient(Transport transport) async {
-    final firstMessageCompleter = Completer<void>();
+    if (_disposed) return;
+
+    if (_waitForFirstMessageCompleter != null &&
+        !_waitForFirstMessageCompleter!.isCompleted) {
+      _waitForFirstMessageCompleter!.completeError("Reconnect too early");
+    }
+
+    _waitForFirstMessageCompleter = Completer<void>();
     final completer = Completer<Result<void>>();
     final timeout = Duration(seconds: 10);
 
     onReceive(dynamic message) async {
-      firstMessageCompleter.complete(null);
+      _waitForFirstMessageCompleter?.complete(null);
       DeviceCommand data;
       try {
         data = DeviceCommand.fromJson(jsonDecode(message));
@@ -75,7 +152,23 @@ class HostController {
       switch (data) {
         case Connect(client: var client):
           _handleMessage(client, data);
-          clients.add((transport, client));
+
+          // Check if the client ID already exists
+          ClientConnection? existingConn = clients.firstWhereOrNull(
+            (conn) => conn.client.id == client.id,
+          );
+
+          if (existingConn != null) {
+            // Replace the old connection with the new one
+            logger.i(
+                "Client ${client.id} reconnected. Replacing old connection.");
+            clients.remove(existingConn);
+            await existingConn.transport.dispose();
+            clients.add(ClientConnection(transport, client));
+          } else {
+            clients.add(ClientConnection(transport, client));
+          }
+
           transport
               .onReceive((rawMessage) => handleMessage(client, rawMessage));
           var res =
@@ -99,32 +192,25 @@ class HostController {
     var res = await transport.connect();
     if (res.isErr()) return res.context("Failed to connect to transport");
 
-    // wait for any first message to arrive (so that something has connected)
-    await firstMessageCompleter.future;
+    // Wait for any first message to arrive
+    try {
+      await _waitForFirstMessageCompleter!.future;
+    } catch (e) {
+      logger.w("Failed to receive first message from client: $e");
+      await transport.dispose();
+      return bail(
+          "Failed to receive first message from client", StackTrace.current);
+    }
 
-    // then start the 10s timeout
+    // Start the timeout
     return await completer.future.timeout(
       timeout,
       onTimeout: () async {
-        await transport.disconnect();
+        await transport.dispose();
         return bail('Client connection timed out after ${timeout.inSeconds}s',
             StackTrace.current);
       },
     );
-  }
-
-  /// Handles incoming messages from clients.
-  ///
-  /// Deserializes the raw message and forwards it to the message handler callback.
-  /// Logs any errors that occur during message processing.
-  void handleMessage(Client client, dynamic rawMessage) {
-    try {
-      logger.d("Received message from client ${client.id}: $rawMessage");
-      var message = DeviceCommand.fromJson(jsonDecode(rawMessage));
-      _handleMessage(client, message);
-    } catch (e) {
-      logger.e("Error handling message from client ${client.id}: $e");
-    }
   }
 
   /// Sends a message to a specific client.
@@ -137,10 +223,10 @@ class HostController {
     try {
       clientConnection = clients
           .firstWhere(
-            (tuple) => tuple.$2.id == client.id,
+            (conn) => conn.client.id == client.id,
             orElse: () => throw Exception('Client not found: ${client.id}'),
           )
-          .$1;
+          .transport;
     } catch (e, st) {
       return bail(
           "Failed to find client ${client.name} (${client.id})'s connection: $e",
@@ -154,27 +240,29 @@ class HostController {
   ///
   /// Sends the specified HostResponse to every client in the connection list.
   Future<Result<void>> broadcast(HostResponse message) async {
-    for (var (transport, _) in clients) {
-      await transport.send(jsonEncode(message));
+    for (var conn in clients) {
+      if (conn.transport.isConnected) {
+        await conn.transport.send(jsonEncode(message));
+      }
     }
     return Ok(null);
   }
 
   /// Disconnects a specific client and removes it from the active clients list.
   Future<Result<void>> disconnectClient(Client client) async {
-    final index = clients.indexWhere((tuple) => tuple.$2.id == client.id);
+    final index = clients.indexWhere((conn) => conn.client.id == client.id);
     if (index != -1) {
-      final transport = clients[index].$1;
-      await transport.disconnect();
+      final transport = clients[index].transport;
+      await transport.dispose();
       clients.removeAt(index);
     }
     return Ok(null);
   }
 
   /// Disconnects all currently connected clients and clears the clients list.
-  Future<Result<void>> disconnectAllClients() async {
-    for (var (transport, _) in clients) {
-      await transport.disconnect();
+  Future<Result<void>> disposeAllClients() async {
+    for (var conn in clients) {
+      await conn.transport.dispose();
     }
     clients.clear();
     return Ok(null);
@@ -182,23 +270,30 @@ class HostController {
 
   /// Checks if a specific client is currently connected.
   bool isClientConnected(Client client) {
-    return clients.any((tuple) => tuple.$2.id == client.id);
+    return clients.any((conn) => conn.client.id == client.id);
   }
 
   /// Removes any clients whose transport layer is no longer connected.
   void cleanupDisconnectedClients() {
-    clients.removeWhere((tuple) => !tuple.$1.isConnected);
+    clients.removeWhere((conn) => !conn.transport.isConnected);
   }
 }
 
 /// Controls the client side of the communication, managing a single connection
 /// to a host at a time.
 class ClientController {
+  static const reconnectDelay = Duration(seconds: 2);
+  static const maxReconnectAttempts = 5;
+
   final Uri serverAddr;
   final Client client;
   Transport? _transport;
   Host? _connectedHost;
   final void Function(HostResponse) _handleResponse;
+
+  Timer? _reconnectTimer;
+  int _reconnectAttempts = 0;
+  bool _shouldReconnect = false;
 
   /// Creates a new ClientController with the specified server address, client information,
   /// and response handler.
@@ -210,14 +305,35 @@ class ClientController {
   /// Returns the currently connected host, if any
   Host? get currentHost => _connectedHost;
 
+  void _startReconnection() {
+    if (!_shouldReconnect || _reconnectAttempts >= maxReconnectAttempts)
+      return; // TODO: some kinda notification
+
+    _reconnectTimer?.cancel();
+    _reconnectTimer = Timer(reconnectDelay, () async {
+      _reconnectAttempts++;
+      logger.i('Attempting to reconnect (attempt $_reconnectAttempts)...');
+
+      if (_connectedHost != null) {
+        var result = await connectToHostWsRelay(_connectedHost!.id);
+        if (result.isOk()) {
+          _reconnectAttempts = 0;
+          _shouldReconnect = false;
+        } else {
+          _startReconnection();
+        }
+      }
+    });
+  }
+
   Future<Result<void>> connectToHostWsRelay(String hostId) async {
     final uri = "$SERVER_URI/join/$hostId";
-    var transport = WebSocketTransport(uri); // TODO: proper connect
+    var transport = WebSocketTransport(uri);
     return await connectToHost(transport)
         .context("Failed to connect to relay at $uri");
   }
 
-  /// Connects to a specific host using the host's ID.
+  /// Connects to a specific host using the provided transport.
   ///
   /// Automatically disconnects from any existing host connection before
   /// establishing the new connection.
@@ -226,6 +342,7 @@ class ClientController {
       await disconnect();
     }
 
+    _shouldReconnect = true;
     final connectionCompleter = Completer<Result<void>>();
     final timeout = Duration(seconds: 10);
 
@@ -257,7 +374,7 @@ class ClientController {
 
     await _transport!.send(jsonEncode(DeviceCommand.connect(client)));
 
-    return await connectionCompleter.future.timeout(
+    final res = await connectionCompleter.future.timeout(
       timeout,
       onTimeout: () async {
         await disconnect();
@@ -265,17 +382,33 @@ class ClientController {
             StackTrace.current);
       },
     );
+
+    if (res.isOk()) {
+      _transport!.onDisconnect(() {
+        _startReconnection();
+      });
+    }
+
+    return res;
   }
 
   /// Disconnects from the current host and cleans up the connection state.
   Future<Result<void>> disconnect() async {
+    _shouldReconnect = false;
+    _reconnectTimer?.cancel();
     if (_transport != null) {
       var result = await _transport!.disconnect();
+      await _transport!.dispose();
       _transport = null;
       _connectedHost = null;
       return result;
     }
     return Ok(null);
+  }
+
+  /// Disposes of the multiplexer and cleans up any resources.
+  Future<void> dispose() async {
+    await disconnect();
   }
 
   /// Sends a command to the connected host.

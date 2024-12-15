@@ -14,7 +14,7 @@ class PeoplePage extends StatelessWidget {
         ClientControllerSingleton.I.controller?.currentHost;
     final currentClient = ClientControllerSingleton.I.controller?.client;
     final connectedClients = HostControllerSingleton.I.controller?.clients
-            .map((t) => t.$2)
+            .map((t) => t.client)
             .toList() ??
         [];
 

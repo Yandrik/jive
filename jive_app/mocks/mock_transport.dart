@@ -52,4 +52,9 @@ class MockTransport implements Transport {
       print("WARN: MockTransport.simulateReceive() without a callback set");
     }
   }
+
+  @override
+  Future<void> dispose() async {
+    _connected = false;
+  }
 }

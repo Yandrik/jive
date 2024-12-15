@@ -68,6 +68,7 @@ class ClientControllerSingleton {
   Future<void> clear() async {
     if (_controller != null) {
       await _controller!.disconnect();
+      await _controller!.dispose();
       _controller = null;
     }
   }
