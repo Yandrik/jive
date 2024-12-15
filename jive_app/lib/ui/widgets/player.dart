@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/audio/grammophone.dart';
 import 'package:jive_app/comm/device_comm.dart';
-import 'package:jive_app/ui/widgets/song_progress_slider.dart';
 
 class Player extends ConsumerWidget {
   const Player({super.key});
@@ -41,9 +40,8 @@ class Player extends ConsumerWidget {
           initialData: ((Duration(), Duration())),
           builder: (context, snapshot) {
             final now = DateTime.now();
-            final completionTime = now
-                .add(snapshot.data?.$1 ?? Duration())
-                .subtract(snapshot.data?.$2 ?? Duration());
+            final completionTime =
+                now.add(snapshot.data?.$1 ?? Duration()).subtract(snapshot.data?.$2 ?? Duration());
 
             return StreamBuilder<Duration>(
               stream: Grammophone.I.playState == MediaPlayState.playing
@@ -99,8 +97,7 @@ class Player extends ConsumerWidget {
               icon: const Icon(Icons.skip_next),
               onPressed: () async {
                 await Grammophone.I.setup();
-                await Grammophone.I
-                    .play(SongReference.spotify('2U9kDk5mlHYunC7PvbZ8KX'));
+                await Grammophone.I.play(SongReference.spotify('2U9kDk5mlHYunC7PvbZ8KX'));
               },
             ),
           ],
