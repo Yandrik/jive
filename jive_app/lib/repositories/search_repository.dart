@@ -21,17 +21,15 @@ class SearchRepository {
     // Client => Request data from host (Youtube is maybe an exception)
     // Host => Request data directly from platforms
 
-    if (source == MusicSource.youtube) {
+    if (source == MusicSource.youtube)
       return await youtubeDatasource.search(searchQuery, offset);
-    }
 
     final hostController = HostControllerSingleton.I.controller;
     final clientController = ClientControllerSingleton.I.controller;
 
     if (hostController != null || clientController == null) {
-      if (source == MusicSource.spotify) {
+      if (source == MusicSource.spotify)
         return await spotifyDatasource.search(searchQuery, offset);
-      }
     } else {
       if (source == MusicSource.spotify) {
         final clientController = ClientControllerSingleton.I.controller;

@@ -267,7 +267,7 @@ void _showMoreSelection(SongMeta song, BuildContext context) {
                 leading: const Icon(Icons.play_arrow),
                 title: const Text('Play Next'),
                 onTap: () {
-                  // QueueSingleton.I.addNextInQueue(song);
+                  QueueSingleton.I.addNextInQueue(song);
                   Navigator.of(context).pop();
                 },
               ),

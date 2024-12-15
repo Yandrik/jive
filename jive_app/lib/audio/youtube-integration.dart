@@ -11,10 +11,9 @@ Future<VideoSearchList> searchYouTube(var searchQuery) async {
   return searchResults;
 }
 
+// Future<List<String>> getAutoCompleteSuggestions(String searchQuery) async {
+//   var yt = YoutubeExplode();
 
-/*Future<List<String>> getAutoCompleteSuggestions(String searchQuery) async {
-  var yt = YoutubeExplode();
-  
-  yt.close();
-  return suggestions;
-}*/
+//   yt.close();
+//   return suggestions;
+// }
