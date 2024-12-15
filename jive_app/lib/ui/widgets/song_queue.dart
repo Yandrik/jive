@@ -14,7 +14,8 @@ class SongQueue extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final songs = ref.watch(songQueueProvider);
     return ReorderableSliverList(
-      delegate: ReorderableSliverChildListDelegate(songs.mapIndexed((index, item) {
+      delegate:
+          ReorderableSliverChildListDelegate(songs.mapIndexed((index, item) {
         final song = item.$2;
         final client = item.$1;
         return ListTile(
@@ -32,7 +33,8 @@ class SongQueue extends ConsumerWidget {
               if (song.reference is SpotifySong)
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
-                  child: Image.asset('assets/logos/spotify_logo_black.png', height: 16),
+                  child: Image.asset('assets/logos/spotify_logo_black.png',
+                      height: 16),
                 ),
               if (song.reference is LocalSong)
                 Padding(

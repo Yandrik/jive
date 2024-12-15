@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/comm/device_comm.dart';
+import 'package:jive_app/comm/multiplexer.dart';
 import 'package:jive_app/logger.dart';
 import 'package:jive_app/provider/comm/client.dart';
 import 'package:jive_app/provider/comm/host.dart';
@@ -96,8 +97,7 @@ class _DialogContentState extends ConsumerState<DialogContent> {
   @override
   void initState() {
     super.initState();
-    enteredId =
-        ref.read(clientControllerPodProvider).value?.currentHost?.id ?? '';
+    enteredId = ClientControllerSingleton.I.controller?.currentHost?.id ?? '';
   }
 
   @override
@@ -173,12 +173,10 @@ class _DialogContentState extends ConsumerState<DialogContent> {
                       connecting = true;
                     });
 
-                    final clientRef =
-                        ref.read(clientControllerPodProvider.notifier);
-                    var clientController =
-                        await clientRef.create(enteredName.trim());
-                    var res = await clientController
-                        .connectToHostWsRelay(enteredId.trim());
+                    var clientController = await ClientControllerSingleton.I
+                        .create(enteredName.trim());
+                    var res = await ClientControllerSingleton.I
+                        .connect(enteredId.trim());
 
                     if (res.isOk()) {
                       if (context.mounted) {
@@ -189,6 +187,7 @@ class _DialogContentState extends ConsumerState<DialogContent> {
                         connecting = false;
                       });
                       logger.w("Connecting failed: $res");
+                      await ClientControllerSingleton.I.clear();
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -269,14 +268,18 @@ class _HostDialogContentState extends ConsumerState<HostDialogContent> {
                       creating = true;
                     });
 
-                    final hostRef =
-                        ref.read(hostControllerPodProvider.notifier);
+                    final hostController = await HostControllerSingleton.I
+                        .create(enteredName.trim(),
+                            {MusicSource.local, MusicSource.spotify});
 
-                    final hostController = await hostRef.create(
-                        enteredName.trim(),
-                        {MusicSource.local, MusicSource.spotify});
-
-                    await hostController.startConnectionLoop();
+                    var res = await HostControllerSingleton.I.start();
+                    if (res.isErr()) {
+                      logger.w("Starting Host Client-Connect failed");
+                      setState(() {
+                        creating = false;
+                      });
+                      return;
+                    }
 
                     if (context.mounted) {
                       context.navigateTo(HomeRoute());

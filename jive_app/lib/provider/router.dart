@@ -21,7 +21,8 @@ class AppRouter extends RootStackRouter {
           path: "/settings",
           page: SettingsRoute.page,
         ),
-        AutoRoute(path: "/hello", page: EntryRoute.page)
+        AutoRoute(path: "/hello", page: EntryRoute.page),
+        AutoRoute(path: "/people", page: PeopleRoute.page),
       ];
 
   @override
