@@ -71,6 +71,16 @@ class HostControllerSingleton {
     return bail("HostController is null. Please create a host first.");
   }
 
+  Future<Result<void>> sendToClient(
+      Client client, HostResponse response) async {
+    if (_controller != null) {
+      return await _controller!
+          .sendToClient(client, response)
+          .context("Failed to send message to client");
+    }
+    return bail("HostController is null. Please create a host first.");
+  }
+
   Future<void> clear() async {
     if (_controller != null) {
       _controller!.stopConnectionLoop();

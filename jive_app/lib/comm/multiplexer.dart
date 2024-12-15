@@ -127,6 +127,29 @@ class HostController {
     }
   }
 
+  /// Sends a message to a specific client.
+  ///
+  /// Takes a Client and HostResponse, encodes the message as JSON,
+  /// and sends it through the client's transport connection.
+  /// Returns a Result indicating success or failure.
+  Future<Result<void>> sendToClient(Client client, HostResponse message) async {
+    Transport clientConnection;
+    try {
+      clientConnection = clients
+          .firstWhere(
+            (tuple) => tuple.$2.id == client.id,
+            orElse: () => throw Exception('Client not found: ${client.id}'),
+          )
+          .$1;
+    } catch (e, st) {
+      return bail(
+          "Failed to find client ${client.name} (${client.id})'s connection: $e",
+          st);
+    }
+
+    return await clientConnection.send(jsonEncode(message));
+  }
+
   /// Broadcasts a message to all connected clients.
   ///
   /// Sends the specified HostResponse to every client in the connection list.
