@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/comm/device_comm.dart';
+import 'package:jive_app/provider/queue_manager.dart';
 import 'package:jive_app/repositories/search_repository.dart';
 import 'package:jive_app/ui/widgets/custom_network_image.dart';
 
-final searchMusicSource = StateProvider<MusicSource>((ref) => MusicSource.spotify);
+final searchMusicSource =
+    StateProvider<MusicSource>((ref) => MusicSource.spotify);
 
 class SearchSongDelegate extends SearchDelegate<SongMeta?> {
   SearchSongDelegate()
@@ -94,6 +96,7 @@ class SearchSongsResult extends ConsumerWidget {
           itemBuilder: (context, index) {
             final song = snapshot.data![index];
             return ListTile(
+              // TODO: HERE
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: CustomNetworkImage(
@@ -103,7 +106,15 @@ class SearchSongsResult extends ConsumerWidget {
               ),
               title: Text(song.title),
               subtitle: Text(song.artist.firstOrNull ?? ""),
-              onTap: () {},
+              onTap: () {
+                _showMoreSelection(song, context);
+              },
+              trailing: IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed: () {
+                  _showMoreSelection(song, context);
+                },
+              ),
             );
           },
         );
@@ -134,7 +145,8 @@ class SongSourceIcon extends ConsumerWidget {
                     leading: _getIcon(MusicSource.spotify),
                     title: const Text('Search Spotify'),
                     onTap: () {
-                      ref.read(searchMusicSource.notifier).state = MusicSource.spotify;
+                      ref.read(searchMusicSource.notifier).state =
+                          MusicSource.spotify;
                       Navigator.pop(context);
                     },
                   ),
@@ -142,7 +154,8 @@ class SongSourceIcon extends ConsumerWidget {
                     leading: _getIcon(MusicSource.youtube),
                     title: const Text('Search YouTube'),
                     onTap: () {
-                      ref.read(searchMusicSource.notifier).state = MusicSource.youtube;
+                      ref.read(searchMusicSource.notifier).state =
+                          MusicSource.youtube;
                       Navigator.pop(context);
                     },
                   ),
@@ -150,7 +163,8 @@ class SongSourceIcon extends ConsumerWidget {
                     leading: _getIcon(MusicSource.local),
                     title: const Text('Search local library'),
                     onTap: () {
-                      ref.read(searchMusicSource.notifier).state = MusicSource.local;
+                      ref.read(searchMusicSource.notifier).state =
+                          MusicSource.local;
                       Navigator.pop(context);
                     },
                   ),
@@ -203,16 +217,19 @@ class SongSearchResult extends StatelessWidget {
           : const Icon(Icons.music_note),
       title: Text(song.title),
       subtitle: Row(
+        //mainAxisSize: MainAxisSize.min,
         children: [
           if (song.reference is SpotifySong)
             Padding(
               padding: const EdgeInsets.only(right: 8),
-              child: Image.asset('assets/logos/spotify_logo_black.png', height: 16),
+              child: Image.asset('assets/logos/spotify_logo_black.png',
+                  height: 16),
             ),
           if (song.reference is YoutubeSong)
             Padding(
               padding: const EdgeInsets.only(right: 8),
-              child: Image.asset('assets/logos/youtube_logo_transparent.png', height: 16),
+              child: Image.asset('assets/logos/youtube_logo_transparent.png',
+                  height: 16),
             ),
           if (song.reference is LocalSong)
             Padding(
@@ -224,4 +241,40 @@ class SongSearchResult extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showMoreSelection(SongMeta song, BuildContext context) {
+  showModalBottomSheet(
+    showDragHandle: true,
+    context: context,
+    useRootNavigator: true,
+    builder: (context) {
+      return SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.vertical_align_bottom),
+                title: const Text('Add to the End'),
+                onTap: () {
+                  QueueSingleton.I.addToQueue(song);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.play_arrow),
+                title: const Text('Play Next'),
+                onTap: () {
+                  QueueSingleton.I.addNextInQueue(song);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
