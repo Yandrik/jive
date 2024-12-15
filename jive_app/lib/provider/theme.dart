@@ -87,6 +87,21 @@ ThemeData copyWithComponentThemes(
         ),
       ),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: flavor.subtext0),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: flavor.flamingo),
+      ),
+      labelStyle: TextStyle(color: flavor.subtext0),
+      floatingLabelStyle: TextStyle(color: flavor.flamingo),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: flavor.flamingo,
+      ),
+    ),
   );
 }
 

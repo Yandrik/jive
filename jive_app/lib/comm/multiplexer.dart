@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:anyhow/anyhow.dart';
+import 'package:async/async.dart' as async;
 import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/comm/transport.dart';
 import 'package:jive_app/logger.dart';
@@ -8,6 +9,8 @@ import 'package:jive_app/logger.dart';
 /// Controls the host side of the communication, managing multiple client connections
 /// and message broadcasting capabilities.
 class HostController {
+  async.CancelableOperation? _acceptLoop;
+
   /// List of active client connections with their associated transport layers
   List<(Transport, Client)> clients = [];
 
@@ -24,8 +27,27 @@ class HostController {
   /// and message handler.
   HostController(this._serverAddr, this._host, this._handleMessage);
 
+  Future<void> startConnectionLoop() async {
+    logger.d("Starting connection loop with host id '${_host.id}'...");
+    _acceptLoop = async.CancelableOperation.fromFuture(Future(() async {
+      while (true) {
+        var result = await connectClientWsRelay();
+        if (result.isErr()) {
+          logger.w("Connection attempt failed, retrying in 5s...");
+          await Future.delayed(Duration(seconds: 5));
+        }
+      }
+    }));
+  }
+
+  void stopConnectionLoop() {
+    _acceptLoop?.cancel();
+    _acceptLoop = null;
+  }
+
   Future<Result<void>> connectClientWsRelay() async {
     final uri = "wss://${_serverAddr.host}/host/${_host.id}";
+    logger.d("host connection on URL  '${_host.id}'...");
     var transport = WebSocketTransport(uri);
     return await connectClient(transport)
         .context("Failed to connect client at relay at $uri");
@@ -35,8 +57,7 @@ class HostController {
   ///
   /// Returns a Result indicating success or failure of the connection attempt.
   Future<Result<void>> connectClient(Transport transport) async {
-    var res = await transport.connect();
-    if (res.isErr()) return res.context("Failed to connect to transport");
+    final completer = Completer<Result<void>>();
 
     onReceive(dynamic message) async {
       DeviceCommand data;
@@ -47,35 +68,36 @@ class HostController {
         return;
       }
 
-      print(data);
+      // print(data);
       switch (data) {
         case Connect(client: var client):
           clients.add((transport, client));
           transport
               .onReceive((rawMessage) => handleMessage(client, rawMessage));
-          if (await transport
-              .send(jsonEncode(HostResponse.connect(_host)))
-              .isErr()) {
-            // TODO: handle
+          var res =
+              await transport.send(jsonEncode(HostResponse.connect(_host)));
+          if (res.isErr()) {
+            transport.disconnect();
+            completer.complete(res.context("Failed to send connect response"));
+            return;
           }
 
-          break;
+          completer.complete(Ok(null));
+          return;
         default:
-          var res = await transport.send(jsonEncode(
+          var _res = await transport.send(jsonEncode(
               HostResponse.error("Not connected yet. Connect first.")));
+          logger.d(
+              "New Client sent invalid connect message '$data' - still waiting...");
           break;
       }
     }
 
     transport.onReceive(onReceive);
 
-    try {
-      await transport.connect();
-    } catch (e, stackTrace) {
-      return bail(
-          "Couldn't connect to relay server ($_serverAddr): $e", stackTrace);
-    }
-    return Ok(null);
+    var res = await transport.connect();
+    if (res.isErr()) return res.context("Failed to connect to transport");
+    return await completer.future;
   }
 
   /// Handles incoming messages from clients.

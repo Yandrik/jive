@@ -27,7 +27,7 @@ class HostControllerPod extends _$HostControllerPod {
     return null;
   }
 
-  Future<void> create(String name, Set<MusicSource> sources,
+  Future<HostController> create(String name, Set<MusicSource> sources,
       {String? id}) async {
     var hostController = HostController(
         Uri.parse("wss://relay.hack2.yandrik.dev"),
@@ -41,6 +41,7 @@ class HostControllerPod extends _$HostControllerPod {
     });
 
     state = AsyncValue.data(hostController);
+    return hostController;
   }
 
   Future<Result<void>> start() async {

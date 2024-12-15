@@ -18,9 +18,7 @@ class HomePage extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                // context.navigateTo(SearchRoute());
-                // todo
-                context.navigateTo(EntryRoute());
+                _showExitDialog(context);
               },
               icon: Icon(Icons.exit_to_app),
             ),
@@ -52,6 +50,32 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showExitDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('End Jive Session?'),
+          content: Text('Are you sure you want to end your jive session?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                context.replaceRoute(EntryRoute());
+              },
+              child: Text('End Session'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
