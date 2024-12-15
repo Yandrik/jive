@@ -9,22 +9,6 @@ class Player extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  spreadRadius: 2,
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            )),
-        const SizedBox(height: 12),
         const Text(
           'Song Name',
           style: TextStyle(
