@@ -17,6 +17,10 @@ class SpotifyDatasource {
   String accessToken = "";
 
   Future<List<SongMeta>> search(String searchQuery, [int offset = 0]) async {
+    if (AppEnvironment.spotifyClientId.isEmpty || AppEnvironment.spotifyRedirectUrl.isEmpty) {
+      return [];
+    }
+
     try {
       accessToken = AppEnvironment.spotifyAccessToken;
       if (accessToken.isEmpty) {

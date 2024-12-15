@@ -33,8 +33,7 @@ ThemeData lightTheme(Ref ref) {
 ColorScheme getColorScheme(ThemeMode themeMode, Flavor flavor) {
   final flavor = Style.catppuccinFlavor;
   return ColorScheme(
-    brightness:
-        themeMode == ThemeMode.light ? Brightness.light : Brightness.dark,
+    brightness: themeMode == ThemeMode.light ? Brightness.light : Brightness.dark,
     error: flavor.surface2,
     onError: flavor.red,
     onPrimary: flavor.lavender,
@@ -59,50 +58,49 @@ TextTheme getTextTheme(ThemeMode themeMode, Flavor flavor) {
   );
 }
 
-ThemeData copyWithComponentThemes(
-    ThemeData theme, ThemeMode themeMode, Flavor flavor) {
+ThemeData copyWithComponentThemes(ThemeData theme, ThemeMode themeMode, Flavor flavor) {
   return theme.copyWith(
-    appBarTheme: AppBarTheme(
-      backgroundColor: flavor.mantle,
-    ),
-    bottomSheetTheme: BottomSheetThemeData(
-      dragHandleColor: Colors.white,
-      dragHandleSize: Size(60, 4),
-      elevation: 0,
-      showDragHandle: true,
-    ),
-    sliderTheme: SliderThemeData(thumbColor: Colors.white),
-    textSelectionTheme: TextSelectionThemeData(
-      cursorColor: Colors.white,
-      selectionColor: flavor.blue.withAlpha(200),
-      selectionHandleColor: flavor.blue.withAlpha(200),
-    ),
-    iconTheme: IconThemeData(color: Colors.white),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: flavor.maroon,
-        foregroundColor: flavor.crust,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      appBarTheme: AppBarTheme(
+        backgroundColor: flavor.mantle,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        dragHandleColor: Colors.white,
+        dragHandleSize: Size(60, 4),
+        elevation: 0,
+        showDragHandle: true,
+      ),
+      sliderTheme: SliderThemeData(thumbColor: Colors.white),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: Colors.white,
+        selectionColor: flavor.blue.withAlpha(200),
+        selectionHandleColor: flavor.blue.withAlpha(200),
+      ),
+      iconTheme: IconThemeData(color: Colors.white),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: flavor.maroon,
+          foregroundColor: flavor.crust,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: flavor.subtext0),
+      inputDecorationTheme: InputDecorationTheme(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: flavor.subtext0),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: flavor.flamingo),
+        ),
+        labelStyle: TextStyle(color: flavor.subtext0),
+        floatingLabelStyle: TextStyle(color: flavor.flamingo),
       ),
-      focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: flavor.flamingo),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: flavor.flamingo,
+        ),
       ),
-      labelStyle: TextStyle(color: flavor.subtext0),
-      floatingLabelStyle: TextStyle(color: flavor.flamingo),
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        foregroundColor: flavor.flamingo,
-      ),
-    ),
-  );
+      progressIndicatorTheme: ProgressIndicatorThemeData(color: flavor.lavender));
 }
 
 @riverpod

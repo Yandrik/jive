@@ -12,6 +12,14 @@ class CustomNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (imageUrl.isEmpty) {
+      ThemeData theme = Theme.of(context);
+      return Container(
+        color: theme.colorScheme.secondaryContainer,
+        width: size?.width,
+        height: size?.height,
+      );
+    }
     return CachedNetworkImage(
       imageUrl: imageUrl,
       fit: fit,

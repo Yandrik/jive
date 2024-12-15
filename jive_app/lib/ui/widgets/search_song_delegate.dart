@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/comm/device_comm.dart';
+import 'package:jive_app/repositories/datasources/spotify_datasource.dart';
 import 'package:jive_app/ui/widgets/custom_network_image.dart';
 
 enum SearchSource { spotify, youtube, local }
@@ -33,7 +36,7 @@ class SearchSongDelegate extends SearchDelegate<SongMeta?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    return SearchSongsResult(query);
   }
 
   @override
@@ -61,6 +64,49 @@ class SearchSongDelegate extends SearchDelegate<SongMeta?> {
         border: InputBorder.none,
       ),
       scaffoldBackgroundColor: theme.colorScheme.surfaceContainerLow,
+    );
+  }
+}
+
+class SearchSongsResult extends ConsumerWidget {
+  final String searchQuery;
+  const SearchSongsResult(this.searchQuery, {super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FutureBuilder<List<SongMeta>>(
+      initialData: [],
+      future: ref.read(spotifyDatasourceProvider).search(searchQuery),
+      builder: (context, AsyncSnapshot<List<SongMeta>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No results found'));
+        }
+
+        return ListView.builder(
+          itemCount: snapshot.data!.length,
+          itemBuilder: (context, index) {
+            final song = snapshot.data![index];
+            return ListTile(
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: CustomNetworkImage(
+                  imageUrl: song.albumArtUrl ?? "",
+                  size: Size.square(50),
+                ),
+              ),
+              title: Text(song.title),
+              subtitle: Text(song.artist.firstOrNull ?? ""),
+              onTap: () {},
+            );
+          },
+        );
+      },
     );
   }
 }
