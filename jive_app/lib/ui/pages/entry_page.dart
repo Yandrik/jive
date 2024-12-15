@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +9,8 @@ import 'package:jive_app/logger.dart';
 import 'package:jive_app/provider/comm/client.dart';
 import 'package:jive_app/provider/comm/host.dart';
 import 'package:jive_app/provider/router.gr.dart';
+import 'package:jive_app/ui/widgets/qr_code_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 @RoutePage()
 class EntryPage extends ConsumerWidget {
@@ -126,7 +130,20 @@ class _DialogContentState extends ConsumerState<DialogContent> {
                 IconButton(
                   icon: const Icon(Icons.qr_code_scanner),
                   onPressed: () {
-                    // QR code scanning logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BarcodeScannerSimple(
+                          onScan: (scannedCode) {
+                            // Update the Jive ID with the scanned barcode
+                            setState(() {
+                              enteredId = scannedCode;
+                            });
+                            Navigator.pop(context); // Close the barcode scanner screen
+                          },
+                        ),
+                      ),
+                    );
                   },
                 ),
               ],
