@@ -1,10 +1,17 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:catppuccin_flutter/catppuccin_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:jive_app/logger.dart';
+import 'package:jive_app/provider/comm/client.dart';
+import 'package:jive_app/provider/comm/host.dart';
 import 'package:jive_app/provider/router.gr.dart';
 import 'package:jive_app/ui/widgets/custom_network_image.dart';
 import 'package:jive_app/ui/widgets/player.dart';
 import 'package:jive_app/ui/widgets/search_song_delegate.dart';
 import 'package:jive_app/ui/widgets/song_queue.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:share_plus/share_plus.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
@@ -21,11 +28,22 @@ class HomePage extends StatelessWidget {
             SliverAppBar(
               floating: false,
               pinned: true,
-              leading: IconButton(
-                onPressed: () {
-                  _showExitDialog(context);
-                },
-                icon: Icon(Icons.exit_to_app),
+              leadingWidth: 200,
+              leading: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      _showExitDialog(context);
+                    },
+                    icon: Icon(Icons.exit_to_app),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      _showShareDialog(context);
+                    },
+                    icon: Icon(Icons.share),
+                  )
+                ],
               ),
               actions: [
                 IconButton(
@@ -135,4 +153,65 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(_StickyHeaderDelegate oldDelegate) {
     return false;
   }
+}
+
+void _showShareDialog(BuildContext context) {
+  logger.i("Showing Share Dialog...");
+
+  final sessionId = HostControllerSingleton.I.controller?.host.id ??
+      ClientControllerSingleton.I.controller?.currentHost?.id ??
+      'BUG: NO ID';
+  final shareUrl = 'wss://relay.hack2.yandrik.dev/join/$sessionId';
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Share Session'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PrettyQrView.data(
+                data: shareUrl,
+                decoration: PrettyQrDecoration(
+                    shape: PrettyQrSmoothSymbol(
+                        color: catppuccin.mocha.flamingo))),
+            SizedBox(height: 16),
+            SelectableText(
+              sessionId,
+              style: TextStyle(fontSize: 16),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.copy),
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: sessionId));
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.share),
+                  onPressed: () async {
+                    await Share.share(
+                      'Join my Jive session!\n$shareUrl',
+                      subject: 'Join Jive Session',
+                    );
+                  },
+                )
+              ],
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Close'),
+          ),
+        ],
+      );
+    },
+  );
 }
