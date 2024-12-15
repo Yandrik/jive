@@ -1,8 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/comm/device_comm.dart';
-import 'package:jive_app/comm/mocks/songs.dart';
 import 'package:jive_app/provider/queue_manager.dart';
 import 'package:jive_app/ui/widgets/custom_network_image.dart';
 import 'package:reorderables/reorderables.dart';
@@ -14,7 +12,7 @@ class SongQueue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (QueueSingleton.I.queue.isEmpty) {
-      QueueSingleton.I.addAllToQueue(songMocks);
+      //QueueSingleton.I.addAllToQueue(songMocks);
     }
     return StreamBuilder<List<(Option<Client>, SongMeta)>>(
         stream: QueueSingleton.I.queueStream,
@@ -27,8 +25,7 @@ class SongQueue extends StatelessWidget {
             songs = snapshot.data!;
           }
           return ReorderableSliverList(
-            delegate: ReorderableSliverChildListDelegate(
-                songs.mapIndexed((index, item) {
+            delegate: ReorderableSliverChildListDelegate(songs.mapIndexed((index, item) {
               final song = item.$2;
               final client = item.$1;
               return ListTile(
@@ -36,7 +33,7 @@ class SongQueue extends StatelessWidget {
                 key: ValueKey(song.id),
                 leading: song.albumArtUrl != null
                     ? CustomNetworkImage(
-                        imageUrl: "https://placehold.co/50x50.png",
+                        imageUrl: song.albumArtUrl ?? "https://placehold.co/50x50.png",
                         size: Size(50, 50),
                       )
                     : null,
@@ -46,9 +43,7 @@ class SongQueue extends StatelessWidget {
                     if (song.reference is SpotifySong)
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: Image.asset(
-                            'assets/logos/spotify_logo_black.png',
-                            height: 16),
+                        child: Image.asset('assets/logos/spotify_logo_black.png', height: 16),
                       ),
                     if (song.reference is LocalSong)
                       Padding(

@@ -12,8 +12,8 @@ class Player extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Song Name',
+        Text(
+          Grammophone.I.currentSong?.title ?? "Song Name",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -41,9 +41,8 @@ class Player extends ConsumerWidget {
           initialData: ((Duration(), Duration())),
           builder: (context, snapshot) {
             final now = DateTime.now();
-            final completionTime = now
-                .add(snapshot.data?.$1 ?? Duration())
-                .subtract(snapshot.data?.$2 ?? Duration());
+            final completionTime =
+                now.add(snapshot.data?.$1 ?? Duration()).subtract(snapshot.data?.$2 ?? Duration());
 
             return StreamBuilder<Duration>(
               stream: Grammophone.I.playState == MediaPlayState.playing

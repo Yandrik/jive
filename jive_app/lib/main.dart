@@ -49,6 +49,7 @@ class JiveApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Jive App',
       theme: ref.watch(lightThemeProvider),
       darkTheme: ref.watch(darkThemeProvider),
