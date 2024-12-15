@@ -128,7 +128,7 @@ class HostController {
   ///
   /// Returns a Result indicating success or failure of the connection attempt.
   Future<Result<void>> connectClient(Transport transport) async {
-    if (_disposed) return;
+    if (_disposed) return bail("HostController disposed");
 
     if (_waitForFirstMessageCompleter != null &&
         !_waitForFirstMessageCompleter!.isCompleted) {
