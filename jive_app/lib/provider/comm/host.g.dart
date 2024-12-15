@@ -22,7 +22,7 @@ final clientMessageProvider = AutoDisposeNotifierProvider<ClientMessage,
 );
 
 typedef _$ClientMessage = AutoDisposeNotifier<(Client, DeviceCommand)?>;
-String _$hostControllerPodHash() => r'82ed51fd90a519f8e33eec9d78a16b1409522467';
+String _$hostControllerPodHash() => r'e918d0b5e8e197b11809aae91c8970d2114235fb';
 
 /// See also [HostControllerPod].
 @ProviderFor(HostControllerPod)
