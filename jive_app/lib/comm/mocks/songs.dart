@@ -1,8 +1,9 @@
 import 'package:jive_app/comm/device_comm.dart';
+import 'package:rust/rust.dart';
 
-final List<(Client?, SongMeta)> songMocks = [
+final List<(Option<Client>, SongMeta)> songMocks = [
   (
-    Client(id: "123", name: "Lars"),
+    Some(Client(id: "123", name: "Lars")),
     SongMeta(
       title: "Bohemian Rhapsody",
       artist: ["Queen"],
@@ -14,7 +15,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Sweet Child O' Mine",
       artist: ["Guns N' Roses"],
@@ -26,7 +27,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Stairway to Heaven",
       artist: ["Led Zeppelin"],
@@ -38,7 +39,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Hotel California",
       artist: ["Eagles"],
@@ -50,7 +51,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Smells Like Teen Spirit",
       artist: ["Nirvana"],
@@ -62,7 +63,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Back in Black",
       artist: ["AC/DC"],
@@ -74,7 +75,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Purple Rain",
       artist: ["Prince"],
@@ -86,7 +87,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Like a Rolling Stone",
       artist: ["Bob Dylan"],
@@ -98,7 +99,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Imagine",
       artist: ["John Lennon"],
@@ -110,7 +111,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Billie Jean",
       artist: ["Michael Jackson"],
@@ -122,7 +123,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Sweet Dreams (Are Made of This)",
       artist: ["Eurythmics"],
@@ -134,7 +135,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Wonderwall",
       artist: ["Oasis"],
@@ -146,7 +147,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Every Breath You Take",
       artist: ["The Police"],
@@ -158,7 +159,7 @@ final List<(Client?, SongMeta)> songMocks = [
     )
   ),
   (
-    null,
+    None,
     SongMeta(
       title: "Like a Prayer",
       artist: ["Madonna"],
