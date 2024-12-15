@@ -14,15 +14,16 @@ class SpotifyDatasource {
   final Dio dio;
   SpotifyDatasource(this.dio);
 
-  String accessToken = "";
+  String accessToken = AppEnvironment.spotifyAccessToken;
 
   Future<List<SongMeta>> search(String searchQuery, [int offset = 0]) async {
-    if (AppEnvironment.spotifyClientId.isEmpty || AppEnvironment.spotifyRedirectUrl.isEmpty) {
+    if (AppEnvironment.spotifyClientId.isEmpty ||
+        AppEnvironment.spotifyRedirectUrl.isEmpty ||
+        searchQuery.trim().isEmpty) {
       return [];
     }
 
     try {
-      accessToken = AppEnvironment.spotifyAccessToken;
       if (accessToken.isEmpty) {
         accessToken = await SpotifySdk.getAccessToken(
           clientId: AppEnvironment.spotifyClientId,
