@@ -45,6 +45,7 @@ dependencies:
   cached_network_image: ^3.4.1
   shimmer: ^3.0.0
   uuid: ^4.5.1
+  youtube_explode_dart: ^2.3.6
 
 dev_dependencies:
   flutter_test:
