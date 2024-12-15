@@ -15,20 +15,20 @@ class HostController {
   List<(Transport, Client)> clients = [];
 
   /// The server address to connect to
-  final Uri _serverAddr;
+  final Uri serverAddr;
 
   /// Host information for this controller
-  final Host _host;
+  final Host host;
 
   /// Callback function to handle incoming client messages
   final void Function(Client, DeviceCommand) _handleMessage;
 
   /// Creates a new HostController with the specified server address, host information,
   /// and message handler.
-  HostController(this._serverAddr, this._host, this._handleMessage);
+  HostController(this.serverAddr, this.host, this._handleMessage);
 
   Future<void> startConnectionLoop() async {
-    logger.d("Starting connection loop with host id '${_host.id}'...");
+    logger.d("Starting connection loop with host id '${host.id}'...");
     _acceptLoop = async.CancelableOperation.fromFuture(Future(() async {
       while (true) {
         var result = await connectClientWsRelay();
@@ -46,8 +46,8 @@ class HostController {
   }
 
   Future<Result<void>> connectClientWsRelay() async {
-    final uri = "wss://${_serverAddr.host}/host/${_host.id}";
-    logger.d("host connection on URL  '${_host.id}'...");
+    final uri = "wss://${serverAddr.host}/host/${host.id}";
+    logger.d("host connection on URL  '${host.id}'...");
     var transport = WebSocketTransport(uri);
     return await connectClient(transport)
         .context("Failed to connect client at relay at $uri");
@@ -75,7 +75,7 @@ class HostController {
           transport
               .onReceive((rawMessage) => handleMessage(client, rawMessage));
           var res =
-              await transport.send(jsonEncode(HostResponse.connect(_host)));
+              await transport.send(jsonEncode(HostResponse.connect(host)));
           if (res.isErr()) {
             transport.disconnect();
             completer.complete(res.context("Failed to send connect response"));
@@ -132,6 +132,15 @@ class HostController {
       await transport.disconnect();
       clients.removeAt(index);
     }
+    return Ok(null);
+  }
+
+  /// Disconnects all currently connected clients and clears the clients list.
+  Future<Result<void>> disconnectAllClients() async {
+    for (var (transport, _) in clients) {
+      await transport.disconnect();
+    }
+    clients.clear();
     return Ok(null);
   }
 

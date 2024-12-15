@@ -6,11 +6,11 @@ part of 'client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$hostIdHash() => r'aa1971f0c67eefcba6f0e220b11814d8420ffd12';
+String _$hostIdHash() => r'30016875a2d8b1c34e2c19fbd1ee63787753f64e';
 
 /// See also [HostId].
 @ProviderFor(HostId)
-final hostIdProvider = AutoDisposeNotifierProvider<HostId, String?>.internal(
+final hostIdProvider = NotifierProvider<HostId, String?>.internal(
   HostId.new,
   name: r'hostIdProvider',
   debugGetCreateSourceHash:
@@ -19,13 +19,13 @@ final hostIdProvider = AutoDisposeNotifierProvider<HostId, String?>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$HostId = AutoDisposeNotifier<String?>;
-String _$hostMessageHash() => r'75107af4b172ec5cce2bf267d9b3abadfbb84f0d';
+typedef _$HostId = Notifier<String?>;
+String _$hostMessageHash() => r'145245bae7eea2e412030074c7edf3fa8173cfd4';
 
 /// See also [HostMessage].
 @ProviderFor(HostMessage)
 final hostMessageProvider =
-    AutoDisposeNotifierProvider<HostMessage, HostResponse?>.internal(
+    NotifierProvider<HostMessage, HostResponse?>.internal(
   HostMessage.new,
   name: r'hostMessageProvider',
   debugGetCreateSourceHash:
@@ -34,23 +34,6 @@ final hostMessageProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$HostMessage = AutoDisposeNotifier<HostResponse?>;
-String _$clientControllerPodHash() =>
-    r'4361dbec4a96573f8b66d3603acfbd10fbcbe3c1';
-
-/// See also [ClientControllerPod].
-@ProviderFor(ClientControllerPod)
-final clientControllerPodProvider = AutoDisposeAsyncNotifierProvider<
-    ClientControllerPod, ClientController?>.internal(
-  ClientControllerPod.new,
-  name: r'clientControllerPodProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$clientControllerPodHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$ClientControllerPod = AutoDisposeAsyncNotifier<ClientController?>;
+typedef _$HostMessage = Notifier<HostResponse?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
