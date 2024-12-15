@@ -97,6 +97,7 @@ class _DialogContentState extends ConsumerState<DialogContent> {
   String enteredId = '';
   String enteredName = '';
   bool connecting = false;
+  TextEditingController ctrl = TextEditingController();
 
   @override
   void initState() {
@@ -118,6 +119,7 @@ class _DialogContentState extends ConsumerState<DialogContent> {
                 Expanded(
                   child: TextField(
                     autofocus: true,
+                    controller: ctrl,
                     onChanged: (value) => setState(() {
                       enteredId = value;
                     }),
@@ -133,14 +135,18 @@ class _DialogContentState extends ConsumerState<DialogContent> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BarcodeScannerSimple(
-                          onScan: (scannedCode) {
-                            // Update the Jive ID with the scanned barcode
-                            setState(() {
-                              enteredId = scannedCode;
-                            });
-                            Navigator.pop(context); // Close the barcode scanner screen
-                          },
+                        builder: (context2) => PopScope(
+                          canPop: false,
+                          child: BarcodeScannerSimple(
+                            onScan: (scannedCode) {
+                              // Update the Jive ID with the scanned barcode
+                              ctrl.text = scannedCode;
+                              setState(() {
+                                enteredId = scannedCode;
+                              });
+                              Navigator.pop(context2); // Close the barcode scanner screen
+                            },
+                          ),
                         ),
                       ),
                     );
