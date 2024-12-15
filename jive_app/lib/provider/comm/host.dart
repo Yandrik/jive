@@ -6,6 +6,7 @@ import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/comm/multiplexer.dart';
 import 'package:jive_app/logger.dart';
 import 'package:jive_app/utils/consts.dart';
+import 'package:jive_app/utils/util-methods.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -42,7 +43,7 @@ class HostControllerSingleton {
     _controller = HostController(
         Uri.parse(SERVER_URI),
         Host(
-          id: id ?? Uuid().v4(),
+          id: id ?? ReadableIdGenerator.generate(),
           name: name,
           sources: sources,
         ), (client, command) {

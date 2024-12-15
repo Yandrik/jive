@@ -6,6 +6,7 @@ import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/comm/multiplexer.dart';
 import 'package:jive_app/logger.dart';
 import 'package:jive_app/utils/consts.dart';
+import 'package:jive_app/utils/util-methods.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -38,9 +39,8 @@ class ClientControllerSingleton {
 
   Future<ClientController> create(String name, {String? id}) async {
     logger.d("Creating Client Controller...");
-    _controller = ClientController(
-        Uri.parse(SERVER_URI), Client(id: id ?? Uuid().v4(), name: name),
-        (resp) {
+    _controller = ClientController(Uri.parse(SERVER_URI),
+        Client(id: id ?? ReadableIdGenerator.generate(), name: name), (resp) {
       logger.d("HostResponse received: $resp");
       streamController.add(resp);
     });
