@@ -1,6 +1,6 @@
-//QR-Code Scanner
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:catppuccin_flutter/catppuccin_flutter.dart';
 
 class BarcodeScannerSimple extends StatefulWidget {
   final Function(String) onScan;
@@ -13,6 +13,8 @@ class BarcodeScannerSimple extends StatefulWidget {
 
 class _BarcodeScannerSimpleState extends State<BarcodeScannerSimple> {
   Barcode? _barcode;
+  String _scannedValue = '';
+  //REMOVE TextEditingController _textController = TextEditingController();
 
     // This is the widget that shows the scanning area overlay
   Widget _buildScannerOverlay() {
@@ -32,6 +34,29 @@ class _BarcodeScannerSimpleState extends State<BarcodeScannerSimple> {
     );
   }
 
+    // Method to handle the barcode scan and truncate value
+  void _handleBarcode(BarcodeCapture barcodes) {
+    if (barcodes.barcodes.isNotEmpty) {
+      String rawValue = barcodes.barcodes.first.displayValue ?? '';
+      
+    // Find the index of the last slash ('/')
+    int lastSlashIndex = rawValue.lastIndexOf('/');
+    
+    // If a slash is found, extract the substring after the last slash
+    String truncatedValue = lastSlashIndex != -1
+        ? rawValue.substring(lastSlashIndex + 1) // Everything after the last slash
+        : rawValue; // If no slash is found, return the full value
+
+      setState(() {
+        _scannedValue = truncatedValue; // Store truncated value
+        //REMOVE _textController.text = truncatedValue; // Update the text field with truncated value
+      });
+
+      // Call the onScan callback with the scanned value
+      widget.onScan(truncatedValue); // Pass the scanned value back to the parent widget
+    }
+  }
+
   Widget _buildBarcode(Barcode? value) {
     if (value == null) {
       return const Text(
@@ -48,19 +73,11 @@ class _BarcodeScannerSimpleState extends State<BarcodeScannerSimple> {
     );
   }
 
-  void _handleBarcode(BarcodeCapture barcodes) {
-    if (mounted) {
-      setState(() {
-        _barcode = barcodes.barcodes.firstOrNull;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(title:const Text('QR-Code Scanner')),
-      backgroundColor: Colors.black,
+      backgroundColor: catppuccin.mocha.base,
       body: Stack(
         children: [
           MobileScanner(
@@ -75,7 +92,7 @@ class _BarcodeScannerSimpleState extends State<BarcodeScannerSimple> {
             child: Container(
               alignment: Alignment.bottomCenter,
               height: 80,
-              color: Colors.black,
+              color: catppuccin.mocha.base,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
