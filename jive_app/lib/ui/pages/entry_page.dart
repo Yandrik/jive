@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +9,8 @@ import 'package:jive_app/logger.dart';
 import 'package:jive_app/provider/comm/client.dart';
 import 'package:jive_app/provider/comm/host.dart';
 import 'package:jive_app/provider/router.gr.dart';
+import 'package:jive_app/ui/widgets/qr_code_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 @RoutePage()
 class EntryPage extends ConsumerWidget {
@@ -37,8 +41,7 @@ class EntryPage extends ConsumerWidget {
                   icon: const Icon(Icons.group_add),
                   label: const Text('Join a Jive'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     textStyle: const TextStyle(fontSize: 20),
                   ),
                 ),
@@ -50,8 +53,7 @@ class EntryPage extends ConsumerWidget {
                   icon: const Icon(Icons.add_circle),
                   label: const Text('Start a Jive'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     textStyle: const TextStyle(fontSize: 20),
                   ),
                 ),
@@ -93,6 +95,7 @@ class _DialogContentState extends ConsumerState<DialogContent> {
   String enteredId = '';
   String enteredName = '';
   bool connecting = false;
+  TextEditingController ctrl = TextEditingController();
 
   @override
   void initState() {
@@ -114,6 +117,7 @@ class _DialogContentState extends ConsumerState<DialogContent> {
                 Expanded(
                   child: TextField(
                     autofocus: true,
+                    controller: ctrl,
                     onChanged: (value) => setState(() {
                       enteredId = value;
                     }),
@@ -126,7 +130,21 @@ class _DialogContentState extends ConsumerState<DialogContent> {
                 IconButton(
                   icon: const Icon(Icons.qr_code_scanner),
                   onPressed: () {
-                    // QR code scanning logic here
+                    showDialog(
+                        useRootNavigator: true,
+                        context: context,
+                        builder: (context) {
+                          return BarcodeScannerSimple(
+                            onScan: (scannedCode) {
+                              // Update the Jive ID with the scanned barcode
+                              ctrl.text = scannedCode;
+                              setState(() {
+                                enteredId = scannedCode;
+                              });
+                              Navigator.pop(context); // Close the barcode scanner screen
+                            },
+                          );
+                        });
                   },
                 ),
               ],
@@ -164,19 +182,16 @@ class _DialogContentState extends ConsumerState<DialogContent> {
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: connecting ||
-                    enteredId.trim().isEmpty ||
-                    enteredName.trim().isEmpty
+            onPressed: connecting || enteredId.trim().isEmpty || enteredName.trim().isEmpty
                 ? null
                 : () async {
                     setState(() {
                       connecting = true;
                     });
 
-                    var clientController = await ClientControllerSingleton.I
-                        .create(enteredName.trim());
-                    var res = await ClientControllerSingleton.I
-                        .connect(enteredId.trim());
+                    var clientController =
+                        await ClientControllerSingleton.I.create(enteredName.trim());
+                    var res = await ClientControllerSingleton.I.connect(enteredId.trim());
 
                     if (res.isOk()) {
                       if (context.mounted) {
@@ -191,8 +206,7 @@ class _DialogContentState extends ConsumerState<DialogContent> {
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content:
-                                Text("Connection failed, please try again"),
+                            content: Text("Connection failed, please try again"),
                             elevation: 100,
                             behavior: SnackBarBehavior.floating,
                           ),
@@ -269,8 +283,7 @@ class _HostDialogContentState extends ConsumerState<HostDialogContent> {
                     });
 
                     final hostController = await HostControllerSingleton.I
-                        .create(enteredName.trim(),
-                            {MusicSource.local, MusicSource.spotify});
+                        .create(enteredName.trim(), {MusicSource.local, MusicSource.spotify});
 
                     var res = await HostControllerSingleton.I.start();
                     if (res.isErr()) {

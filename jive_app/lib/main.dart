@@ -34,9 +34,7 @@ class _EagerInitialization extends ConsumerWidget {
       ref.watch(prefsProvider),
     ];
 
-    // print(values);
-
-    if (values.every((value) => value is AsyncValue && value.hasValue)) {
+    if (values.every((value) => value.hasValue)) {
       return child;
     }
     return const SizedBox();
