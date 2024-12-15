@@ -21,7 +21,9 @@ class SearchRepository {
     final hostController = HostControllerSingleton.I.controller;
 
     if (hostController != null) {
-      return await spotifyDatasource.search(searchQuery, offset);
+      if (source == MusicSource.spotify) {
+        return await spotifyDatasource.search(searchQuery, offset);
+      }
     } else {
       final clientController = ClientControllerSingleton.I.controller;
       final completer = Completer<List<SongMeta>>();
@@ -38,6 +40,7 @@ class SearchRepository {
 
       return result;
     }
+    return [];
   }
 }
 
