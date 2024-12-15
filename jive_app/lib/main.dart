@@ -28,13 +28,13 @@ class _EagerInitialization extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(searchRepositoryProvider);
     // Providers that are initialized eagerly
     final values = [
       ref.watch(prefsProvider),
-      ref.watch(searchRepositoryProvider),
     ];
 
-    if (values.every((value) => value is AsyncValue && value.hasValue)) {
+    if (values.every((value) => value.hasValue)) {
       return child;
     }
     return const SizedBox();

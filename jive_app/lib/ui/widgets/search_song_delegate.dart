@@ -1,11 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/comm/device_comm.dart';
-import 'package:jive_app/repositories/datasources/spotify_datasource.dart';
+import 'package:jive_app/repositories/search_repository.dart';
 import 'package:jive_app/ui/widgets/custom_network_image.dart';
 
-enum SearchSource { spotify, youtube, local }
+final searchMusicSource = StateProvider<MusicSource>((ref) => MusicSource.spotify);
 
 class SearchSongDelegate extends SearchDelegate<SongMeta?> {
   SearchSongDelegate()
@@ -76,7 +75,9 @@ class SearchSongsResult extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<List<SongMeta>>(
       initialData: [],
-      future: ref.read(spotifyDatasourceProvider).search(searchQuery),
+      future: ref
+          .read(searchRepositoryProvider)
+          .search(searchQuery, ref.read(searchMusicSource.notifier).state),
       builder: (context, AsyncSnapshot<List<SongMeta>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -111,18 +112,14 @@ class SearchSongsResult extends ConsumerWidget {
   }
 }
 
-class SongSourceIcon extends StatefulWidget {
-  const SongSourceIcon({super.key});
+class SongSourceIcon extends ConsumerWidget {
+  const SongSourceIcon({
+    super.key,
+  });
 
   @override
-  State<SongSourceIcon> createState() => _SongSourceIconState();
-}
-
-class _SongSourceIconState extends State<SongSourceIcon> {
-  SearchSource _searchSource = SearchSource.spotify;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final musicSource = ref.watch(searchMusicSource);
     return IconButton(
       onPressed: () {
         showDialog(
@@ -134,26 +131,26 @@ class _SongSourceIconState extends State<SongSourceIcon> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
-                    leading: _getIcon(SearchSource.spotify),
+                    leading: _getIcon(MusicSource.spotify),
                     title: const Text('Search Spotify'),
                     onTap: () {
-                      setState(() => _searchSource = SearchSource.spotify);
+                      ref.read(searchMusicSource.notifier).state = MusicSource.spotify;
                       Navigator.pop(context);
                     },
                   ),
                   ListTile(
-                    leading: _getIcon(SearchSource.youtube),
+                    leading: _getIcon(MusicSource.youtube),
                     title: const Text('Search YouTube'),
                     onTap: () {
-                      setState(() => _searchSource = SearchSource.youtube);
+                      ref.read(searchMusicSource.notifier).state = MusicSource.youtube;
                       Navigator.pop(context);
                     },
                   ),
                   ListTile(
-                    leading: _getIcon(SearchSource.local),
+                    leading: _getIcon(MusicSource.local),
                     title: const Text('Search local library'),
                     onTap: () {
-                      setState(() => _searchSource = SearchSource.local);
+                      ref.read(searchMusicSource.notifier).state = MusicSource.local;
                       Navigator.pop(context);
                     },
                   ),
@@ -163,19 +160,19 @@ class _SongSourceIconState extends State<SongSourceIcon> {
           },
         );
       },
-      icon: _getIcon(_searchSource),
+      icon: _getIcon(musicSource),
     );
   }
 
-  Widget _getIcon(SearchSource source) {
-    if (source == SearchSource.spotify) {
+  Widget _getIcon(MusicSource source) {
+    if (source == MusicSource.spotify) {
       return Image.asset(
         "assets/logos/spotify_logo_black.png",
         fit: BoxFit.cover,
         width: 24,
         height: 24,
       );
-    } else if (source == SearchSource.youtube) {
+    } else if (source == MusicSource.youtube) {
       return Image.asset(
         "assets/logos/youtube_logo_transparent.png",
         fit: BoxFit.contain,

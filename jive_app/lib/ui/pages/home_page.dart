@@ -30,8 +30,7 @@ class HomePage extends StatelessWidget {
             logger.i("message by $name");
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(
-                    "Client '$name' has connected. TODO: only do connects"),
+                content: Text("Client '$name' has connected. TODO: only do connects"),
               ),
             );
           }
@@ -98,8 +97,8 @@ class HomePage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: const CustomNetworkImage(
-                            imageUrl: "https://placehold.co/512x512.png"),
+                        child:
+                            const CustomNetworkImage(imageUrl: "https://placehold.co/512x512.png"),
                       ),
                     ),
                   ),
@@ -171,8 +170,7 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => height;
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return child;
   }
 
@@ -201,8 +199,7 @@ void _showShareDialog(BuildContext context) {
             PrettyQrView.data(
                 data: shareUrl,
                 decoration: PrettyQrDecoration(
-                    shape: PrettyQrSmoothSymbol(
-                        color: catppuccin.mocha.flamingo))),
+                    shape: PrettyQrSmoothSymbol(color: catppuccin.mocha.flamingo))),
             SizedBox(height: 16),
             SelectableText(
               sessionId,
