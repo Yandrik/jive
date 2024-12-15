@@ -993,6 +993,8 @@ DeviceCommand _$DeviceCommandFromJson(Map<String, dynamic> json) {
       return SetVolume.fromJson(json);
     case 'playSong':
       return PlaySong.fromJson(json);
+    case 'search':
+      return SearchCommand.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'DeviceCommand',
@@ -1011,6 +1013,8 @@ mixin _$DeviceCommand {
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
     required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1022,6 +1026,7 @@ mixin _$DeviceCommand {
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
     TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1033,6 +1038,7 @@ mixin _$DeviceCommand {
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
     TResult Function(SongReference songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1045,6 +1051,7 @@ mixin _$DeviceCommand {
     required TResult Function(MediaCommand value) mediaCommand,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1056,6 +1063,7 @@ mixin _$DeviceCommand {
     TResult? Function(MediaCommand value)? mediaCommand,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1067,6 +1075,7 @@ mixin _$DeviceCommand {
     TResult Function(MediaCommand value)? mediaCommand,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1191,6 +1200,8 @@ class _$ConnectImpl implements Connect {
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
     required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
   }) {
     return connect(client);
   }
@@ -1205,6 +1216,7 @@ class _$ConnectImpl implements Connect {
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
     TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return connect?.call(client);
   }
@@ -1219,6 +1231,7 @@ class _$ConnectImpl implements Connect {
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
     TResult Function(SongReference songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
     if (connect != null) {
@@ -1237,6 +1250,7 @@ class _$ConnectImpl implements Connect {
     required TResult Function(MediaCommand value) mediaCommand,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
   }) {
     return connect(this);
   }
@@ -1251,6 +1265,7 @@ class _$ConnectImpl implements Connect {
     TResult? Function(MediaCommand value)? mediaCommand,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
   }) {
     return connect?.call(this);
   }
@@ -1265,6 +1280,7 @@ class _$ConnectImpl implements Connect {
     TResult Function(MediaCommand value)? mediaCommand,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
     required TResult orElse(),
   }) {
     if (connect != null) {
@@ -1350,6 +1366,8 @@ class _$RequestIDImpl implements RequestID {
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
     required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
   }) {
     return requestId();
   }
@@ -1364,6 +1382,7 @@ class _$RequestIDImpl implements RequestID {
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
     TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return requestId?.call();
   }
@@ -1378,6 +1397,7 @@ class _$RequestIDImpl implements RequestID {
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
     TResult Function(SongReference songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
     if (requestId != null) {
@@ -1396,6 +1416,7 @@ class _$RequestIDImpl implements RequestID {
     required TResult Function(MediaCommand value) mediaCommand,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
   }) {
     return requestId(this);
   }
@@ -1410,6 +1431,7 @@ class _$RequestIDImpl implements RequestID {
     TResult? Function(MediaCommand value)? mediaCommand,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
   }) {
     return requestId?.call(this);
   }
@@ -1424,6 +1446,7 @@ class _$RequestIDImpl implements RequestID {
     TResult Function(MediaCommand value)? mediaCommand,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
     required TResult orElse(),
   }) {
     if (requestId != null) {
@@ -1503,6 +1526,8 @@ class _$RequestStateImpl implements RequestState {
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
     required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
   }) {
     return requestState();
   }
@@ -1517,6 +1542,7 @@ class _$RequestStateImpl implements RequestState {
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
     TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return requestState?.call();
   }
@@ -1531,6 +1557,7 @@ class _$RequestStateImpl implements RequestState {
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
     TResult Function(SongReference songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
     if (requestState != null) {
@@ -1549,6 +1576,7 @@ class _$RequestStateImpl implements RequestState {
     required TResult Function(MediaCommand value) mediaCommand,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
   }) {
     return requestState(this);
   }
@@ -1563,6 +1591,7 @@ class _$RequestStateImpl implements RequestState {
     TResult? Function(MediaCommand value)? mediaCommand,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
   }) {
     return requestState?.call(this);
   }
@@ -1577,6 +1606,7 @@ class _$RequestStateImpl implements RequestState {
     TResult Function(MediaCommand value)? mediaCommand,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
     required TResult orElse(),
   }) {
     if (requestState != null) {
@@ -1656,6 +1686,8 @@ class _$RequestQueueImpl implements RequestQueue {
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
     required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
   }) {
     return requestQueue();
   }
@@ -1670,6 +1702,7 @@ class _$RequestQueueImpl implements RequestQueue {
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
     TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return requestQueue?.call();
   }
@@ -1684,6 +1717,7 @@ class _$RequestQueueImpl implements RequestQueue {
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
     TResult Function(SongReference songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
     if (requestQueue != null) {
@@ -1702,6 +1736,7 @@ class _$RequestQueueImpl implements RequestQueue {
     required TResult Function(MediaCommand value) mediaCommand,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
   }) {
     return requestQueue(this);
   }
@@ -1716,6 +1751,7 @@ class _$RequestQueueImpl implements RequestQueue {
     TResult? Function(MediaCommand value)? mediaCommand,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
   }) {
     return requestQueue?.call(this);
   }
@@ -1730,6 +1766,7 @@ class _$RequestQueueImpl implements RequestQueue {
     TResult Function(MediaCommand value)? mediaCommand,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
     required TResult orElse(),
   }) {
     if (requestQueue != null) {
@@ -1836,6 +1873,8 @@ class _$MediaCommandImpl implements MediaCommand {
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
     required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
   }) {
     return mediaCommand(command);
   }
@@ -1850,6 +1889,7 @@ class _$MediaCommandImpl implements MediaCommand {
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
     TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return mediaCommand?.call(command);
   }
@@ -1864,6 +1904,7 @@ class _$MediaCommandImpl implements MediaCommand {
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
     TResult Function(SongReference songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
     if (mediaCommand != null) {
@@ -1882,6 +1923,7 @@ class _$MediaCommandImpl implements MediaCommand {
     required TResult Function(MediaCommand value) mediaCommand,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
   }) {
     return mediaCommand(this);
   }
@@ -1896,6 +1938,7 @@ class _$MediaCommandImpl implements MediaCommand {
     TResult? Function(MediaCommand value)? mediaCommand,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
   }) {
     return mediaCommand?.call(this);
   }
@@ -1910,6 +1953,7 @@ class _$MediaCommandImpl implements MediaCommand {
     TResult Function(MediaCommand value)? mediaCommand,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
     required TResult orElse(),
   }) {
     if (mediaCommand != null) {
@@ -2025,6 +2069,8 @@ class _$SetVolumeImpl implements SetVolume {
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
     required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
   }) {
     return setVolume(volume);
   }
@@ -2039,6 +2085,7 @@ class _$SetVolumeImpl implements SetVolume {
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
     TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return setVolume?.call(volume);
   }
@@ -2053,6 +2100,7 @@ class _$SetVolumeImpl implements SetVolume {
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
     TResult Function(SongReference songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
     if (setVolume != null) {
@@ -2071,6 +2119,7 @@ class _$SetVolumeImpl implements SetVolume {
     required TResult Function(MediaCommand value) mediaCommand,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
   }) {
     return setVolume(this);
   }
@@ -2085,6 +2134,7 @@ class _$SetVolumeImpl implements SetVolume {
     TResult? Function(MediaCommand value)? mediaCommand,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
   }) {
     return setVolume?.call(this);
   }
@@ -2099,6 +2149,7 @@ class _$SetVolumeImpl implements SetVolume {
     TResult Function(MediaCommand value)? mediaCommand,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
     required TResult orElse(),
   }) {
     if (setVolume != null) {
@@ -2226,6 +2277,8 @@ class _$PlaySongImpl implements PlaySong {
     required TResult Function(MediaCommandType command) mediaCommand,
     required TResult Function(int volume) setVolume,
     required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
   }) {
     return playSong(songMeta);
   }
@@ -2240,6 +2293,7 @@ class _$PlaySongImpl implements PlaySong {
     TResult? Function(MediaCommandType command)? mediaCommand,
     TResult? Function(int volume)? setVolume,
     TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return playSong?.call(songMeta);
   }
@@ -2254,6 +2308,7 @@ class _$PlaySongImpl implements PlaySong {
     TResult Function(MediaCommandType command)? mediaCommand,
     TResult Function(int volume)? setVolume,
     TResult Function(SongReference songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
     if (playSong != null) {
@@ -2272,6 +2327,7 @@ class _$PlaySongImpl implements PlaySong {
     required TResult Function(MediaCommand value) mediaCommand,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
   }) {
     return playSong(this);
   }
@@ -2286,6 +2342,7 @@ class _$PlaySongImpl implements PlaySong {
     TResult? Function(MediaCommand value)? mediaCommand,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
   }) {
     return playSong?.call(this);
   }
@@ -2300,6 +2357,7 @@ class _$PlaySongImpl implements PlaySong {
     TResult Function(MediaCommand value)? mediaCommand,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
     required TResult orElse(),
   }) {
     if (playSong != null) {
@@ -2328,6 +2386,222 @@ abstract class PlaySong implements DeviceCommand {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PlaySongImplCopyWith<_$PlaySongImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SearchCommandImplCopyWith<$Res> {
+  factory _$$SearchCommandImplCopyWith(
+          _$SearchCommandImpl value, $Res Function(_$SearchCommandImpl) then) =
+      __$$SearchCommandImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String query, MusicSource source, int offset});
+}
+
+/// @nodoc
+class __$$SearchCommandImplCopyWithImpl<$Res>
+    extends _$DeviceCommandCopyWithImpl<$Res, _$SearchCommandImpl>
+    implements _$$SearchCommandImplCopyWith<$Res> {
+  __$$SearchCommandImplCopyWithImpl(
+      _$SearchCommandImpl _value, $Res Function(_$SearchCommandImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? query = null,
+    Object? source = null,
+    Object? offset = null,
+  }) {
+    return _then(_$SearchCommandImpl(
+      null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String,
+      null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as MusicSource,
+      null == offset
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SearchCommandImpl implements SearchCommand {
+  const _$SearchCommandImpl(this.query, this.source, this.offset,
+      {final String? $type})
+      : $type = $type ?? 'search';
+
+  factory _$SearchCommandImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SearchCommandImplFromJson(json);
+
+  @override
+  final String query;
+  @override
+  final MusicSource source;
+  @override
+  final int offset;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'DeviceCommand.search(query: $query, source: $source, offset: $offset)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchCommandImpl &&
+            (identical(other.query, query) || other.query == query) &&
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.offset, offset) || other.offset == offset));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, query, source, offset);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SearchCommandImplCopyWith<_$SearchCommandImpl> get copyWith =>
+      __$$SearchCommandImplCopyWithImpl<_$SearchCommandImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
+    required TResult Function() requestId,
+    required TResult Function() requestState,
+    required TResult Function() requestQueue,
+    required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int volume) setVolume,
+    required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
+  }) {
+    return search(query, source, offset);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
+    TResult? Function()? requestId,
+    TResult? Function()? requestState,
+    TResult? Function()? requestQueue,
+    TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int volume)? setVolume,
+    TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
+  }) {
+    return search?.call(query, source, offset);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
+    TResult Function()? requestId,
+    TResult Function()? requestState,
+    TResult Function()? requestQueue,
+    TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int volume)? setVolume,
+    TResult Function(SongReference songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
+    required TResult orElse(),
+  }) {
+    if (search != null) {
+      return search(query, source, offset);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
+    required TResult Function(RequestID value) requestId,
+    required TResult Function(RequestState value) requestState,
+    required TResult Function(RequestQueue value) requestQueue,
+    required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(SetVolume value) setVolume,
+    required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
+  }) {
+    return search(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
+    TResult? Function(RequestID value)? requestId,
+    TResult? Function(RequestState value)? requestState,
+    TResult? Function(RequestQueue value)? requestQueue,
+    TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(SetVolume value)? setVolume,
+    TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
+  }) {
+    return search?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
+    TResult Function(RequestID value)? requestId,
+    TResult Function(RequestState value)? requestState,
+    TResult Function(RequestQueue value)? requestQueue,
+    TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(SetVolume value)? setVolume,
+    TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
+    required TResult orElse(),
+  }) {
+    if (search != null) {
+      return search(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SearchCommandImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class SearchCommand implements DeviceCommand {
+  const factory SearchCommand(
+          final String query, final MusicSource source, final int offset) =
+      _$SearchCommandImpl;
+
+  factory SearchCommand.fromJson(Map<String, dynamic> json) =
+      _$SearchCommandImpl.fromJson;
+
+  String get query;
+  MusicSource get source;
+  int get offset;
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SearchCommandImplCopyWith<_$SearchCommandImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2650,6 +2924,8 @@ HostResponse _$HostResponseFromJson(Map<String, dynamic> json) {
       return ErrorResponse.fromJson(json);
     case 'ok':
       return OkResponse.fromJson(json);
+    case 'searchResult':
+      return SearchResultResponse.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'HostResponse',
@@ -2669,6 +2945,7 @@ mixin _$HostResponse {
         playState,
     required TResult Function(String error) error,
     required TResult Function() ok,
+    required TResult Function(List<SongMeta> songs) searchResult,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2681,6 +2958,7 @@ mixin _$HostResponse {
         playState,
     TResult? Function(String error)? error,
     TResult? Function()? ok,
+    TResult? Function(List<SongMeta> songs)? searchResult,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2693,6 +2971,7 @@ mixin _$HostResponse {
         playState,
     TResult Function(String error)? error,
     TResult Function()? ok,
+    TResult Function(List<SongMeta> songs)? searchResult,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -2704,6 +2983,7 @@ mixin _$HostResponse {
     required TResult Function(PlayStateResponse value) playState,
     required TResult Function(ErrorResponse value) error,
     required TResult Function(OkResponse value) ok,
+    required TResult Function(SearchResultResponse value) searchResult,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2714,6 +2994,7 @@ mixin _$HostResponse {
     TResult? Function(PlayStateResponse value)? playState,
     TResult? Function(ErrorResponse value)? error,
     TResult? Function(OkResponse value)? ok,
+    TResult? Function(SearchResultResponse value)? searchResult,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -2724,6 +3005,7 @@ mixin _$HostResponse {
     TResult Function(PlayStateResponse value)? playState,
     TResult Function(ErrorResponse value)? error,
     TResult Function(OkResponse value)? ok,
+    TResult Function(SearchResultResponse value)? searchResult,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -2850,6 +3132,7 @@ class _$ConnectResponseImpl implements ConnectResponse {
         playState,
     required TResult Function(String error) error,
     required TResult Function() ok,
+    required TResult Function(List<SongMeta> songs) searchResult,
   }) {
     return connect(host);
   }
@@ -2865,6 +3148,7 @@ class _$ConnectResponseImpl implements ConnectResponse {
         playState,
     TResult? Function(String error)? error,
     TResult? Function()? ok,
+    TResult? Function(List<SongMeta> songs)? searchResult,
   }) {
     return connect?.call(host);
   }
@@ -2880,6 +3164,7 @@ class _$ConnectResponseImpl implements ConnectResponse {
         playState,
     TResult Function(String error)? error,
     TResult Function()? ok,
+    TResult Function(List<SongMeta> songs)? searchResult,
     required TResult orElse(),
   }) {
     if (connect != null) {
@@ -2897,6 +3182,7 @@ class _$ConnectResponseImpl implements ConnectResponse {
     required TResult Function(PlayStateResponse value) playState,
     required TResult Function(ErrorResponse value) error,
     required TResult Function(OkResponse value) ok,
+    required TResult Function(SearchResultResponse value) searchResult,
   }) {
     return connect(this);
   }
@@ -2910,6 +3196,7 @@ class _$ConnectResponseImpl implements ConnectResponse {
     TResult? Function(PlayStateResponse value)? playState,
     TResult? Function(ErrorResponse value)? error,
     TResult? Function(OkResponse value)? ok,
+    TResult? Function(SearchResultResponse value)? searchResult,
   }) {
     return connect?.call(this);
   }
@@ -2923,6 +3210,7 @@ class _$ConnectResponseImpl implements ConnectResponse {
     TResult Function(PlayStateResponse value)? playState,
     TResult Function(ErrorResponse value)? error,
     TResult Function(OkResponse value)? ok,
+    TResult Function(SearchResultResponse value)? searchResult,
     required TResult orElse(),
   }) {
     if (connect != null) {
@@ -3038,6 +3326,7 @@ class _$IDResponseImpl implements IDResponse {
         playState,
     required TResult Function(String error) error,
     required TResult Function() ok,
+    required TResult Function(List<SongMeta> songs) searchResult,
   }) {
     return id(this.id);
   }
@@ -3053,6 +3342,7 @@ class _$IDResponseImpl implements IDResponse {
         playState,
     TResult? Function(String error)? error,
     TResult? Function()? ok,
+    TResult? Function(List<SongMeta> songs)? searchResult,
   }) {
     return id?.call(this.id);
   }
@@ -3068,6 +3358,7 @@ class _$IDResponseImpl implements IDResponse {
         playState,
     TResult Function(String error)? error,
     TResult Function()? ok,
+    TResult Function(List<SongMeta> songs)? searchResult,
     required TResult orElse(),
   }) {
     if (id != null) {
@@ -3085,6 +3376,7 @@ class _$IDResponseImpl implements IDResponse {
     required TResult Function(PlayStateResponse value) playState,
     required TResult Function(ErrorResponse value) error,
     required TResult Function(OkResponse value) ok,
+    required TResult Function(SearchResultResponse value) searchResult,
   }) {
     return id(this);
   }
@@ -3098,6 +3390,7 @@ class _$IDResponseImpl implements IDResponse {
     TResult? Function(PlayStateResponse value)? playState,
     TResult? Function(ErrorResponse value)? error,
     TResult? Function(OkResponse value)? ok,
+    TResult? Function(SearchResultResponse value)? searchResult,
   }) {
     return id?.call(this);
   }
@@ -3111,6 +3404,7 @@ class _$IDResponseImpl implements IDResponse {
     TResult Function(PlayStateResponse value)? playState,
     TResult Function(ErrorResponse value)? error,
     TResult Function(OkResponse value)? ok,
+    TResult Function(SearchResultResponse value)? searchResult,
     required TResult orElse(),
   }) {
     if (id != null) {
@@ -3234,6 +3528,7 @@ class _$QueueResponseImpl implements QueueResponse {
         playState,
     required TResult Function(String error) error,
     required TResult Function() ok,
+    required TResult Function(List<SongMeta> songs) searchResult,
   }) {
     return queue(this.queue);
   }
@@ -3249,6 +3544,7 @@ class _$QueueResponseImpl implements QueueResponse {
         playState,
     TResult? Function(String error)? error,
     TResult? Function()? ok,
+    TResult? Function(List<SongMeta> songs)? searchResult,
   }) {
     return queue?.call(this.queue);
   }
@@ -3264,6 +3560,7 @@ class _$QueueResponseImpl implements QueueResponse {
         playState,
     TResult Function(String error)? error,
     TResult Function()? ok,
+    TResult Function(List<SongMeta> songs)? searchResult,
     required TResult orElse(),
   }) {
     if (queue != null) {
@@ -3281,6 +3578,7 @@ class _$QueueResponseImpl implements QueueResponse {
     required TResult Function(PlayStateResponse value) playState,
     required TResult Function(ErrorResponse value) error,
     required TResult Function(OkResponse value) ok,
+    required TResult Function(SearchResultResponse value) searchResult,
   }) {
     return queue(this);
   }
@@ -3294,6 +3592,7 @@ class _$QueueResponseImpl implements QueueResponse {
     TResult? Function(PlayStateResponse value)? playState,
     TResult? Function(ErrorResponse value)? error,
     TResult? Function(OkResponse value)? ok,
+    TResult? Function(SearchResultResponse value)? searchResult,
   }) {
     return queue?.call(this);
   }
@@ -3307,6 +3606,7 @@ class _$QueueResponseImpl implements QueueResponse {
     TResult Function(PlayStateResponse value)? playState,
     TResult Function(ErrorResponse value)? error,
     TResult Function(OkResponse value)? ok,
+    TResult Function(SearchResultResponse value)? searchResult,
     required TResult orElse(),
   }) {
     if (queue != null) {
@@ -3458,6 +3758,7 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
         playState,
     required TResult Function(String error) error,
     required TResult Function() ok,
+    required TResult Function(List<SongMeta> songs) searchResult,
   }) {
     return playState(currentSong, this.playState, playHead);
   }
@@ -3473,6 +3774,7 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
         playState,
     TResult? Function(String error)? error,
     TResult? Function()? ok,
+    TResult? Function(List<SongMeta> songs)? searchResult,
   }) {
     return playState?.call(currentSong, this.playState, playHead);
   }
@@ -3488,6 +3790,7 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
         playState,
     TResult Function(String error)? error,
     TResult Function()? ok,
+    TResult Function(List<SongMeta> songs)? searchResult,
     required TResult orElse(),
   }) {
     if (playState != null) {
@@ -3505,6 +3808,7 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
     required TResult Function(PlayStateResponse value) playState,
     required TResult Function(ErrorResponse value) error,
     required TResult Function(OkResponse value) ok,
+    required TResult Function(SearchResultResponse value) searchResult,
   }) {
     return playState(this);
   }
@@ -3518,6 +3822,7 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
     TResult? Function(PlayStateResponse value)? playState,
     TResult? Function(ErrorResponse value)? error,
     TResult? Function(OkResponse value)? ok,
+    TResult? Function(SearchResultResponse value)? searchResult,
   }) {
     return playState?.call(this);
   }
@@ -3531,6 +3836,7 @@ class _$PlayStateResponseImpl implements PlayStateResponse {
     TResult Function(PlayStateResponse value)? playState,
     TResult Function(ErrorResponse value)? error,
     TResult Function(OkResponse value)? ok,
+    TResult Function(SearchResultResponse value)? searchResult,
     required TResult orElse(),
   }) {
     if (playState != null) {
@@ -3651,6 +3957,7 @@ class _$ErrorResponseImpl implements ErrorResponse {
         playState,
     required TResult Function(String error) error,
     required TResult Function() ok,
+    required TResult Function(List<SongMeta> songs) searchResult,
   }) {
     return error(this.error);
   }
@@ -3666,6 +3973,7 @@ class _$ErrorResponseImpl implements ErrorResponse {
         playState,
     TResult? Function(String error)? error,
     TResult? Function()? ok,
+    TResult? Function(List<SongMeta> songs)? searchResult,
   }) {
     return error?.call(this.error);
   }
@@ -3681,6 +3989,7 @@ class _$ErrorResponseImpl implements ErrorResponse {
         playState,
     TResult Function(String error)? error,
     TResult Function()? ok,
+    TResult Function(List<SongMeta> songs)? searchResult,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -3698,6 +4007,7 @@ class _$ErrorResponseImpl implements ErrorResponse {
     required TResult Function(PlayStateResponse value) playState,
     required TResult Function(ErrorResponse value) error,
     required TResult Function(OkResponse value) ok,
+    required TResult Function(SearchResultResponse value) searchResult,
   }) {
     return error(this);
   }
@@ -3711,6 +4021,7 @@ class _$ErrorResponseImpl implements ErrorResponse {
     TResult? Function(PlayStateResponse value)? playState,
     TResult? Function(ErrorResponse value)? error,
     TResult? Function(OkResponse value)? ok,
+    TResult? Function(SearchResultResponse value)? searchResult,
   }) {
     return error?.call(this);
   }
@@ -3724,6 +4035,7 @@ class _$ErrorResponseImpl implements ErrorResponse {
     TResult Function(PlayStateResponse value)? playState,
     TResult Function(ErrorResponse value)? error,
     TResult Function(OkResponse value)? ok,
+    TResult Function(SearchResultResponse value)? searchResult,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -3811,6 +4123,7 @@ class _$OkResponseImpl implements OkResponse {
         playState,
     required TResult Function(String error) error,
     required TResult Function() ok,
+    required TResult Function(List<SongMeta> songs) searchResult,
   }) {
     return ok();
   }
@@ -3826,6 +4139,7 @@ class _$OkResponseImpl implements OkResponse {
         playState,
     TResult? Function(String error)? error,
     TResult? Function()? ok,
+    TResult? Function(List<SongMeta> songs)? searchResult,
   }) {
     return ok?.call();
   }
@@ -3841,6 +4155,7 @@ class _$OkResponseImpl implements OkResponse {
         playState,
     TResult Function(String error)? error,
     TResult Function()? ok,
+    TResult Function(List<SongMeta> songs)? searchResult,
     required TResult orElse(),
   }) {
     if (ok != null) {
@@ -3858,6 +4173,7 @@ class _$OkResponseImpl implements OkResponse {
     required TResult Function(PlayStateResponse value) playState,
     required TResult Function(ErrorResponse value) error,
     required TResult Function(OkResponse value) ok,
+    required TResult Function(SearchResultResponse value) searchResult,
   }) {
     return ok(this);
   }
@@ -3871,6 +4187,7 @@ class _$OkResponseImpl implements OkResponse {
     TResult? Function(PlayStateResponse value)? playState,
     TResult? Function(ErrorResponse value)? error,
     TResult? Function(OkResponse value)? ok,
+    TResult? Function(SearchResultResponse value)? searchResult,
   }) {
     return ok?.call(this);
   }
@@ -3884,6 +4201,7 @@ class _$OkResponseImpl implements OkResponse {
     TResult Function(PlayStateResponse value)? playState,
     TResult Function(ErrorResponse value)? error,
     TResult Function(OkResponse value)? ok,
+    TResult Function(SearchResultResponse value)? searchResult,
     required TResult orElse(),
   }) {
     if (ok != null) {
@@ -3905,6 +4223,211 @@ abstract class OkResponse implements HostResponse {
 
   factory OkResponse.fromJson(Map<String, dynamic> json) =
       _$OkResponseImpl.fromJson;
+}
+
+/// @nodoc
+abstract class _$$SearchResultResponseImplCopyWith<$Res> {
+  factory _$$SearchResultResponseImplCopyWith(_$SearchResultResponseImpl value,
+          $Res Function(_$SearchResultResponseImpl) then) =
+      __$$SearchResultResponseImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<SongMeta> songs});
+}
+
+/// @nodoc
+class __$$SearchResultResponseImplCopyWithImpl<$Res>
+    extends _$HostResponseCopyWithImpl<$Res, _$SearchResultResponseImpl>
+    implements _$$SearchResultResponseImplCopyWith<$Res> {
+  __$$SearchResultResponseImplCopyWithImpl(_$SearchResultResponseImpl _value,
+      $Res Function(_$SearchResultResponseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HostResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? songs = null,
+  }) {
+    return _then(_$SearchResultResponseImpl(
+      null == songs
+          ? _value._songs
+          : songs // ignore: cast_nullable_to_non_nullable
+              as List<SongMeta>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SearchResultResponseImpl implements SearchResultResponse {
+  const _$SearchResultResponseImpl(final List<SongMeta> songs,
+      {final String? $type})
+      : _songs = songs,
+        $type = $type ?? 'searchResult';
+
+  factory _$SearchResultResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SearchResultResponseImplFromJson(json);
+
+  final List<SongMeta> _songs;
+  @override
+  List<SongMeta> get songs {
+    if (_songs is EqualUnmodifiableListView) return _songs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_songs);
+  }
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'HostResponse.searchResult(songs: $songs)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchResultResponseImpl &&
+            const DeepCollectionEquality().equals(other._songs, _songs));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_songs));
+
+  /// Create a copy of HostResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SearchResultResponseImplCopyWith<_$SearchResultResponseImpl>
+      get copyWith =>
+          __$$SearchResultResponseImplCopyWithImpl<_$SearchResultResponseImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Host host) connect,
+    required TResult Function(String id) id,
+    required TResult Function(List<(String, SongMeta)> queue) queue,
+    required TResult Function(
+            SongMeta currentSong, MediaPlayState playState, Duration playHead)
+        playState,
+    required TResult Function(String error) error,
+    required TResult Function() ok,
+    required TResult Function(List<SongMeta> songs) searchResult,
+  }) {
+    return searchResult(songs);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Host host)? connect,
+    TResult? Function(String id)? id,
+    TResult? Function(List<(String, SongMeta)> queue)? queue,
+    TResult? Function(
+            SongMeta currentSong, MediaPlayState playState, Duration playHead)?
+        playState,
+    TResult? Function(String error)? error,
+    TResult? Function()? ok,
+    TResult? Function(List<SongMeta> songs)? searchResult,
+  }) {
+    return searchResult?.call(songs);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Host host)? connect,
+    TResult Function(String id)? id,
+    TResult Function(List<(String, SongMeta)> queue)? queue,
+    TResult Function(
+            SongMeta currentSong, MediaPlayState playState, Duration playHead)?
+        playState,
+    TResult Function(String error)? error,
+    TResult Function()? ok,
+    TResult Function(List<SongMeta> songs)? searchResult,
+    required TResult orElse(),
+  }) {
+    if (searchResult != null) {
+      return searchResult(songs);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ConnectResponse value) connect,
+    required TResult Function(IDResponse value) id,
+    required TResult Function(QueueResponse value) queue,
+    required TResult Function(PlayStateResponse value) playState,
+    required TResult Function(ErrorResponse value) error,
+    required TResult Function(OkResponse value) ok,
+    required TResult Function(SearchResultResponse value) searchResult,
+  }) {
+    return searchResult(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectResponse value)? connect,
+    TResult? Function(IDResponse value)? id,
+    TResult? Function(QueueResponse value)? queue,
+    TResult? Function(PlayStateResponse value)? playState,
+    TResult? Function(ErrorResponse value)? error,
+    TResult? Function(OkResponse value)? ok,
+    TResult? Function(SearchResultResponse value)? searchResult,
+  }) {
+    return searchResult?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectResponse value)? connect,
+    TResult Function(IDResponse value)? id,
+    TResult Function(QueueResponse value)? queue,
+    TResult Function(PlayStateResponse value)? playState,
+    TResult Function(ErrorResponse value)? error,
+    TResult Function(OkResponse value)? ok,
+    TResult Function(SearchResultResponse value)? searchResult,
+    required TResult orElse(),
+  }) {
+    if (searchResult != null) {
+      return searchResult(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SearchResultResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class SearchResultResponse implements HostResponse {
+  const factory SearchResultResponse(final List<SongMeta> songs) =
+      _$SearchResultResponseImpl;
+
+  factory SearchResultResponse.fromJson(Map<String, dynamic> json) =
+      _$SearchResultResponseImpl.fromJson;
+
+  List<SongMeta> get songs;
+
+  /// Create a copy of HostResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SearchResultResponseImplCopyWith<_$SearchResultResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 PlayState _$PlayStateFromJson(Map<String, dynamic> json) {

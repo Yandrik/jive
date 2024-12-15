@@ -49,6 +49,7 @@ sealed class DeviceCommand with _$DeviceCommand {
   const factory DeviceCommand.mediaCommand(MediaCommandType command) = MediaCommand;
   const factory DeviceCommand.setVolume(int volume) = SetVolume;
   const factory DeviceCommand.playSong(SongReference songMeta) = PlaySong;
+  const factory DeviceCommand.search(String query, MusicSource source, int offset) = SearchCommand;
 
   factory DeviceCommand.fromJson(Map<String, dynamic> json) => _$DeviceCommandFromJson(json);
 }
@@ -92,6 +93,7 @@ sealed class HostResponse with _$HostResponse {
       SongMeta currentSong, MediaPlayState playState, Duration playHead) = PlayStateResponse;
   const factory HostResponse.error(String error) = ErrorResponse;
   const factory HostResponse.ok() = OkResponse;
+  const factory HostResponse.searchResult(List<SongMeta> songs) = SearchResultResponse;
 
   factory HostResponse.fromJson(Map<String, dynamic> json) => _$HostResponseFromJson(json);
 }

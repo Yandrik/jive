@@ -159,6 +159,22 @@ Map<String, dynamic> _$$PlaySongImplToJson(_$PlaySongImpl instance) =>
       'runtimeType': instance.$type,
     };
 
+_$SearchCommandImpl _$$SearchCommandImplFromJson(Map<String, dynamic> json) =>
+    _$SearchCommandImpl(
+      json['query'] as String,
+      $enumDecode(_$MusicSourceEnumMap, json['source']),
+      (json['offset'] as num).toInt(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$SearchCommandImplToJson(_$SearchCommandImpl instance) =>
+    <String, dynamic>{
+      'query': instance.query,
+      'source': _$MusicSourceEnumMap[instance.source]!,
+      'offset': instance.offset,
+      'runtimeType': instance.$type,
+    };
+
 _$SongMetaImpl _$$SongMetaImplFromJson(Map<String, dynamic> json) =>
     _$SongMetaImpl(
       id: json['id'] as String,
@@ -282,6 +298,22 @@ _$OkResponseImpl _$$OkResponseImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$OkResponseImplToJson(_$OkResponseImpl instance) =>
     <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
+_$SearchResultResponseImpl _$$SearchResultResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SearchResultResponseImpl(
+      (json['songs'] as List<dynamic>)
+          .map((e) => SongMeta.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$SearchResultResponseImplToJson(
+        _$SearchResultResponseImpl instance) =>
+    <String, dynamic>{
+      'songs': instance.songs.map((e) => e.toJson()).toList(),
       'runtimeType': instance.$type,
     };
 

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/provider/prefs.dart';
 import 'package:jive_app/provider/router.dart';
 import 'package:jive_app/provider/theme.dart';
+import 'package:jive_app/repositories/search_repository.dart';
 import 'package:jive_app/utils/provider_observer.dart';
 
 void main() async {
@@ -30,12 +31,12 @@ class _EagerInitialization extends ConsumerWidget {
     // Providers that are initialized eagerly
     final values = [
       ref.watch(prefsProvider),
+      ref.watch(searchRepositoryProvider),
     ];
 
-    if (values.every((value) => value.hasValue)) {
+    if (values.every((value) => value is AsyncValue && value.hasValue)) {
       return child;
     }
-
     return const SizedBox();
   }
 }
