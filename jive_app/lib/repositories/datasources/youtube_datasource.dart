@@ -8,6 +8,7 @@ part 'youtube_datasource.g.dart';
 
 class YoutubeDatasource {
   Future<List<SongMeta>> search(String searchQuery, [int offset = 0]) async {
+    logger.i("Searching youtube for '$searchQuery'");
     List<SongMeta> res = List.empty(growable: true);
     var searchResults = await searchYouTube(searchQuery);
 

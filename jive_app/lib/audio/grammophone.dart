@@ -5,7 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/logger.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:rust/rust.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
