@@ -12,7 +12,6 @@ import 'package:jive_app/utils/provider_observer.dart';
 void main() async {
   // Load environment variables
   await dotenv.load(fileName: ".env");
-  await Grammophone.I.setup();
   runApp(
     ProviderScope(
       observers: [if (kDebugMode) AppProviderObserver()],

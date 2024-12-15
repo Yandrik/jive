@@ -22,13 +22,24 @@ class QueueSingleton {
   List<(Option<Client>, SongMeta)> get queue => _queue;
 
   void addToQueue(SongMeta song, {Option<Client> client = None}) {
-    _queue.add((client, song));
-    _queueController.add(_queue);
+    if (HostControllerSingleton.I.controller != null) {
+      _queue.add((client, song));
+      _queueController.add(_queue);
+    } else {
+      // is client
+      ClientControllerSingleton.I.sendToHost(DeviceCommand.addSong(song));
+    }
   }
 
   void addNextInQueue(SongMeta song, {Option<Client> client = None}) {
-    _queue.insert(0, (client, song));
-    _queueController.add(_queue);
+    if (HostControllerSingleton.I.controller != null) {
+      _queue.insert(0, (client, song));
+      _queueController.add(_queue);
+    } else {
+      // is client
+      ClientControllerSingleton.I
+          .sendToHost(DeviceCommand.addSongToStart(song));
+    }
   }
 
   void addAllToQueue(List<(Option<Client>, SongMeta)> songs) {
@@ -37,8 +48,13 @@ class QueueSingleton {
   }
 
   void removeFromQueue(int index) {
-    _queue.removeAt(index);
-    _queueController.add(_queue);
+    if (HostControllerSingleton.I.controller != null) {
+      _queue.removeAt(index);
+      _queueController.add(_queue);
+    } else {
+      // is client
+      ClientControllerSingleton.I.sendToHost(DeviceCommand.deleteSong(index));
+    }
   }
 
   void moveSong(int oldIndex, int newIndex) {
