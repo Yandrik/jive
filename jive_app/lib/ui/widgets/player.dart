@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/audio/grammophone.dart';
 import 'package:jive_app/comm/device_comm.dart';
+import 'package:jive_app/logger.dart';
 
 class Player extends ConsumerWidget {
   const Player({super.key});
@@ -70,7 +71,10 @@ class Player extends ConsumerWidget {
             IconButton(
               iconSize: 38,
               icon: const Icon(Icons.skip_previous),
-              onPressed: () {},
+              onPressed: () async {
+                logger.i("pressed!");
+                Grammophone.I.play(SongReference.youtube("DLzxrzFCyOs"));
+              },
             ),
             const SizedBox(width: 32),
             StreamBuilder<MediaPlayState>(

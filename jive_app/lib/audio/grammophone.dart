@@ -1,9 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jive_app/comm/device_comm.dart';
+import 'package:jive_app/logger.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rust/rust.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class Player {
   SongMeta? currentSong = null;
@@ -133,8 +138,6 @@ class Grammophone {
     playState = MediaPlayState.playing;
     _playStateController.add(MediaPlayState.playing);
 
-    final state = await SpotifySdk.getPlayerState();
-
     switch (song) {
       case SpotifySong(:final songId):
         await SpotifySdk.play(spotifyUri: "spotify:track:$songId");
@@ -145,8 +148,22 @@ class Grammophone {
         await readPlayerState();
 
       case YoutubeSong(:final songId):
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        var yt = YoutubeExplode();
+        var manifest = await yt.videos.streams.getManifest(songId);
+
+        logger.i(manifest);
+
+        var streamInfo = manifest.audioOnly.withHighestBitrate();
+
+        var stream = yt.videos.streams.get(streamInfo);
+
+        final player = AudioPlayer();
+        await player.setAudioSource(AudioSource.uri(Uri.dataFromBytes(
+            await stream
+                .toList()
+                .then((chunks) => chunks.expand((chunk) => chunk).toList()))));
+        yt.close();
+        player.play();
       case LocalSong(:final songId):
         // TODO: Handle this case.
         throw UnimplementedError();
