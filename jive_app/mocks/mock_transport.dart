@@ -54,6 +54,11 @@ class MockTransport implements Transport {
   }
 
   @override
+  void onDisconnect(Function() callback) {
+    // Not implemented in MockTransport
+  }
+
+  @override
   Future<void> dispose() async {
     _connected = false;
   }
