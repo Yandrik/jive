@@ -989,6 +989,14 @@ DeviceCommand _$DeviceCommandFromJson(Map<String, dynamic> json) {
       return RequestQueue.fromJson(json);
     case 'mediaCommand':
       return MediaCommand.fromJson(json);
+    case 'moveSong':
+      return MoveSong.fromJson(json);
+    case 'deleteSong':
+      return RemoveSong.fromJson(json);
+    case 'addSong':
+      return AddSong.fromJson(json);
+    case 'addSongToStart':
+      return AddSongToStart.fromJson(json);
     case 'setVolume':
       return SetVolume.fromJson(json);
     case 'playSong':
@@ -1011,8 +1019,12 @@ mixin _$DeviceCommand {
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
     required TResult Function(int volume) setVolume,
-    required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(SongMeta songMeta) playSong,
     required TResult Function(String query, MusicSource source, int offset)
         search,
   }) =>
@@ -1024,8 +1036,12 @@ mixin _$DeviceCommand {
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(SongMeta songMeta)? playSong,
     TResult? Function(String query, MusicSource source, int offset)? search,
   }) =>
       throw _privateConstructorUsedError;
@@ -1036,8 +1052,12 @@ mixin _$DeviceCommand {
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
     TResult Function(int volume)? setVolume,
-    TResult Function(SongReference songMeta)? playSong,
+    TResult Function(SongMeta songMeta)? playSong,
     TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) =>
@@ -1049,6 +1069,10 @@ mixin _$DeviceCommand {
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
     required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
     required TResult Function(SearchCommand value) search,
@@ -1061,6 +1085,10 @@ mixin _$DeviceCommand {
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
     TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
     TResult? Function(SearchCommand value)? search,
@@ -1073,6 +1101,10 @@ mixin _$DeviceCommand {
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
     TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
     TResult Function(SearchCommand value)? search,
@@ -1198,8 +1230,12 @@ class _$ConnectImpl implements Connect {
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
     required TResult Function(int volume) setVolume,
-    required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(SongMeta songMeta) playSong,
     required TResult Function(String query, MusicSource source, int offset)
         search,
   }) {
@@ -1214,8 +1250,12 @@ class _$ConnectImpl implements Connect {
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(SongMeta songMeta)? playSong,
     TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return connect?.call(client);
@@ -1229,8 +1269,12 @@ class _$ConnectImpl implements Connect {
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
     TResult Function(int volume)? setVolume,
-    TResult Function(SongReference songMeta)? playSong,
+    TResult Function(SongMeta songMeta)? playSong,
     TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
@@ -1248,6 +1292,10 @@ class _$ConnectImpl implements Connect {
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
     required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
     required TResult Function(SearchCommand value) search,
@@ -1263,6 +1311,10 @@ class _$ConnectImpl implements Connect {
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
     TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
     TResult? Function(SearchCommand value)? search,
@@ -1278,6 +1330,10 @@ class _$ConnectImpl implements Connect {
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
     TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
     TResult Function(SearchCommand value)? search,
@@ -1364,8 +1420,12 @@ class _$RequestIDImpl implements RequestID {
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
     required TResult Function(int volume) setVolume,
-    required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(SongMeta songMeta) playSong,
     required TResult Function(String query, MusicSource source, int offset)
         search,
   }) {
@@ -1380,8 +1440,12 @@ class _$RequestIDImpl implements RequestID {
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(SongMeta songMeta)? playSong,
     TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return requestId?.call();
@@ -1395,8 +1459,12 @@ class _$RequestIDImpl implements RequestID {
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
     TResult Function(int volume)? setVolume,
-    TResult Function(SongReference songMeta)? playSong,
+    TResult Function(SongMeta songMeta)? playSong,
     TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
@@ -1414,6 +1482,10 @@ class _$RequestIDImpl implements RequestID {
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
     required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
     required TResult Function(SearchCommand value) search,
@@ -1429,6 +1501,10 @@ class _$RequestIDImpl implements RequestID {
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
     TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
     TResult? Function(SearchCommand value)? search,
@@ -1444,6 +1520,10 @@ class _$RequestIDImpl implements RequestID {
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
     TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
     TResult Function(SearchCommand value)? search,
@@ -1524,8 +1604,12 @@ class _$RequestStateImpl implements RequestState {
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
     required TResult Function(int volume) setVolume,
-    required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(SongMeta songMeta) playSong,
     required TResult Function(String query, MusicSource source, int offset)
         search,
   }) {
@@ -1540,8 +1624,12 @@ class _$RequestStateImpl implements RequestState {
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(SongMeta songMeta)? playSong,
     TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return requestState?.call();
@@ -1555,8 +1643,12 @@ class _$RequestStateImpl implements RequestState {
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
     TResult Function(int volume)? setVolume,
-    TResult Function(SongReference songMeta)? playSong,
+    TResult Function(SongMeta songMeta)? playSong,
     TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
@@ -1574,6 +1666,10 @@ class _$RequestStateImpl implements RequestState {
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
     required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
     required TResult Function(SearchCommand value) search,
@@ -1589,6 +1685,10 @@ class _$RequestStateImpl implements RequestState {
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
     TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
     TResult? Function(SearchCommand value)? search,
@@ -1604,6 +1704,10 @@ class _$RequestStateImpl implements RequestState {
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
     TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
     TResult Function(SearchCommand value)? search,
@@ -1684,8 +1788,12 @@ class _$RequestQueueImpl implements RequestQueue {
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
     required TResult Function(int volume) setVolume,
-    required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(SongMeta songMeta) playSong,
     required TResult Function(String query, MusicSource source, int offset)
         search,
   }) {
@@ -1700,8 +1808,12 @@ class _$RequestQueueImpl implements RequestQueue {
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(SongMeta songMeta)? playSong,
     TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return requestQueue?.call();
@@ -1715,8 +1827,12 @@ class _$RequestQueueImpl implements RequestQueue {
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
     TResult Function(int volume)? setVolume,
-    TResult Function(SongReference songMeta)? playSong,
+    TResult Function(SongMeta songMeta)? playSong,
     TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
@@ -1734,6 +1850,10 @@ class _$RequestQueueImpl implements RequestQueue {
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
     required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
     required TResult Function(SearchCommand value) search,
@@ -1749,6 +1869,10 @@ class _$RequestQueueImpl implements RequestQueue {
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
     TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
     TResult? Function(SearchCommand value)? search,
@@ -1764,6 +1888,10 @@ class _$RequestQueueImpl implements RequestQueue {
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
     TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
     TResult Function(SearchCommand value)? search,
@@ -1871,8 +1999,12 @@ class _$MediaCommandImpl implements MediaCommand {
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
     required TResult Function(int volume) setVolume,
-    required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(SongMeta songMeta) playSong,
     required TResult Function(String query, MusicSource source, int offset)
         search,
   }) {
@@ -1887,8 +2019,12 @@ class _$MediaCommandImpl implements MediaCommand {
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(SongMeta songMeta)? playSong,
     TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return mediaCommand?.call(command);
@@ -1902,8 +2038,12 @@ class _$MediaCommandImpl implements MediaCommand {
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
     TResult Function(int volume)? setVolume,
-    TResult Function(SongReference songMeta)? playSong,
+    TResult Function(SongMeta songMeta)? playSong,
     TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
@@ -1921,6 +2061,10 @@ class _$MediaCommandImpl implements MediaCommand {
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
     required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
     required TResult Function(SearchCommand value) search,
@@ -1936,6 +2080,10 @@ class _$MediaCommandImpl implements MediaCommand {
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
     TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
     TResult? Function(SearchCommand value)? search,
@@ -1951,6 +2099,10 @@ class _$MediaCommandImpl implements MediaCommand {
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
     TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
     TResult Function(SearchCommand value)? search,
@@ -1983,6 +2135,917 @@ abstract class MediaCommand implements DeviceCommand {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaCommandImplCopyWith<_$MediaCommandImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MoveSongImplCopyWith<$Res> {
+  factory _$$MoveSongImplCopyWith(
+          _$MoveSongImpl value, $Res Function(_$MoveSongImpl) then) =
+      __$$MoveSongImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int oldIdx, int newIdx});
+}
+
+/// @nodoc
+class __$$MoveSongImplCopyWithImpl<$Res>
+    extends _$DeviceCommandCopyWithImpl<$Res, _$MoveSongImpl>
+    implements _$$MoveSongImplCopyWith<$Res> {
+  __$$MoveSongImplCopyWithImpl(
+      _$MoveSongImpl _value, $Res Function(_$MoveSongImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? oldIdx = null,
+    Object? newIdx = null,
+  }) {
+    return _then(_$MoveSongImpl(
+      null == oldIdx
+          ? _value.oldIdx
+          : oldIdx // ignore: cast_nullable_to_non_nullable
+              as int,
+      null == newIdx
+          ? _value.newIdx
+          : newIdx // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MoveSongImpl implements MoveSong {
+  const _$MoveSongImpl(this.oldIdx, this.newIdx, {final String? $type})
+      : $type = $type ?? 'moveSong';
+
+  factory _$MoveSongImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MoveSongImplFromJson(json);
+
+  @override
+  final int oldIdx;
+  @override
+  final int newIdx;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'DeviceCommand.moveSong(oldIdx: $oldIdx, newIdx: $newIdx)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MoveSongImpl &&
+            (identical(other.oldIdx, oldIdx) || other.oldIdx == oldIdx) &&
+            (identical(other.newIdx, newIdx) || other.newIdx == newIdx));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, oldIdx, newIdx);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MoveSongImplCopyWith<_$MoveSongImpl> get copyWith =>
+      __$$MoveSongImplCopyWithImpl<_$MoveSongImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
+    required TResult Function() requestId,
+    required TResult Function() requestState,
+    required TResult Function() requestQueue,
+    required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
+    required TResult Function(int volume) setVolume,
+    required TResult Function(SongMeta songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
+  }) {
+    return moveSong(oldIdx, newIdx);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
+    TResult? Function()? requestId,
+    TResult? Function()? requestState,
+    TResult? Function()? requestQueue,
+    TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
+    TResult? Function(int volume)? setVolume,
+    TResult? Function(SongMeta songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
+  }) {
+    return moveSong?.call(oldIdx, newIdx);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
+    TResult Function()? requestId,
+    TResult Function()? requestState,
+    TResult Function()? requestQueue,
+    TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
+    TResult Function(int volume)? setVolume,
+    TResult Function(SongMeta songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
+    required TResult orElse(),
+  }) {
+    if (moveSong != null) {
+      return moveSong(oldIdx, newIdx);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
+    required TResult Function(RequestID value) requestId,
+    required TResult Function(RequestState value) requestState,
+    required TResult Function(RequestQueue value) requestQueue,
+    required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
+    required TResult Function(SetVolume value) setVolume,
+    required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
+  }) {
+    return moveSong(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
+    TResult? Function(RequestID value)? requestId,
+    TResult? Function(RequestState value)? requestState,
+    TResult? Function(RequestQueue value)? requestQueue,
+    TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
+    TResult? Function(SetVolume value)? setVolume,
+    TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
+  }) {
+    return moveSong?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
+    TResult Function(RequestID value)? requestId,
+    TResult Function(RequestState value)? requestState,
+    TResult Function(RequestQueue value)? requestQueue,
+    TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
+    TResult Function(SetVolume value)? setVolume,
+    TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
+    required TResult orElse(),
+  }) {
+    if (moveSong != null) {
+      return moveSong(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MoveSongImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class MoveSong implements DeviceCommand {
+  const factory MoveSong(final int oldIdx, final int newIdx) = _$MoveSongImpl;
+
+  factory MoveSong.fromJson(Map<String, dynamic> json) =
+      _$MoveSongImpl.fromJson;
+
+  int get oldIdx;
+  int get newIdx;
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MoveSongImplCopyWith<_$MoveSongImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RemoveSongImplCopyWith<$Res> {
+  factory _$$RemoveSongImplCopyWith(
+          _$RemoveSongImpl value, $Res Function(_$RemoveSongImpl) then) =
+      __$$RemoveSongImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int idx});
+}
+
+/// @nodoc
+class __$$RemoveSongImplCopyWithImpl<$Res>
+    extends _$DeviceCommandCopyWithImpl<$Res, _$RemoveSongImpl>
+    implements _$$RemoveSongImplCopyWith<$Res> {
+  __$$RemoveSongImplCopyWithImpl(
+      _$RemoveSongImpl _value, $Res Function(_$RemoveSongImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? idx = null,
+  }) {
+    return _then(_$RemoveSongImpl(
+      null == idx
+          ? _value.idx
+          : idx // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RemoveSongImpl implements RemoveSong {
+  const _$RemoveSongImpl(this.idx, {final String? $type})
+      : $type = $type ?? 'deleteSong';
+
+  factory _$RemoveSongImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RemoveSongImplFromJson(json);
+
+  @override
+  final int idx;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'DeviceCommand.deleteSong(idx: $idx)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RemoveSongImpl &&
+            (identical(other.idx, idx) || other.idx == idx));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, idx);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RemoveSongImplCopyWith<_$RemoveSongImpl> get copyWith =>
+      __$$RemoveSongImplCopyWithImpl<_$RemoveSongImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
+    required TResult Function() requestId,
+    required TResult Function() requestState,
+    required TResult Function() requestQueue,
+    required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
+    required TResult Function(int volume) setVolume,
+    required TResult Function(SongMeta songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
+  }) {
+    return deleteSong(idx);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
+    TResult? Function()? requestId,
+    TResult? Function()? requestState,
+    TResult? Function()? requestQueue,
+    TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
+    TResult? Function(int volume)? setVolume,
+    TResult? Function(SongMeta songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
+  }) {
+    return deleteSong?.call(idx);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
+    TResult Function()? requestId,
+    TResult Function()? requestState,
+    TResult Function()? requestQueue,
+    TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
+    TResult Function(int volume)? setVolume,
+    TResult Function(SongMeta songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
+    required TResult orElse(),
+  }) {
+    if (deleteSong != null) {
+      return deleteSong(idx);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
+    required TResult Function(RequestID value) requestId,
+    required TResult Function(RequestState value) requestState,
+    required TResult Function(RequestQueue value) requestQueue,
+    required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
+    required TResult Function(SetVolume value) setVolume,
+    required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
+  }) {
+    return deleteSong(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
+    TResult? Function(RequestID value)? requestId,
+    TResult? Function(RequestState value)? requestState,
+    TResult? Function(RequestQueue value)? requestQueue,
+    TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
+    TResult? Function(SetVolume value)? setVolume,
+    TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
+  }) {
+    return deleteSong?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
+    TResult Function(RequestID value)? requestId,
+    TResult Function(RequestState value)? requestState,
+    TResult Function(RequestQueue value)? requestQueue,
+    TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
+    TResult Function(SetVolume value)? setVolume,
+    TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
+    required TResult orElse(),
+  }) {
+    if (deleteSong != null) {
+      return deleteSong(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RemoveSongImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class RemoveSong implements DeviceCommand {
+  const factory RemoveSong(final int idx) = _$RemoveSongImpl;
+
+  factory RemoveSong.fromJson(Map<String, dynamic> json) =
+      _$RemoveSongImpl.fromJson;
+
+  int get idx;
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RemoveSongImplCopyWith<_$RemoveSongImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$AddSongImplCopyWith<$Res> {
+  factory _$$AddSongImplCopyWith(
+          _$AddSongImpl value, $Res Function(_$AddSongImpl) then) =
+      __$$AddSongImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({SongMeta songMeta});
+
+  $SongMetaCopyWith<$Res> get songMeta;
+}
+
+/// @nodoc
+class __$$AddSongImplCopyWithImpl<$Res>
+    extends _$DeviceCommandCopyWithImpl<$Res, _$AddSongImpl>
+    implements _$$AddSongImplCopyWith<$Res> {
+  __$$AddSongImplCopyWithImpl(
+      _$AddSongImpl _value, $Res Function(_$AddSongImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? songMeta = null,
+  }) {
+    return _then(_$AddSongImpl(
+      null == songMeta
+          ? _value.songMeta
+          : songMeta // ignore: cast_nullable_to_non_nullable
+              as SongMeta,
+    ));
+  }
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SongMetaCopyWith<$Res> get songMeta {
+    return $SongMetaCopyWith<$Res>(_value.songMeta, (value) {
+      return _then(_value.copyWith(songMeta: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AddSongImpl implements AddSong {
+  const _$AddSongImpl(this.songMeta, {final String? $type})
+      : $type = $type ?? 'addSong';
+
+  factory _$AddSongImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AddSongImplFromJson(json);
+
+  @override
+  final SongMeta songMeta;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'DeviceCommand.addSong(songMeta: $songMeta)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AddSongImpl &&
+            (identical(other.songMeta, songMeta) ||
+                other.songMeta == songMeta));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, songMeta);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AddSongImplCopyWith<_$AddSongImpl> get copyWith =>
+      __$$AddSongImplCopyWithImpl<_$AddSongImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
+    required TResult Function() requestId,
+    required TResult Function() requestState,
+    required TResult Function() requestQueue,
+    required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
+    required TResult Function(int volume) setVolume,
+    required TResult Function(SongMeta songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
+  }) {
+    return addSong(songMeta);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
+    TResult? Function()? requestId,
+    TResult? Function()? requestState,
+    TResult? Function()? requestQueue,
+    TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
+    TResult? Function(int volume)? setVolume,
+    TResult? Function(SongMeta songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
+  }) {
+    return addSong?.call(songMeta);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
+    TResult Function()? requestId,
+    TResult Function()? requestState,
+    TResult Function()? requestQueue,
+    TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
+    TResult Function(int volume)? setVolume,
+    TResult Function(SongMeta songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
+    required TResult orElse(),
+  }) {
+    if (addSong != null) {
+      return addSong(songMeta);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
+    required TResult Function(RequestID value) requestId,
+    required TResult Function(RequestState value) requestState,
+    required TResult Function(RequestQueue value) requestQueue,
+    required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
+    required TResult Function(SetVolume value) setVolume,
+    required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
+  }) {
+    return addSong(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
+    TResult? Function(RequestID value)? requestId,
+    TResult? Function(RequestState value)? requestState,
+    TResult? Function(RequestQueue value)? requestQueue,
+    TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
+    TResult? Function(SetVolume value)? setVolume,
+    TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
+  }) {
+    return addSong?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
+    TResult Function(RequestID value)? requestId,
+    TResult Function(RequestState value)? requestState,
+    TResult Function(RequestQueue value)? requestQueue,
+    TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
+    TResult Function(SetVolume value)? setVolume,
+    TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
+    required TResult orElse(),
+  }) {
+    if (addSong != null) {
+      return addSong(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AddSongImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class AddSong implements DeviceCommand {
+  const factory AddSong(final SongMeta songMeta) = _$AddSongImpl;
+
+  factory AddSong.fromJson(Map<String, dynamic> json) = _$AddSongImpl.fromJson;
+
+  SongMeta get songMeta;
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AddSongImplCopyWith<_$AddSongImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$AddSongToStartImplCopyWith<$Res> {
+  factory _$$AddSongToStartImplCopyWith(_$AddSongToStartImpl value,
+          $Res Function(_$AddSongToStartImpl) then) =
+      __$$AddSongToStartImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({SongMeta songMeta});
+
+  $SongMetaCopyWith<$Res> get songMeta;
+}
+
+/// @nodoc
+class __$$AddSongToStartImplCopyWithImpl<$Res>
+    extends _$DeviceCommandCopyWithImpl<$Res, _$AddSongToStartImpl>
+    implements _$$AddSongToStartImplCopyWith<$Res> {
+  __$$AddSongToStartImplCopyWithImpl(
+      _$AddSongToStartImpl _value, $Res Function(_$AddSongToStartImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? songMeta = null,
+  }) {
+    return _then(_$AddSongToStartImpl(
+      null == songMeta
+          ? _value.songMeta
+          : songMeta // ignore: cast_nullable_to_non_nullable
+              as SongMeta,
+    ));
+  }
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SongMetaCopyWith<$Res> get songMeta {
+    return $SongMetaCopyWith<$Res>(_value.songMeta, (value) {
+      return _then(_value.copyWith(songMeta: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AddSongToStartImpl implements AddSongToStart {
+  const _$AddSongToStartImpl(this.songMeta, {final String? $type})
+      : $type = $type ?? 'addSongToStart';
+
+  factory _$AddSongToStartImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AddSongToStartImplFromJson(json);
+
+  @override
+  final SongMeta songMeta;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'DeviceCommand.addSongToStart(songMeta: $songMeta)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AddSongToStartImpl &&
+            (identical(other.songMeta, songMeta) ||
+                other.songMeta == songMeta));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, songMeta);
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AddSongToStartImplCopyWith<_$AddSongToStartImpl> get copyWith =>
+      __$$AddSongToStartImplCopyWithImpl<_$AddSongToStartImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Client client) connect,
+    required TResult Function() requestId,
+    required TResult Function() requestState,
+    required TResult Function() requestQueue,
+    required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
+    required TResult Function(int volume) setVolume,
+    required TResult Function(SongMeta songMeta) playSong,
+    required TResult Function(String query, MusicSource source, int offset)
+        search,
+  }) {
+    return addSongToStart(songMeta);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Client client)? connect,
+    TResult? Function()? requestId,
+    TResult? Function()? requestState,
+    TResult? Function()? requestQueue,
+    TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
+    TResult? Function(int volume)? setVolume,
+    TResult? Function(SongMeta songMeta)? playSong,
+    TResult? Function(String query, MusicSource source, int offset)? search,
+  }) {
+    return addSongToStart?.call(songMeta);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Client client)? connect,
+    TResult Function()? requestId,
+    TResult Function()? requestState,
+    TResult Function()? requestQueue,
+    TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
+    TResult Function(int volume)? setVolume,
+    TResult Function(SongMeta songMeta)? playSong,
+    TResult Function(String query, MusicSource source, int offset)? search,
+    required TResult orElse(),
+  }) {
+    if (addSongToStart != null) {
+      return addSongToStart(songMeta);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
+    required TResult Function(RequestID value) requestId,
+    required TResult Function(RequestState value) requestState,
+    required TResult Function(RequestQueue value) requestQueue,
+    required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
+    required TResult Function(SetVolume value) setVolume,
+    required TResult Function(PlaySong value) playSong,
+    required TResult Function(SearchCommand value) search,
+  }) {
+    return addSongToStart(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Connect value)? connect,
+    TResult? Function(RequestID value)? requestId,
+    TResult? Function(RequestState value)? requestState,
+    TResult? Function(RequestQueue value)? requestQueue,
+    TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
+    TResult? Function(SetVolume value)? setVolume,
+    TResult? Function(PlaySong value)? playSong,
+    TResult? Function(SearchCommand value)? search,
+  }) {
+    return addSongToStart?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
+    TResult Function(RequestID value)? requestId,
+    TResult Function(RequestState value)? requestState,
+    TResult Function(RequestQueue value)? requestQueue,
+    TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
+    TResult Function(SetVolume value)? setVolume,
+    TResult Function(PlaySong value)? playSong,
+    TResult Function(SearchCommand value)? search,
+    required TResult orElse(),
+  }) {
+    if (addSongToStart != null) {
+      return addSongToStart(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AddSongToStartImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class AddSongToStart implements DeviceCommand {
+  const factory AddSongToStart(final SongMeta songMeta) = _$AddSongToStartImpl;
+
+  factory AddSongToStart.fromJson(Map<String, dynamic> json) =
+      _$AddSongToStartImpl.fromJson;
+
+  SongMeta get songMeta;
+
+  /// Create a copy of DeviceCommand
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AddSongToStartImplCopyWith<_$AddSongToStartImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2067,8 +3130,12 @@ class _$SetVolumeImpl implements SetVolume {
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
     required TResult Function(int volume) setVolume,
-    required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(SongMeta songMeta) playSong,
     required TResult Function(String query, MusicSource source, int offset)
         search,
   }) {
@@ -2083,8 +3150,12 @@ class _$SetVolumeImpl implements SetVolume {
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(SongMeta songMeta)? playSong,
     TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return setVolume?.call(volume);
@@ -2098,8 +3169,12 @@ class _$SetVolumeImpl implements SetVolume {
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
     TResult Function(int volume)? setVolume,
-    TResult Function(SongReference songMeta)? playSong,
+    TResult Function(SongMeta songMeta)? playSong,
     TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
@@ -2117,6 +3192,10 @@ class _$SetVolumeImpl implements SetVolume {
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
     required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
     required TResult Function(SearchCommand value) search,
@@ -2132,6 +3211,10 @@ class _$SetVolumeImpl implements SetVolume {
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
     TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
     TResult? Function(SearchCommand value)? search,
@@ -2147,6 +3230,10 @@ class _$SetVolumeImpl implements SetVolume {
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
     TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
     TResult Function(SearchCommand value)? search,
@@ -2187,9 +3274,9 @@ abstract class _$$PlaySongImplCopyWith<$Res> {
           _$PlaySongImpl value, $Res Function(_$PlaySongImpl) then) =
       __$$PlaySongImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({SongReference songMeta});
+  $Res call({SongMeta songMeta});
 
-  $SongReferenceCopyWith<$Res> get songMeta;
+  $SongMetaCopyWith<$Res> get songMeta;
 }
 
 /// @nodoc
@@ -2211,7 +3298,7 @@ class __$$PlaySongImplCopyWithImpl<$Res>
       null == songMeta
           ? _value.songMeta
           : songMeta // ignore: cast_nullable_to_non_nullable
-              as SongReference,
+              as SongMeta,
     ));
   }
 
@@ -2219,8 +3306,8 @@ class __$$PlaySongImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $SongReferenceCopyWith<$Res> get songMeta {
-    return $SongReferenceCopyWith<$Res>(_value.songMeta, (value) {
+  $SongMetaCopyWith<$Res> get songMeta {
+    return $SongMetaCopyWith<$Res>(_value.songMeta, (value) {
       return _then(_value.copyWith(songMeta: value));
     });
   }
@@ -2236,7 +3323,7 @@ class _$PlaySongImpl implements PlaySong {
       _$$PlaySongImplFromJson(json);
 
   @override
-  final SongReference songMeta;
+  final SongMeta songMeta;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -2275,8 +3362,12 @@ class _$PlaySongImpl implements PlaySong {
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
     required TResult Function(int volume) setVolume,
-    required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(SongMeta songMeta) playSong,
     required TResult Function(String query, MusicSource source, int offset)
         search,
   }) {
@@ -2291,8 +3382,12 @@ class _$PlaySongImpl implements PlaySong {
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(SongMeta songMeta)? playSong,
     TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return playSong?.call(songMeta);
@@ -2306,8 +3401,12 @@ class _$PlaySongImpl implements PlaySong {
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
     TResult Function(int volume)? setVolume,
-    TResult Function(SongReference songMeta)? playSong,
+    TResult Function(SongMeta songMeta)? playSong,
     TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
@@ -2325,6 +3424,10 @@ class _$PlaySongImpl implements PlaySong {
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
     required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
     required TResult Function(SearchCommand value) search,
@@ -2340,6 +3443,10 @@ class _$PlaySongImpl implements PlaySong {
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
     TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
     TResult? Function(SearchCommand value)? search,
@@ -2355,6 +3462,10 @@ class _$PlaySongImpl implements PlaySong {
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
     TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
     TResult Function(SearchCommand value)? search,
@@ -2375,12 +3486,12 @@ class _$PlaySongImpl implements PlaySong {
 }
 
 abstract class PlaySong implements DeviceCommand {
-  const factory PlaySong(final SongReference songMeta) = _$PlaySongImpl;
+  const factory PlaySong(final SongMeta songMeta) = _$PlaySongImpl;
 
   factory PlaySong.fromJson(Map<String, dynamic> json) =
       _$PlaySongImpl.fromJson;
 
-  SongReference get songMeta;
+  SongMeta get songMeta;
 
   /// Create a copy of DeviceCommand
   /// with the given fields replaced by the non-null parameter values.
@@ -2487,8 +3598,12 @@ class _$SearchCommandImpl implements SearchCommand {
     required TResult Function() requestState,
     required TResult Function() requestQueue,
     required TResult Function(MediaCommandType command) mediaCommand,
+    required TResult Function(int oldIdx, int newIdx) moveSong,
+    required TResult Function(int idx) deleteSong,
+    required TResult Function(SongMeta songMeta) addSong,
+    required TResult Function(SongMeta songMeta) addSongToStart,
     required TResult Function(int volume) setVolume,
-    required TResult Function(SongReference songMeta) playSong,
+    required TResult Function(SongMeta songMeta) playSong,
     required TResult Function(String query, MusicSource source, int offset)
         search,
   }) {
@@ -2503,8 +3618,12 @@ class _$SearchCommandImpl implements SearchCommand {
     TResult? Function()? requestState,
     TResult? Function()? requestQueue,
     TResult? Function(MediaCommandType command)? mediaCommand,
+    TResult? Function(int oldIdx, int newIdx)? moveSong,
+    TResult? Function(int idx)? deleteSong,
+    TResult? Function(SongMeta songMeta)? addSong,
+    TResult? Function(SongMeta songMeta)? addSongToStart,
     TResult? Function(int volume)? setVolume,
-    TResult? Function(SongReference songMeta)? playSong,
+    TResult? Function(SongMeta songMeta)? playSong,
     TResult? Function(String query, MusicSource source, int offset)? search,
   }) {
     return search?.call(query, source, offset);
@@ -2518,8 +3637,12 @@ class _$SearchCommandImpl implements SearchCommand {
     TResult Function()? requestState,
     TResult Function()? requestQueue,
     TResult Function(MediaCommandType command)? mediaCommand,
+    TResult Function(int oldIdx, int newIdx)? moveSong,
+    TResult Function(int idx)? deleteSong,
+    TResult Function(SongMeta songMeta)? addSong,
+    TResult Function(SongMeta songMeta)? addSongToStart,
     TResult Function(int volume)? setVolume,
-    TResult Function(SongReference songMeta)? playSong,
+    TResult Function(SongMeta songMeta)? playSong,
     TResult Function(String query, MusicSource source, int offset)? search,
     required TResult orElse(),
   }) {
@@ -2537,6 +3660,10 @@ class _$SearchCommandImpl implements SearchCommand {
     required TResult Function(RequestState value) requestState,
     required TResult Function(RequestQueue value) requestQueue,
     required TResult Function(MediaCommand value) mediaCommand,
+    required TResult Function(MoveSong value) moveSong,
+    required TResult Function(RemoveSong value) deleteSong,
+    required TResult Function(AddSong value) addSong,
+    required TResult Function(AddSongToStart value) addSongToStart,
     required TResult Function(SetVolume value) setVolume,
     required TResult Function(PlaySong value) playSong,
     required TResult Function(SearchCommand value) search,
@@ -2552,6 +3679,10 @@ class _$SearchCommandImpl implements SearchCommand {
     TResult? Function(RequestState value)? requestState,
     TResult? Function(RequestQueue value)? requestQueue,
     TResult? Function(MediaCommand value)? mediaCommand,
+    TResult? Function(MoveSong value)? moveSong,
+    TResult? Function(RemoveSong value)? deleteSong,
+    TResult? Function(AddSong value)? addSong,
+    TResult? Function(AddSongToStart value)? addSongToStart,
     TResult? Function(SetVolume value)? setVolume,
     TResult? Function(PlaySong value)? playSong,
     TResult? Function(SearchCommand value)? search,
@@ -2567,6 +3698,10 @@ class _$SearchCommandImpl implements SearchCommand {
     TResult Function(RequestState value)? requestState,
     TResult Function(RequestQueue value)? requestQueue,
     TResult Function(MediaCommand value)? mediaCommand,
+    TResult Function(MoveSong value)? moveSong,
+    TResult Function(RemoveSong value)? deleteSong,
+    TResult Function(AddSong value)? addSong,
+    TResult Function(AddSongToStart value)? addSongToStart,
     TResult Function(SetVolume value)? setVolume,
     TResult Function(PlaySong value)? playSong,
     TResult Function(SearchCommand value)? search,

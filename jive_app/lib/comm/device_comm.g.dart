@@ -135,6 +135,57 @@ const _$MediaCommandTypeEnumMap = {
   MediaCommandType.previous: 'previous',
 };
 
+_$MoveSongImpl _$$MoveSongImplFromJson(Map<String, dynamic> json) =>
+    _$MoveSongImpl(
+      (json['old_idx'] as num).toInt(),
+      (json['new_idx'] as num).toInt(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$MoveSongImplToJson(_$MoveSongImpl instance) =>
+    <String, dynamic>{
+      'old_idx': instance.oldIdx,
+      'new_idx': instance.newIdx,
+      'runtimeType': instance.$type,
+    };
+
+_$RemoveSongImpl _$$RemoveSongImplFromJson(Map<String, dynamic> json) =>
+    _$RemoveSongImpl(
+      (json['idx'] as num).toInt(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$RemoveSongImplToJson(_$RemoveSongImpl instance) =>
+    <String, dynamic>{
+      'idx': instance.idx,
+      'runtimeType': instance.$type,
+    };
+
+_$AddSongImpl _$$AddSongImplFromJson(Map<String, dynamic> json) =>
+    _$AddSongImpl(
+      SongMeta.fromJson(json['song_meta'] as Map<String, dynamic>),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$AddSongImplToJson(_$AddSongImpl instance) =>
+    <String, dynamic>{
+      'song_meta': instance.songMeta.toJson(),
+      'runtimeType': instance.$type,
+    };
+
+_$AddSongToStartImpl _$$AddSongToStartImplFromJson(Map<String, dynamic> json) =>
+    _$AddSongToStartImpl(
+      SongMeta.fromJson(json['song_meta'] as Map<String, dynamic>),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$AddSongToStartImplToJson(
+        _$AddSongToStartImpl instance) =>
+    <String, dynamic>{
+      'song_meta': instance.songMeta.toJson(),
+      'runtimeType': instance.$type,
+    };
+
 _$SetVolumeImpl _$$SetVolumeImplFromJson(Map<String, dynamic> json) =>
     _$SetVolumeImpl(
       (json['volume'] as num).toInt(),
@@ -149,7 +200,7 @@ Map<String, dynamic> _$$SetVolumeImplToJson(_$SetVolumeImpl instance) =>
 
 _$PlaySongImpl _$$PlaySongImplFromJson(Map<String, dynamic> json) =>
     _$PlaySongImpl(
-      SongReference.fromJson(json['song_meta'] as Map<String, dynamic>),
+      SongMeta.fromJson(json['song_meta'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 

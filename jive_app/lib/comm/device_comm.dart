@@ -49,8 +49,13 @@ sealed class DeviceCommand with _$DeviceCommand {
   const factory DeviceCommand.requestQueue() = RequestQueue;
   const factory DeviceCommand.mediaCommand(MediaCommandType command) =
       MediaCommand;
+  const factory DeviceCommand.moveSong(int oldIdx, int newIdx) = MoveSong;
+  const factory DeviceCommand.deleteSong(int idx) = RemoveSong;
+  const factory DeviceCommand.addSong(SongMeta songMeta) = AddSong;
+  const factory DeviceCommand.addSongToStart(SongMeta songMeta) =
+      AddSongToStart;
   const factory DeviceCommand.setVolume(int volume) = SetVolume;
-  const factory DeviceCommand.playSong(SongReference songMeta) = PlaySong;
+  const factory DeviceCommand.playSong(SongMeta songMeta) = PlaySong;
   const factory DeviceCommand.search(
       String query, MusicSource source, int offset) = SearchCommand;
 

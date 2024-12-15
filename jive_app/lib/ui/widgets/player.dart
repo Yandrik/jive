@@ -41,8 +41,9 @@ class Player extends ConsumerWidget {
           initialData: ((Duration(), Duration())),
           builder: (context, snapshot) {
             final now = DateTime.now();
-            final completionTime =
-                now.add(snapshot.data?.$1 ?? Duration()).subtract(snapshot.data?.$2 ?? Duration());
+            final completionTime = now
+                .add(snapshot.data?.$1 ?? Duration())
+                .subtract(snapshot.data?.$2 ?? Duration());
 
             return StreamBuilder<Duration>(
               stream: Grammophone.I.playState == MediaPlayState.playing
@@ -72,8 +73,7 @@ class Player extends ConsumerWidget {
               iconSize: 38,
               icon: const Icon(Icons.skip_previous),
               onPressed: () async {
-                logger.i("pressed!");
-                Grammophone.I.play(SongReference.youtube("DLzxrzFCyOs"));
+                await Grammophone.I.skipBackwards();
               },
             ),
             const SizedBox(width: 32),
@@ -100,8 +100,7 @@ class Player extends ConsumerWidget {
               iconSize: 38,
               icon: const Icon(Icons.skip_next),
               onPressed: () async {
-                await Grammophone.I.setup();
-                await Grammophone.I.play(SongReference.spotify('2U9kDk5mlHYunC7PvbZ8KX'));
+                await Grammophone.I.skipForwards();
               },
             ),
           ],

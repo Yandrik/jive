@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:jive_app/comm/device_comm.dart';
+import 'package:jive_app/comm/multiplexer.dart';
+import 'package:jive_app/provider/comm/client.dart';
+import 'package:jive_app/provider/comm/host.dart';
 import 'package:rust/rust.dart';
 
 class QueueSingleton {
@@ -39,9 +42,15 @@ class QueueSingleton {
   }
 
   void moveSong(int oldIndex, int newIndex) {
-    final item = _queue.removeAt(oldIndex);
-    _queue.insert(newIndex, item);
-    _queueController.add(_queue);
+    if (HostControllerSingleton.I.controller != null) {
+      final item = _queue.removeAt(oldIndex);
+      _queue.insert(newIndex, item);
+      _queueController.add(_queue);
+    } else {
+      // is client
+      ClientControllerSingleton.I
+          .sendToHost(DeviceCommand.moveSong(oldIndex, newIndex));
+    }
   }
 
   void clear() {

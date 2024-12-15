@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jive_app/audio/grammophone.dart';
 import 'package:jive_app/provider/prefs.dart';
 import 'package:jive_app/provider/router.dart';
 import 'package:jive_app/provider/theme.dart';
@@ -11,6 +12,7 @@ import 'package:jive_app/utils/provider_observer.dart';
 void main() async {
   // Load environment variables
   await dotenv.load(fileName: ".env");
+  await Grammophone.I.setup();
   runApp(
     ProviderScope(
       observers: [if (kDebugMode) AppProviderObserver()],
