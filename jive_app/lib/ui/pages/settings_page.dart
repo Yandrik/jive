@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/logger.dart';
 import 'package:jive_app/repositories/datasources/spotify_datasource.dart';
+import 'package:jive_app/repositories/search_repository.dart';
+import 'package:spotify_sdk/spotify_sdk.dart';
 
 @RoutePage()
 class SettingsPage extends ConsumerWidget {
@@ -19,7 +22,11 @@ class SettingsPage extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                SpotifySdk.connectToSpotifyRemote(
+                    clientId: dotenv.env['SPOTIFY_CLIENT_ID']!,
+                    redirectUrl: dotenv.env['SPOTIFY_REDIRECT_URL']!);
+              },
               icon: Image.asset(
                 "assets/logos/spotify_logo_transparent.png",
                 color: Colors.white,

@@ -319,8 +319,9 @@ Map<String, dynamic> _$$SearchResultResponseImplToJson(
 
 _$PlayStateImpl _$$PlayStateImplFromJson(Map<String, dynamic> json) =>
     _$PlayStateImpl(
-      currentSong:
-          SongMeta.fromJson(json['current_song'] as Map<String, dynamic>),
+      currentSong: json['current_song'] == null
+          ? null
+          : SongMeta.fromJson(json['current_song'] as Map<String, dynamic>),
       playState: $enumDecode(_$MediaPlayStateEnumMap, json['play_state']),
       playHead: Duration(microseconds: (json['play_head'] as num).toInt()),
       queue: (json['queue'] as List<dynamic>)
@@ -339,7 +340,7 @@ _$PlayStateImpl _$$PlayStateImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$PlayStateImplToJson(_$PlayStateImpl instance) =>
     <String, dynamic>{
-      'current_song': instance.currentSong.toJson(),
+      'current_song': instance.currentSong?.toJson(),
       'play_state': _$MediaPlayStateEnumMap[instance.playState]!,
       'play_head': instance.playHead.inMicroseconds,
       'queue': instance.queue

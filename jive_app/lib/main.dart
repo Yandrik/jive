@@ -34,7 +34,7 @@ class _EagerInitialization extends ConsumerWidget {
       ref.watch(prefsProvider),
     ];
 
-    print(values);
+    // print(values);
 
     if (values.every((value) => value is AsyncValue && value.hasValue)) {
       return child;

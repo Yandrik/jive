@@ -4436,7 +4436,7 @@ PlayState _$PlayStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PlayState {
-  SongMeta get currentSong => throw _privateConstructorUsedError;
+  SongMeta? get currentSong => throw _privateConstructorUsedError;
   MediaPlayState get playState => throw _privateConstructorUsedError;
   Duration get playHead => throw _privateConstructorUsedError;
 
@@ -4463,12 +4463,12 @@ abstract class $PlayStateCopyWith<$Res> {
       _$PlayStateCopyWithImpl<$Res, PlayState>;
   @useResult
   $Res call(
-      {SongMeta currentSong,
+      {SongMeta? currentSong,
       MediaPlayState playState,
       Duration playHead,
       List<(Client?, SongMeta)> queue});
 
-  $SongMetaCopyWith<$Res> get currentSong;
+  $SongMetaCopyWith<$Res>? get currentSong;
 }
 
 /// @nodoc
@@ -4486,16 +4486,16 @@ class _$PlayStateCopyWithImpl<$Res, $Val extends PlayState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? currentSong = null,
+    Object? currentSong = freezed,
     Object? playState = null,
     Object? playHead = null,
     Object? queue = null,
   }) {
     return _then(_value.copyWith(
-      currentSong: null == currentSong
+      currentSong: freezed == currentSong
           ? _value.currentSong
           : currentSong // ignore: cast_nullable_to_non_nullable
-              as SongMeta,
+              as SongMeta?,
       playState: null == playState
           ? _value.playState
           : playState // ignore: cast_nullable_to_non_nullable
@@ -4515,8 +4515,12 @@ class _$PlayStateCopyWithImpl<$Res, $Val extends PlayState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $SongMetaCopyWith<$Res> get currentSong {
-    return $SongMetaCopyWith<$Res>(_value.currentSong, (value) {
+  $SongMetaCopyWith<$Res>? get currentSong {
+    if (_value.currentSong == null) {
+      return null;
+    }
+
+    return $SongMetaCopyWith<$Res>(_value.currentSong!, (value) {
       return _then(_value.copyWith(currentSong: value) as $Val);
     });
   }
@@ -4531,13 +4535,13 @@ abstract class _$$PlayStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {SongMeta currentSong,
+      {SongMeta? currentSong,
       MediaPlayState playState,
       Duration playHead,
       List<(Client?, SongMeta)> queue});
 
   @override
-  $SongMetaCopyWith<$Res> get currentSong;
+  $SongMetaCopyWith<$Res>? get currentSong;
 }
 
 /// @nodoc
@@ -4553,16 +4557,16 @@ class __$$PlayStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? currentSong = null,
+    Object? currentSong = freezed,
     Object? playState = null,
     Object? playHead = null,
     Object? queue = null,
   }) {
     return _then(_$PlayStateImpl(
-      currentSong: null == currentSong
+      currentSong: freezed == currentSong
           ? _value.currentSong
           : currentSong // ignore: cast_nullable_to_non_nullable
-              as SongMeta,
+              as SongMeta?,
       playState: null == playState
           ? _value.playState
           : playState // ignore: cast_nullable_to_non_nullable
@@ -4593,7 +4597,7 @@ class _$PlayStateImpl implements _PlayState {
       _$$PlayStateImplFromJson(json);
 
   @override
-  final SongMeta currentSong;
+  final SongMeta? currentSong;
   @override
   final MediaPlayState playState;
   @override
@@ -4660,7 +4664,7 @@ class _$PlayStateImpl implements _PlayState {
 
 abstract class _PlayState implements PlayState {
   const factory _PlayState(
-      {required final SongMeta currentSong,
+      {required final SongMeta? currentSong,
       required final MediaPlayState playState,
       required final Duration playHead,
       required final List<(Client?, SongMeta)> queue}) = _$PlayStateImpl;
@@ -4669,7 +4673,7 @@ abstract class _PlayState implements PlayState {
       _$PlayStateImpl.fromJson;
 
   @override
-  SongMeta get currentSong;
+  SongMeta? get currentSong;
   @override
   MediaPlayState get playState;
   @override
