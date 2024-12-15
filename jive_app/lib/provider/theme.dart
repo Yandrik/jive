@@ -33,7 +33,8 @@ ThemeData lightTheme(Ref ref) {
 ColorScheme getColorScheme(ThemeMode themeMode, Flavor flavor) {
   final flavor = Style.catppuccinFlavor;
   return ColorScheme(
-    brightness: themeMode == ThemeMode.light ? Brightness.light : Brightness.dark,
+    brightness:
+        themeMode == ThemeMode.light ? Brightness.light : Brightness.dark,
     error: flavor.surface2,
     onError: flavor.red,
     onPrimary: flavor.lavender,
@@ -58,8 +59,10 @@ TextTheme getTextTheme(ThemeMode themeMode, Flavor flavor) {
   );
 }
 
-ThemeData copyWithComponentThemes(ThemeData theme, ThemeMode themeMode, Flavor flavor) {
+ThemeData copyWithComponentThemes(
+    ThemeData theme, ThemeMode themeMode, Flavor flavor) {
   return theme.copyWith(
+<<<<<<< Updated upstream
     appBarTheme: AppBarTheme(
       backgroundColor: flavor.mantle,
     ),
@@ -77,6 +80,27 @@ ThemeData copyWithComponentThemes(ThemeData theme, ThemeMode themeMode, Flavor f
     ),
     iconTheme: IconThemeData(color: Colors.white),
   );
+=======
+      appBarTheme: AppBarTheme(
+        backgroundColor: flavor.mantle,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        dragHandleColor: Colors.white,
+        dragHandleSize: Size(60, 4),
+        elevation: 0,
+        showDragHandle: true,
+      ),
+      sliderTheme: SliderThemeData(thumbColor: Colors.white),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: flavor.maroon,
+          foregroundColor: flavor.crust,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ));
+>>>>>>> Stashed changes
 }
 
 @riverpod

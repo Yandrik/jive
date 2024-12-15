@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:anyhow/anyhow.dart';
 import 'package:jive_app/comm/device_comm.dart';
@@ -24,8 +25,10 @@ class HostController {
   HostController(this._serverAddr, this._host, this._handleMessage);
 
   Future<Result<void>> connectClientWsRelay() async {
-    var transport = WebSocketTransport(_serverAddr.toString());
-    return await connectClient(transport);
+    final uri = "wss://${_serverAddr.host}/host/${_host.id}";
+    var transport = WebSocketTransport(uri);
+    return await connectClient(transport)
+        .context("Failed to connect client at relay at $uri");
   }
 
   /// Establishes a new client connection and sets up message handling.
@@ -36,7 +39,14 @@ class HostController {
     if (res.isErr()) return res.context("Failed to connect to transport");
 
     onReceive(dynamic message) async {
-      final data = DeviceCommand.fromJson(jsonDecode(message));
+      DeviceCommand data;
+      try {
+        data = DeviceCommand.fromJson(jsonDecode(message));
+      } catch (e) {
+        logger.w("Failed to decode message: $e");
+        return;
+      }
+
       print(data);
       switch (data) {
         case Connect(client: var client):
@@ -134,9 +144,10 @@ class ClientController {
   Host? get currentHost => _connectedHost;
 
   Future<Result<void>> connectToHostWsRelay(String hostId) async {
-    var transport =
-        WebSocketTransport(_serverAddr.toString()); // TODO: proper connect
-    return await connectToHost(transport);
+    final uri = "wss://${_serverAddr.host}/join/$hostId";
+    var transport = WebSocketTransport(uri); // TODO: proper connect
+    return await connectToHost(transport)
+        .context("Failed to connect to relay at $uri");
   }
 
   /// Connects to a specific host using the host's ID.
@@ -148,12 +159,25 @@ class ClientController {
       await disconnect();
     }
 
+    final connectionCompleter = Completer<Result<void>>();
+    final timeout = Duration(seconds: 10);
+
     _transport = transport;
 
     _transport!.onReceive((rawMessage) {
-      final response = HostResponse.fromJson(jsonDecode(rawMessage));
+      HostResponse response;
+      try {
+        response = HostResponse.fromJson(jsonDecode(rawMessage));
+      } catch (e) {
+        logger.w('Failed to decode host response: $e');
+        return;
+      }
+
       if (response case ConnectResponse(host: var host)) {
         _connectedHost = host;
+        if (!connectionCompleter.isCompleted) {
+          connectionCompleter.complete(Ok(null));
+        }
       }
       _handleResponse(response);
     });
@@ -163,7 +187,16 @@ class ClientController {
       return connectResult;
     }
 
-    return _transport!.send(jsonEncode(DeviceCommand.connect(_client)));
+    await _transport!.send(jsonEncode(DeviceCommand.connect(_client)));
+
+    return await connectionCompleter.future.timeout(
+      timeout,
+      onTimeout: () async {
+        await disconnect();
+        return bail('Connection timed out after ${timeout.inSeconds}s',
+            StackTrace.current);
+      },
+    );
   }
 
   /// Disconnects from the current host and cleans up the connection state.

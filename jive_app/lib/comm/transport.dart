@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:jive_app/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:anyhow/anyhow.dart';
@@ -25,26 +27,29 @@ class WebSocketTransport implements Transport {
   Future<Result<void>> connect() async {
     try {
       _channel = WebSocketChannel.connect(Uri.parse(_url));
+
+      await _channel!.ready;
       _connected = true;
 
-      _channel!.stream.listen(
-        (message) {
-          if (_onReceiveCallback != null) {
-            _onReceiveCallback!(message);
-          }
-        },
-        onDone: () {
-          _connected = false;
-        },
-        onError: (error) {
-          logger.i("WebSocket connection errored: $error");
-          _connected = false;
-        },
-      );
+      _channel!.stream.listen((message) {
+        if (_onReceiveCallback != null) {
+          _onReceiveCallback!(message);
+        }
+      }, onDone: () {
+        _connected = false;
+      }, onError: (error) {
+        _connected = false;
+        final errorMsg =
+            error is WebSocketException ? error.message : error.toString();
+        logger.i("WebSocket connection error: $errorMsg");
+      });
       return Ok(null);
     } catch (e, st) {
-      _connected = false;
-      return bail("Failed to connect: ${e.toString()}", st);
+      if (e is WebSocketException) {
+        return bail("Failed to connect: ${e.message}", st);
+      } else {
+        return bail("Failed to connect: ${e.toString()}", st);
+      }
     }
   }
 

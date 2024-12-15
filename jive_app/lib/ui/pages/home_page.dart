@@ -14,6 +14,18 @@ class HomePage extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        leading: Column(
+          children: [
+            IconButton(
+              onPressed: () {
+                // context.navigateTo(SearchRoute());
+                // todo
+                context.navigateTo(EntryRoute());
+              },
+              icon: Icon(Icons.exit_to_app),
+            ),
+          ],
+        ),
         actions: [
           IconButton(
             onPressed: () {
