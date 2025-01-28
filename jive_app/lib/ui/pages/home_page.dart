@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jive_app/audio/grammophone.dart';
+import 'package:jive_app/comm/device_comm.dart';
 import 'package:jive_app/logger.dart';
 import 'package:jive_app/provider/comm/client.dart';
 import 'package:jive_app/provider/comm/host.dart';
@@ -31,7 +32,8 @@ class HomePage extends StatelessWidget {
             logger.i("message by $name");
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("Client '$name' has connected. TODO: only do connects"),
+                content: Text(
+                    "Client '$name' has connected. TODO: only do connects"),
               ),
             );
           }
@@ -98,9 +100,15 @@ class HomePage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: CustomNetworkImage(
-                          imageUrl: Grammophone.I.currentSong?.albumArtUrl ??
-                              "https://placehold.co/512x512.png",
+                        child: StreamBuilder<SongMeta?>(
+                          stream: Grammophone.I.currentSongStream,
+                          initialData: Grammophone.I.currentSong,
+                          builder: (context, snapshot) {
+                            return CustomNetworkImage(
+                              imageUrl: snapshot.data?.albumArtUrl ??
+                                  "https://placehold.co/512x512.png",
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -173,7 +181,8 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => height;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return child;
   }
 
@@ -202,7 +211,8 @@ void _showShareDialog(BuildContext context) {
             PrettyQrView.data(
                 data: shareUrl,
                 decoration: PrettyQrDecoration(
-                    shape: PrettyQrSmoothSymbol(color: catppuccin.mocha.flamingo))),
+                    shape: PrettyQrSmoothSymbol(
+                        color: catppuccin.mocha.flamingo))),
             SizedBox(height: 16),
             SelectableText(
               sessionId,

@@ -15,13 +15,12 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           path: "/home",
           page: HomeRoute.page,
-          initial: true,
         ),
         AutoRoute(
           path: "/settings",
           page: SettingsRoute.page,
         ),
-        AutoRoute(path: "/hello", page: EntryRoute.page),
+        AutoRoute(path: "/hello", page: EntryRoute.page, initial: true),
         AutoRoute(path: "/people", page: PeopleRoute.page),
       ];
 

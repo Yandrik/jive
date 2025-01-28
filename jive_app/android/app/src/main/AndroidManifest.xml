@@ -2,11 +2,20 @@
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Spotify SDK Permissions -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
         android:enableOnBackInvokedCallback="true"
         android:label="jive"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        
+        <!-- Spotify SDK Service -->
+        <service
+            android:name="com.spotify.sdk.android.authentication.AuthenticationActivity"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

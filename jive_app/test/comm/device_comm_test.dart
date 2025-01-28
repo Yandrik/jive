@@ -8,8 +8,10 @@ void main() {
     // Create test instances
     final client = Client(id: "client123", name: "Test Client");
 
-    final host =
-        Host(id: "host123", name: "Test Host", sources: {MusicSource.spotify, MusicSource.local});
+    final host = Host(
+        id: "host123",
+        name: "Test Host",
+        sources: {MusicSource.spotify, MusicSource.local});
 
     final spotifySong = SongReference.spotify("spotify123");
     final localSong = SongReference.local("local123");
@@ -37,7 +39,8 @@ void main() {
       HostResponse.connect(host),
       HostResponse.id("response123"),
       HostResponse.queue([("queue1", songMeta)]),
-      HostResponse.playState(songMeta, MediaPlayState.playing, Duration(seconds: 30)),
+      HostResponse.playState(
+          songMeta, MediaPlayState.playing, Duration(seconds: 30)),
       HostResponse.error("Test error"),
       HostResponse.ok(),
     ];

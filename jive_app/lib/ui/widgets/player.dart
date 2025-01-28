@@ -12,12 +12,18 @@ class Player extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          Grammophone.I.currentSong?.title ?? "Song Name",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+        StreamBuilder<SongMeta?>(
+          stream: Grammophone.I.currentSongStream,
+          initialData: Grammophone.I.currentSong,
+          builder: (context, snapshot) {
+            return Text(
+              snapshot.data?.title ?? "Song Name",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            );
+          },
         ),
         const SizedBox(height: 16),
         /*
@@ -38,29 +44,15 @@ class Player extends ConsumerWidget {
             */
         StreamBuilder<(Duration, Duration)>(
           stream: Grammophone.I.timeStream,
-          initialData: ((Duration(), Duration())),
+          initialData: (Duration.zero, Duration.zero),
           builder: (context, snapshot) {
-            final now = DateTime.now();
-            final completionTime =
-                now.add(snapshot.data?.$1 ?? Duration()).subtract(snapshot.data?.$2 ?? Duration());
+            final remaining = snapshot.data?.$1 ?? Duration.zero;
+            final total = snapshot.data?.$2 ?? Duration.zero;
 
-            return StreamBuilder<Duration>(
-              stream: Grammophone.I.playState == MediaPlayState.playing
-                  ? Stream.periodic(const Duration(milliseconds: 500), (_) {
-                      return snapshot.data?.$1 ?? Duration();
-                    })
-                  : Stream.value(snapshot.data?.$1 ?? Duration()),
-              builder: (context, timeSnapshot) {
-                final remaining = DateTime.now().difference(completionTime);
-                final totalDur = snapshot.data?.$2 ?? Duration.zero;
-
-// TODO: fix
-                return Text(
-                  '${remaining.inMinutes}:${(remaining.inSeconds % 60).toString().padLeft(2, '0')} / '
-                  '${totalDur.inMinutes}:${(totalDur.inSeconds % 60).toString().padLeft(2, '0')}',
-                  style: const TextStyle(fontSize: 12),
-                );
-              },
+            return Text(
+              '${remaining.inMinutes}:${(remaining.inSeconds % 60).toString().padLeft(2, '0')} / '
+              '${total.inMinutes}:${(total.inSeconds % 60).toString().padLeft(2, '0')}',
+              style: const TextStyle(fontSize: 12),
             );
           },
         ),
@@ -80,13 +72,14 @@ class Player extends ConsumerWidget {
                 stream: Grammophone.I.playStateStream,
                 initialData: Grammophone.I.playState,
                 builder: (context, snapshot) {
+                  final isPlaying = snapshot.data == MediaPlayState.playing;
                   return IconButton(
                     iconSize: 48,
-                    icon: Grammophone.I.isPlaying()
+                    icon: isPlaying
                         ? Icon(Icons.pause_circle_filled)
                         : Icon(Icons.play_circle_filled),
                     onPressed: () {
-                      if (Grammophone.I.isPlaying()) {
+                      if (isPlaying) {
                         Grammophone.I.pause();
                       } else {
                         Grammophone.I.resume();
